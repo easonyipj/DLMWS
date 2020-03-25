@@ -208,34 +208,55 @@
           "title": "host",
           "fields": [
             {
-              "name": "REVISION",
+              "name": "id",
               "type": "Integer",
               "remark": "",
-              "chnname": "乐观锁"
+              "chnname": "主机id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
             },
             {
-              "name": "CREATED_BY",
-              "type": "IdOrKey",
+              "name": "ip",
+              "type": "DefaultString",
               "remark": "",
-              "chnname": "创建人"
+              "chnname": "主机ip",
+              "notNull": true
             },
             {
-              "name": "CREATED_TIME",
-              "type": "DateTime",
+              "name": "name",
+              "type": "DefaultString",
               "remark": "",
-              "chnname": "创建时间"
+              "chnname": "主机名",
+              "notNull": true
             },
             {
-              "name": "UPDATED_BY",
-              "type": "IdOrKey",
+              "name": "project_id",
+              "type": "DefaultString",
               "remark": "",
-              "chnname": "更新人"
+              "chnname": "关联项目id",
+              "notNull": true
             },
             {
-              "name": "UPDATED_TIME",
-              "type": "DateTime",
+              "name": "username",
+              "type": "DefaultString",
               "remark": "",
-              "chnname": "更新时间"
+              "chnname": "关联用户名",
+              "notNull": true
+            },
+            {
+              "name": "info",
+              "type": "LongText",
+              "remark": "",
+              "chnname": "主机信息",
+              "notNull": true
+            },
+            {
+              "name": "status",
+              "type": "YesNo",
+              "remark": "",
+              "chnname": "主机状态",
+              "notNull": true
             }
           ],
           "indexs": [],
@@ -287,6 +308,534 @@
           ],
           "chnname": "主机表",
           "remark": "保存主机信息"
+        },
+        {
+          "title": "jvm_thread",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "pid",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "pid",
+              "notNull": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip",
+              "notNull": true
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间",
+              "notNull": true
+            },
+            {
+              "name": "thread_count",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "线程数",
+              "notNull": true
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "JVM线程数据表",
+          "remark": "JVM线程数据表"
+        },
+        {
+          "title": "jvm_memory",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "pid",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "pid",
+              "notNull": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip",
+              "notNull": true
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间",
+              "notNull": true
+            },
+            {
+              "name": "memory_count",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "堆内存大小",
+              "notNull": true
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "JVM堆内存数据表",
+          "remark": "JVM堆内存数据表"
+        },
+        {
+          "title": "jvm_class",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "pid",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "pid",
+              "notNull": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip",
+              "notNull": true
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间",
+              "notNull": true
+            },
+            {
+              "name": "class_count",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "类加载数量",
+              "notNull": true
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "JVM类加载数据表",
+          "remark": "JVM类加载数据表"
+        },
+        {
+          "title": "host_cpu",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip"
+            },
+            {
+              "name": "user_cpu",
+              "type": "Double",
+              "remark": "",
+              "chnname": "用户cpu使用率"
+            },
+            {
+              "name": "sys_cpu",
+              "type": "Double",
+              "remark": "",
+              "chnname": "系统cpu使用率"
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "主机CPU信息",
+          "remark": "主机CPU信息"
+        },
+        {
+          "title": "host_memory",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip"
+            },
+            {
+              "name": "memory_used",
+              "type": "Double",
+              "remark": "",
+              "chnname": "内存使用率"
+            },
+            {
+              "name": "swap_used",
+              "type": "Double",
+              "remark": "",
+              "chnname": "交换区使用率"
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "主机内存信息",
+          "remark": "主机内存信息"
+        },
+        {
+          "title": "host_disk",
+          "fields": [
+            {
+              "name": "id",
+              "type": "BigInt",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "host_ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "主机ip"
+            },
+            {
+              "name": "disk_used",
+              "type": "Double",
+              "remark": "",
+              "chnname": "磁盘使用率"
+            },
+            {
+              "name": "time",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "时间"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "主机磁盘信息",
+          "remark": "主机磁盘信息"
         }
       ],
       "graphCanvas": {
