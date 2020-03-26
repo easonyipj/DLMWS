@@ -24,7 +24,7 @@ public class LogFormatService {
         Agent agent = JSONObject.parseObject(jsonObject.getString("agent"), Agent.class);
         tomcatLogEntity.setAgentId(agent.getId());
         tomcatLogEntity.setHostName(agent.getHostname());
-        if(StringUtils.isNotEmpty(tomcatLogEntity.getStacktrace())) {
+        if (StringUtils.isNotEmpty(tomcatLogEntity.getStacktrace())) {
             // 过滤java errorStack的"\n"
             String stackTrace = tomcatLogEntity.getStacktrace().replaceFirst("\n", "");
             tomcatLogEntity.setStacktrace(stackTrace);

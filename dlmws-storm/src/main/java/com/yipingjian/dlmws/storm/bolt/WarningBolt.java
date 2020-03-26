@@ -33,7 +33,7 @@ public class WarningBolt extends BaseRichBolt {
         try {
             String value = tuple.getStringByField("value");
             type = tuple.getStringByField("type");
-            if(TOMCAT.equals(type)) {
+            if (TOMCAT.equals(type)) {
                 logEntity = JSONObject.parseObject(value, TomcatLogEntity.class);
             }
             log.info("warning data \n{}", logEntity);

@@ -34,13 +34,13 @@ public class LogFormatBolt extends BaseRichBolt {
         String logType = "";
         String project;
         try {
-            jsonObject = JSONObject.parseObject((String)tuple.getValueByField("value"));
+            jsonObject = JSONObject.parseObject((String) tuple.getValueByField("value"));
             fields = (JSONObject) jsonObject.get("fields");
             logType = fields.getString("type");
             project = fields.getString("project");
 
             // tomcat 日志
-            if(TOMCAT.equals(logType)) {
+            if (TOMCAT.equals(logType)) {
                 logEntity = LogFormatService.formatTomcatLog(jsonObject);
                 logEntity.setProject(project);
                 logEntity.setLogType(logType);

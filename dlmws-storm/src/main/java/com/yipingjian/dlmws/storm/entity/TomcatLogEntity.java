@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TomcatLogEntity extends LogEntity{
+public class TomcatLogEntity extends LogEntity {
     /**
      * 日志所在线程
      */
