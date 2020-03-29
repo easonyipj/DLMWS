@@ -691,10 +691,22 @@
               "name": "memory_used",
               "type": "Double",
               "remark": "",
+              "chnname": "内存使用量"
+            },
+            {
+              "name": "memory_used_rate",
+              "type": "Double",
+              "remark": "",
               "chnname": "内存使用率"
             },
             {
               "name": "swap_used",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "交换区使用量"
+            },
+            {
+              "name": "swap_used_rate",
               "type": "Double",
               "remark": "",
               "chnname": "交换区使用率"
