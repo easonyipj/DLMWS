@@ -1,6 +1,5 @@
 package com.yipingjian.dlmws.host.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yipingjian.dlmws.host.entity.HostBasicInfo;
 import com.yipingjian.dlmws.host.entity.Memory;
@@ -106,12 +105,12 @@ public class HostServiceImpl implements HostService {
     }
 
     private String getHostIp() {
-        String ip = null;
+        String ip;
         try {
             ip = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             log.error("GET HOST IP ERROR", e);
-            // TODO 使用配置文件中的agentid
+            // TODO 使用配置文件中的agentId
             return "";
         }
         return ip;

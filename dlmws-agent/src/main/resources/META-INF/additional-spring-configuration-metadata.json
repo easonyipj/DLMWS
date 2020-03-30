@@ -1,0 +1,23 @@
+{
+  "properties": [
+    {
+      "name": "server.ip",
+      "type": "java.lang.String",
+      "description": "Description for server.ip."
+    },
+    {
+      "name": "client.name",
+      "type": "java.lang.String",
+      "description": "Description for client.name."
+    },
+    {
+      "name": "client.id",
+      "type": "java.lang.String",
+      "description": "Description for client.id."
+    },
+    {
+      "name": "token",
+      "type": "java.lang.String",
+      "description": "Description for token."
+    }
+  ] }
