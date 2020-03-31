@@ -1,10 +1,12 @@
 package com.yipingjian.dlmws.host.service.impl;
 
-import com.alibaba.fastjson.JSONObject;
+
+import com.yipingjian.dlmws.host.entity.CPU;
 import com.yipingjian.dlmws.host.entity.HostBasicInfo;
 import com.yipingjian.dlmws.host.entity.Memory;
 import com.yipingjian.dlmws.host.service.HostService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.*;
@@ -12,13 +14,19 @@ import oshi.software.os.FileSystem;
 import oshi.software.os.OSFileStore;
 import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
+import oshi.util.Util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+import java.util.Date;
 
 @Slf4j
 @Service
 public class HostServiceImpl implements HostService {
+
+    @Value("${client.id}")
+    private String CLIENT_ID;
 
     private static final SystemInfo SYSTEM_INFO = new SystemInfo();
     private static final HardwareAbstractionLayer HARDWARE_ABSTRACTION_LAYER = SYSTEM_INFO.getHardware();
@@ -27,7 +35,7 @@ public class HostServiceImpl implements HostService {
 
 
     @Override
-    public String getHostBasicInfo() {
+    public HostBasicInfo getHostBasicInfo() {
         HostBasicInfo hostBasicInfo = new HostBasicInfo();
         hostBasicInfo.setOSType(SYSTEM_INFO.toString());
         hostBasicInfo.setSystem(COMPUTER_SYSTEM.toString());
@@ -38,14 +46,67 @@ public class HostServiceImpl implements HostService {
         hostBasicInfo.setNetwork(getNetworkInterfaces(HARDWARE_ABSTRACTION_LAYER.getNetworkIFs()));
         hostBasicInfo.setFilesystem(getFileSystem(OPERATING_SYSTEM.getFileSystem()));
         hostBasicInfo.setPowerSources(getPowerSources(HARDWARE_ABSTRACTION_LAYER.getPowerSources()));
-        return JSONObject.toJSONString(hostBasicInfo);
+        return hostBasicInfo;
     }
 
     @Override
     public Memory getMemoryLoad() {
         Memory memory = new Memory();
+        GlobalMemory globalMemory = HARDWARE_ABSTRACTION_LAYER.getMemory();
+        Float[] memories = generateMemoryUsed(globalMemory.getTotal(), globalMemory.getAvailable());
+        Float[] swaps = generateSwapUsed(globalMemory.getVirtualMemory().getSwapTotal(), globalMemory.getVirtualMemory().getSwapUsed());
         memory.setHostIp(getHostIp());
+        memory.setMemoryUsed(memories[0]);
+        memory.setMemoryUsedRate(memories[1]);
+        memory.setSwapUsed(swaps[0]);
+        memory.setSwapUsedRate(swaps[1]);
+        memory.setTime(new Date(System.currentTimeMillis()));
         return memory;
+    }
+
+    @Override
+    public CPU getCPULoad() {
+        CentralProcessor processor = HARDWARE_ABSTRACTION_LAYER.getProcessor();
+        CPU cpu = new CPU();
+        long[] prevTicks = processor.getSystemCpuLoadTicks();
+        // Wait a second...
+        Util.sleep(1000);
+        long[] ticks = processor.getSystemCpuLoadTicks();
+        long user = ticks[CentralProcessor.TickType.USER.getIndex()] - prevTicks[CentralProcessor.TickType.USER.getIndex()];
+        long nice = ticks[CentralProcessor.TickType.NICE.getIndex()] - prevTicks[CentralProcessor.TickType.NICE.getIndex()];
+        long sys = ticks[CentralProcessor.TickType.SYSTEM.getIndex()] - prevTicks[CentralProcessor.TickType.SYSTEM.getIndex()];
+        long idle = ticks[CentralProcessor.TickType.IDLE.getIndex()] - prevTicks[CentralProcessor.TickType.IDLE.getIndex()];
+        long iowait = ticks[CentralProcessor.TickType.IOWAIT.getIndex()] - prevTicks[CentralProcessor.TickType.IOWAIT.getIndex()];
+        long irq = ticks[CentralProcessor.TickType.IRQ.getIndex()] - prevTicks[CentralProcessor.TickType.IRQ.getIndex()];
+        long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
+        long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
+        long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
+        cpu.setHostIp(getHostIp());
+        cpu.setUserCpu((float) user / totalCpu);
+        cpu.setSystemCpu((float)sys / totalCpu);
+        cpu.setTime(new Date(System.currentTimeMillis()));
+        return cpu;
+    }
+
+    private Float[] generateMemoryUsed(long total, long available) {
+        Float[] memories = new Float[2];
+        float totalGib = (float) total / (1024*1024*1024);
+        float availableGib = (float) available / (1024*1024*1024);
+        float usedGib = totalGib - availableGib;
+        float usedRate = usedGib / totalGib;
+        memories[0] = usedGib;
+        memories[1] = usedRate;
+        return memories;
+    }
+
+    private Float[] generateSwapUsed(long total, long used) {
+        Float[] memories = new Float[2];
+        float totalGib = (float) total / (1024*1024*1024);
+        float usedGib = (float) used / (1024*1024*1024);
+        float usedRate = usedGib / totalGib;
+        memories[0] = usedGib;
+        memories[1] = usedRate;
+        return memories;
     }
 
     private String getPhysicsMemory(GlobalMemory memory) {
@@ -110,8 +171,7 @@ public class HostServiceImpl implements HostService {
             ip = InetAddress.getLocalHost().getHostAddress();
         } catch (UnknownHostException e) {
             log.error("GET HOST IP ERROR", e);
-            // TODO 使用配置文件中的agentId
-            return "";
+            return CLIENT_ID;
         }
         return ip;
     }

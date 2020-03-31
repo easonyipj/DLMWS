@@ -1,7 +1,9 @@
 package com.yipingjian.dlmws.host.controller;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.yipingjian.dlmws.common.utils.Response;
+import com.yipingjian.dlmws.host.entity.HostBasicInfo;
 import com.yipingjian.dlmws.host.service.HostService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +23,8 @@ public class HostController {
     @GetMapping("/basicInfo")
     public Response basicInfo() {
         try {
-            String result = hostService.getHostBasicInfo();
-            return Response.ok().put("data", result);
+            HostBasicInfo hostBasicInfo = hostService.getHostBasicInfo();
+            return Response.ok().put("data", JSONObject.toJSONString(hostBasicInfo));
         } catch (Exception e) {
             log.error("get basic info exception", e);
             return Response.error();

@@ -5,11 +5,9 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Memory {
+public class CPU {
     private String hostIp;
-    private Float memoryUsed;
-    private Float memoryUsedRate;
-    private Float swapUsed;
-    private Float swapUsedRate;
+    private Float userCpu;
+    private Float systemCpu;
     private Date time;
 }

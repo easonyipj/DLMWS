@@ -14,7 +14,7 @@ class HostServiceImplTest {
 
     @Test
     void getHostBasicInfo() {
-        String result = hostService.getHostBasicInfo();
-        System.out.println(result);
+//        String result = hostService.getHostBasicInfo();
+//        System.out.println(result);
     }
 }
