@@ -1,30 +1,95 @@
 package com.yipingjian.dlmws;
 
-import com.yipingjian.dlmws.common.utils.ExecuteCmd;
+import com.sun.tools.attach.VirtualMachine;
+import sun.management.ConnectorAddressLink;
 
-import javax.xml.crypto.Data;
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.stream.Collectors;
+import javax.management.MBeanServerConnection;
+import javax.management.remote.JMXConnector;
+import javax.management.remote.JMXConnectorFactory;
+import javax.management.remote.JMXServiceURL;
+import java.lang.management.*;
+import java.util.List;
+
 
 public class commonTest {
-    public static void main(String[] args) {
-        String s = ExecuteCmd.execute(new String[]{"jps", "-l", "-v"});
-        String[] line = s != null ? s.split("\n") : new String[0];
-        for (String aLine : line) {
-            String[] one = aLine.split("\\s+");
-            //排除sun.tools进程
-            if (one[1].contains("sun.tools")){
-                continue;
-            }
-            //格式化控制台输出
-            if (!one[1].substring(0, 1).equals("-")) {
-                String smallName = one[1].contains(".") ? one[1].substring(one[1].lastIndexOf(".")+1) : one[1];
-                smallName = smallName.equalsIgnoreCase("jar")? one[1] : smallName;
-               System.out.println(one[1]);
-            } else {
-                System.out.println(one[1]);
-            }
-        }
+    public static void main(String[] args) throws Exception{
+        visitRemoteMXBean(6516);
     }
+
+    public static void visitRemoteMXBean(int pid) throws Exception{
+        ThreadMXBean threadMXBean = visitMBean(pid,ThreadMXBean.class);
+        assert threadMXBean != null;
+        System.out.println("ThreadCount: " + threadMXBean.getThreadCount());
+        System.out.println("DaemonThreadCount: " + threadMXBean.getDaemonThreadCount());
+        System.out.println("PeakThreadCount: " + threadMXBean.getPeakThreadCount());
+
+
+        List<GarbageCollectorMXBean> collectorMXBeanList2 = visitMBeans (pid, GarbageCollectorMXBean.class);
+        assert collectorMXBeanList2 != null;
+        for(GarbageCollectorMXBean GarbageCollectorMXBean : collectorMXBeanList2){
+            System.out.println("gc name:" + GarbageCollectorMXBean.getName());
+            System.out.println("CollectionCount:" + GarbageCollectorMXBean.getCollectionCount());
+            System.out.println("CollectionTime" + GarbageCollectorMXBean.getCollectionTime());
+        }
+
+        MemoryMXBean memoryMXBean = visitMBean(pid, MemoryMXBean.class);
+        assert memoryMXBean != null;
+        System.out.println("HeapMemoryMax" + memoryMXBean.getHeapMemoryUsage().getMax());
+        System.out.println("HeapMemoryUsed:" + memoryMXBean.getHeapMemoryUsage().getUsed());
+        System.out.println("NonHeapMemoryMax" + memoryMXBean.getNonHeapMemoryUsage().getMax());
+        System.out.println("NonHeapMemoryUsed:" + memoryMXBean.getNonHeapMemoryUsage().getUsed());
+
+    }
+
+    public static JMXServiceURL getJMXServiceURL(VirtualMachine virtualMachine) throws Exception {
+        String address = virtualMachine.getAgentProperties().getProperty("com.sun.management.jmxremote.localConnectorAddress");
+        if (address != null) {
+            return new JMXServiceURL(address);
+        }
+        int pid = Integer.parseInt(virtualMachine.id());
+        address = ConnectorAddressLink.importFrom(pid);
+        if (address != null) {
+            return new JMXServiceURL(address);
+        }
+        return null;
+    }
+
+    public static <T extends PlatformManagedObject> T visitMBean(int pid, Class<T> clazz) throws Exception {
+        //第一种直接调用同一 Java 虚拟机内的 MXBean 中的方法。
+//        RuntimeMXBean mxbean = ManagementFactory.getRuntimeMXBean();
+//        String vendor1 = mxbean.getVmVendor();
+//        System.out.println("vendor1:" + vendor1);
+
+        //第二种使用 MXBean 代理
+        VirtualMachine virtualMachine = VirtualMachine.attach(Integer.toString(pid));
+        JMXServiceURL jmxServiceURL = getJMXServiceURL(virtualMachine);
+        if (jmxServiceURL == null) {
+            return null;
+        }
+        JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceURL, null);
+        MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
+//        return ManagementFactory.newPlatformMXBeanProxy(mBeanServerConnection, ManagementFactory.THREAD_MXBEAN_NAME, ThreadMXBean.class);
+//        ManagementFactory.newPlatformMXBeanProxy(mBeanServerConnection, mxBeanName, clazz);
+        return ManagementFactory.getPlatformMXBean(mBeanServerConnection, clazz);
+
+    }
+
+    public static <T extends PlatformManagedObject> List<T> visitMBeans(int pid, Class<T> clazz) throws Exception {
+        //第一种直接调用同一 Java 虚拟机内的 MXBean 中的方法。
+//        RuntimeMXBean mxbean = ManagementFactory.getRuntimeMXBean();
+//        String vendor1 = mxbean.getVmVendor();
+//        System.out.println("vendor1:" + vendor1);
+
+        //第二种使用 MXBean 代理
+        VirtualMachine virtualMachine = VirtualMachine.attach(Integer.toString(pid));
+        JMXServiceURL jmxServiceURL = getJMXServiceURL(virtualMachine);
+        if (jmxServiceURL == null) {
+            return null;
+        }
+        JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceURL, null);
+        MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
+        return ManagementFactory.getPlatformMXBeans(mBeanServerConnection, clazz);
+
+    }
+
 }
