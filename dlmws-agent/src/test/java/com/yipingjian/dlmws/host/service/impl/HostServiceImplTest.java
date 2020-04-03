@@ -6,7 +6,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class HostServiceImplTest {
     @Resource
@@ -14,7 +13,6 @@ class HostServiceImplTest {
 
     @Test
     void getHostBasicInfo() {
-//        String result = hostService.getHostBasicInfo();
-//        System.out.println(result);
+        System.out.println(hostService.getHostBasicInfo());
     }
 }

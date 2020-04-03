@@ -1,6 +1,10 @@
 package com.yipingjian.dlmws;
 
 import com.sun.tools.attach.VirtualMachine;
+import sun.jvmstat.monitor.MonitoredHost;
+import sun.jvmstat.monitor.MonitoredVm;
+import sun.jvmstat.monitor.MonitoredVmUtil;
+import sun.jvmstat.monitor.VmIdentifier;
 import sun.management.ConnectorAddressLink;
 
 import javax.management.MBeanServerConnection;
@@ -8,12 +12,29 @@ import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 import java.lang.management.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
-public class commonTest {
+public class CommonTest {
     public static void main(String[] args) throws Exception{
-        visitRemoteMXBean(6516);
+        // visitRemoteMXBean(12076);
+        getJavaProcess();
+    }
+
+    public static void getJavaProcess() throws Exception{
+        // 获取监控主机
+        MonitoredHost local = MonitoredHost.getMonitoredHost("localhost");
+        // 取得所有在活动的虚拟机集合
+        Set<?> vmlist = new HashSet<>(local.activeVms());
+        // 遍历集合，输出PID和进程名
+        for(Object process : vmlist) {
+            MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
+            // 获取类名
+            String processname = MonitoredVmUtil.mainClass(vm, true);
+            System.out.println(process + " ------> " + processname);
+        }
     }
 
     public static void visitRemoteMXBean(int pid) throws Exception{
@@ -34,10 +55,17 @@ public class commonTest {
 
         MemoryMXBean memoryMXBean = visitMBean(pid, MemoryMXBean.class);
         assert memoryMXBean != null;
-        System.out.println("HeapMemoryMax" + memoryMXBean.getHeapMemoryUsage().getMax());
-        System.out.println("HeapMemoryUsed:" + memoryMXBean.getHeapMemoryUsage().getUsed());
-        System.out.println("NonHeapMemoryMax" + memoryMXBean.getNonHeapMemoryUsage().getMax());
+        System.out.println("HeapMemoryMax:" + memoryMXBean.getHeapMemoryUsage().getMax() / (1024L*1024));
+        System.out.println("HeapMemoryUsed:" + memoryMXBean.getHeapMemoryUsage().getUsed() / (1024L*1024));
+        System.out.println("NonHeapMemoryMax:" + memoryMXBean.getNonHeapMemoryUsage().getMax());
         System.out.println("NonHeapMemoryUsed:" + memoryMXBean.getNonHeapMemoryUsage().getUsed());
+
+        ClassLoadingMXBean classLoadingMXBean = visitMBean(pid, ClassLoadingMXBean.class);
+        assert classLoadingMXBean != null;
+        System.out.println("TotalLoadedClassCount:" + classLoadingMXBean.getTotalLoadedClassCount());
+        System.out.println("LoadedClassCount:" + classLoadingMXBean.getLoadedClassCount());
+        System.out.println("UnloadedClassCount:" + classLoadingMXBean.getUnloadedClassCount());
+
 
     }
 

@@ -1,6 +1,7 @@
 package com.yipingjian.dlmws.host.service.impl;
 
 
+import com.yipingjian.dlmws.common.utils.CommonUtils;
 import com.yipingjian.dlmws.host.entity.CPU;
 import com.yipingjian.dlmws.host.entity.HostBasicInfo;
 import com.yipingjian.dlmws.host.entity.Memory;
@@ -24,8 +25,6 @@ import java.util.Date;
 @Service
 public class HostServiceImpl implements HostService {
 
-    @Value("${client.id}")
-    private String CLIENT_ID;
 
     private static final SystemInfo SYSTEM_INFO = new SystemInfo();
     private static final HardwareAbstractionLayer HARDWARE_ABSTRACTION_LAYER = SYSTEM_INFO.getHardware();
@@ -54,7 +53,7 @@ public class HostServiceImpl implements HostService {
         GlobalMemory globalMemory = HARDWARE_ABSTRACTION_LAYER.getMemory();
         Float[] memories = generateMemoryUsed(globalMemory.getTotal(), globalMemory.getAvailable());
         Float[] swaps = generateSwapUsed(globalMemory.getVirtualMemory().getSwapTotal(), globalMemory.getVirtualMemory().getSwapUsed());
-        memory.setHostIp(getHostIp());
+        memory.setHostIp(CommonUtils.getHostIp());
         memory.setMemoryUsed(memories[0]);
         memory.setMemoryUsedRate(memories[1]);
         memory.setSwapUsed(swaps[0]);
@@ -80,7 +79,7 @@ public class HostServiceImpl implements HostService {
         long softirq = ticks[CentralProcessor.TickType.SOFTIRQ.getIndex()] - prevTicks[CentralProcessor.TickType.SOFTIRQ.getIndex()];
         long steal = ticks[CentralProcessor.TickType.STEAL.getIndex()] - prevTicks[CentralProcessor.TickType.STEAL.getIndex()];
         long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
-        cpu.setHostIp(getHostIp());
+        cpu.setHostIp(CommonUtils.getHostIp());
         cpu.setUserCpu((float) user / totalCpu);
         cpu.setSystemCpu((float)sys / totalCpu);
         cpu.setTime(new Date(System.currentTimeMillis()));
@@ -164,14 +163,4 @@ public class HostServiceImpl implements HostService {
         return sb.toString();
     }
 
-    private String getHostIp() {
-        String ip;
-        try {
-            ip = InetAddress.getLocalHost().getHostAddress();
-        } catch (UnknownHostException e) {
-            log.error("GET HOST IP ERROR", e);
-            return CLIENT_ID;
-        }
-        return ip;
-    }
 }
