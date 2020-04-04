@@ -19,8 +19,8 @@ import java.util.Set;
 
 public class CommonTest {
     public static void main(String[] args) throws Exception{
-        // visitRemoteMXBean(12076);
-        getJavaProcess();
+        visitRemoteMXBean(27121);
+        // getJavaProcess();
     }
 
     public static void getJavaProcess() throws Exception{

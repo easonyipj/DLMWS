@@ -92,9 +92,10 @@ public class JavaServiceImpl implements JavaService {
 
     }
 
-    public JMXServiceURL getJMXServiceURL(VirtualMachine virtualMachine) throws Exception {
+    private JMXServiceURL getJMXServiceURL(VirtualMachine virtualMachine) throws Exception {
         String address = virtualMachine.getAgentProperties().getProperty(LOCAL_CONN_ADDR);
         if (address != null) {
+            address = address.replace("127.0.0.1","localhost");
             return new JMXServiceURL(address);
         }
         int pid = Integer.parseInt(virtualMachine.id());

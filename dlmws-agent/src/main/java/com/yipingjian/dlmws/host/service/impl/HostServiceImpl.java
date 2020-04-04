@@ -7,7 +7,6 @@ import com.yipingjian.dlmws.host.entity.HostBasicInfo;
 import com.yipingjian.dlmws.host.entity.Memory;
 import com.yipingjian.dlmws.host.service.HostService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import oshi.SystemInfo;
 import oshi.hardware.*;
@@ -17,8 +16,6 @@ import oshi.software.os.OperatingSystem;
 import oshi.util.FormatUtil;
 import oshi.util.Util;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Date;
 
 @Slf4j
