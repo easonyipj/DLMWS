@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
-@EnableScheduling
+
 @Component
 @Slf4j
 public class MonitorTask {
