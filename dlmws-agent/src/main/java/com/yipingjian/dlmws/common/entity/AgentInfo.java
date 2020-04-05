@@ -11,11 +11,15 @@ import javax.annotation.PostConstruct;
 public class AgentInfo {
     @Value("${client.id}")
     private String CLIENT_ID;
+    @Value("${client.name}")
+    private String CLIENT_NAME;
 
     public static String STATIC_CLIENT_ID;
+    public static String STATIC_CLIENT_NAME;
 
     @PostConstruct
-    public void getClientId() {
+    public void postConstruct() {
         STATIC_CLIENT_ID = CLIENT_ID;
+        STATIC_CLIENT_NAME = CLIENT_NAME;
     }
 }
