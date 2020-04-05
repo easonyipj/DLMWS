@@ -1,11 +1,13 @@
 package com.yipingjian.dlmws.storm.entity;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Date;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class LogEntity {
+class LogEntity extends Entity{
     /**
      * 日志所在项目 filebeat中配置
      */

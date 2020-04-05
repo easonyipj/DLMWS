@@ -2,7 +2,8 @@ package com.yipingjian.dlmws.storm.bolt;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
-import com.yipingjian.dlmws.storm.entity.LogEntity;
+import com.yipingjian.dlmws.storm.common.CommonConstant;
+import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.LogFormatService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.storm.task.OutputCollector;
@@ -17,21 +18,20 @@ import java.util.Map;
 @Slf4j
 public class LogFormatBolt extends BaseRichBolt {
 
-    private static final String TOMCAT = "tomcat";
+
     private OutputCollector outputCollector;
-    private LogEntity logEntity;
 
     @Override
     public void prepare(Map<String, Object> map, TopologyContext topologyContext, OutputCollector outputCollector) {
         this.outputCollector = outputCollector;
-        this.logEntity = new LogEntity();
     }
 
     @Override
     public void execute(Tuple tuple) {
         JSONObject jsonObject;
         JSONObject fields;
-        String logType = "";
+        Entity entity = null;
+        String logType;
         String project;
         try {
             jsonObject = JSONObject.parseObject((String) tuple.getValueByField("value"));
@@ -40,18 +40,28 @@ public class LogFormatBolt extends BaseRichBolt {
             project = fields.getString("project");
 
             // tomcat 日志
-            if (TOMCAT.equals(logType)) {
-                logEntity = LogFormatService.formatTomcatLog(jsonObject);
-                logEntity.setProject(project);
-                logEntity.setLogType(logType);
+            if (CommonConstant.TOMCAT.equals(logType)) {
+                TomcatLogEntity tomcatLogEntity = LogFormatService.formatTomcatLog(jsonObject);
+                tomcatLogEntity.setProject(project);
+                tomcatLogEntity.setLogType(logType);
+                entity = tomcatLogEntity;
             }
-            // mysql 日志
+            // host memory日志
+            if(CommonConstant.HOST_MEM.equals(logType)) {
+                entity = JSONObject.parseObject(jsonObject.toJSONString(), Memory.class);
+
+            }
+            // host cpu日志
+            if(CommonConstant.HOST_CPU.equals(logType)) {
+                entity = JSONObject.parseObject(jsonObject.toJSONString(), CPU.class);
+            }
+
+            outputCollector.emit(Lists.newArrayList(JSONObject.toJSONString(entity), logType));
 
         } catch (Exception e) {
             log.error("格式化日志异常, 日志内容:\n {}", tuple.getStringByField("value"), e);
         }
 
-        outputCollector.emit(Lists.newArrayList(JSONObject.toJSONString(logEntity), logType));
         outputCollector.ack(tuple);
     }
 

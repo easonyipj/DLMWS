@@ -1,8 +1,10 @@
 package com.yipingjian.dlmws.storm.topology;
 
 import com.yipingjian.dlmws.storm.bolt.LogFormatBolt;
-import com.yipingjian.dlmws.storm.bolt.PersistBolt;
+import com.yipingjian.dlmws.storm.bolt.PersistHostCPULogBolt;
+import com.yipingjian.dlmws.storm.bolt.PersistTomcatLogBolt;
 import com.yipingjian.dlmws.storm.bolt.WarningBolt;
+import com.yipingjian.dlmws.storm.common.CommonConstant;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
@@ -23,7 +25,7 @@ public class MyKafkaTopology {
         properties.setProperty("group.id", "test-news-topic");
         // 定义一个KafkaSpoutConfig
         KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("localhost:9092",
-                "test")
+                "test","host_cpu", "host_mem")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
         // KafkaSpout 实例
@@ -32,10 +34,15 @@ public class MyKafkaTopology {
         topologyBuilder.setSpout("kafka-spout", kafkaSpout, 1);
         // 获取kafka-spout数据 进行格式化
         topologyBuilder.setBolt("log-format", new LogFormatBolt(), 1).shuffleGrouping("kafka-spout");
-        // 根据配置对数据告警
+        // 根据配置对数据告警 并根据logType分发
         topologyBuilder.setBolt("warning-format", new WarningBolt(), 1).shuffleGrouping("log-format");
-        // 持久化到es集群
-        topologyBuilder.setBolt("persist-format", new PersistBolt(), 1).shuffleGrouping("warning-format");
+        // 持久化tomcat log到es集群
+        topologyBuilder.setBolt("persist-tomcat-log-format", new PersistTomcatLogBolt(), 1).
+                localOrShuffleGrouping("warning-format", CommonConstant.TOMCAT);
+        // 持久化host日志到 mysql
+        topologyBuilder.setBolt("persist-host-log-format", new PersistHostCPULogBolt(), 1).
+                localOrShuffleGrouping("warning-format", CommonConstant.HOST_CPU);
+
 
         // 提交到storm集群
         Config config = new Config();
