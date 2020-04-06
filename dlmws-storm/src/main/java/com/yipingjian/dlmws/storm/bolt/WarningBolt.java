@@ -36,21 +36,33 @@ public class WarningBolt extends BaseRichBolt {
 
             // tomcat日志
             if (CommonConstant.TOMCAT.equals(logType)) {
+                // TODO 报警逻辑
                 entity = JSONObject.parseObject(value, TomcatLogEntity.class);
                 stream = CommonConstant.TOMCAT;
             }
-            // host memory日志
+
+            // host 日志
             if(CommonConstant.HOST_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(value, Memory.class);
                 stream = CommonConstant.HOST_CPU;
             }
-            // host cpu日志
             if(CommonConstant.HOST_CPU.equals(logType)) {
                 entity = JSONObject.parseObject(value, CPU.class);
                 stream = CommonConstant.HOST_CPU;
             }
 
-            outputCollector.emit(stream, new Values(JSONObject.toJSONString(entity), logType));
+            // jvm 日志
+            if(CommonConstant.JVM_CLASS.equals(logType)) {
+                entity = JSONObject.parseObject(value, JVMClass.class);
+            }
+            if(CommonConstant.JVM_THREAD.equals(logType)) {
+                entity = JSONObject.parseObject(value, JVMThread.class);
+            }
+            if(CommonConstant.JVM_MEM.equals(logType)) {
+                entity = JSONObject.parseObject(value, JVMMemory.class);
+            }
+
+            outputCollector.emit(new Values(JSONObject.toJSONString(entity), logType));
             log.info("warning data \n{}", entity);
 
         } catch (Exception e) {
@@ -62,9 +74,7 @@ public class WarningBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declareStream(CommonConstant.TOMCAT, new Fields("value", "type"));
-        outputFieldsDeclarer.declareStream(CommonConstant.HOST_CPU, new Fields("value", "type"));
-        outputFieldsDeclarer.declareStream(CommonConstant.HOST_MEM, new Fields("value", "type"));
+        outputFieldsDeclarer.declare(new Fields("value", "type"));
     }
 }
 

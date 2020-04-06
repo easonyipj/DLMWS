@@ -336,17 +336,29 @@
               "notNull": true
             },
             {
-              "name": "thread_count",
+              "name": "total",
               "type": "Integer",
               "remark": "",
-              "chnname": "线程数",
+              "chnname": "线程总数",
               "notNull": true
             },
             {
-              "name": "daemon_thread_count",
+              "name": "runnable",
               "type": "Integer",
               "remark": "",
-              "chnname": "守护线程数"
+              "chnname": "运行线程数"
+            },
+            {
+              "name": "time_waiting",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "等待线程数"
+            },
+            {
+              "name": "wating",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "超时等待线程数"
             },
             {
               "name": "time",
@@ -433,11 +445,17 @@
               "notNull": true
             },
             {
-              "name": "memory_used",
+              "name": "mem_used",
               "type": "Integer",
               "remark": "",
-              "chnname": "堆内存大小",
+              "chnname": "堆内存使用大小M",
               "notNull": true
+            },
+            {
+              "name": "mem_capacity",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "堆内存容量M"
             },
             {
               "name": "time",
@@ -524,11 +542,17 @@
               "notNull": true
             },
             {
-              "name": "class_count",
+              "name": "class_loaded",
               "type": "Integer",
               "remark": "",
               "chnname": "类加载数量",
               "notNull": true
+            },
+            {
+              "name": "class_compiled",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "类编译数量"
             },
             {
               "name": "time",
@@ -694,13 +718,13 @@
               "chnname": "主机ip"
             },
             {
-              "name": "memory_used",
+              "name": "me_used",
               "type": "Double",
               "remark": "",
-              "chnname": "内存使用量"
+              "chnname": "内存使用量M"
             },
             {
-              "name": "memory_used_rate",
+              "name": "mem_used_rate",
               "type": "Double",
               "remark": "",
               "chnname": "内存使用率"
@@ -709,7 +733,7 @@
               "name": "swap_used",
               "type": "DefaultString",
               "remark": "",
-              "chnname": "交换区使用量"
+              "chnname": "交换区使用量M"
             },
             {
               "name": "swap_used_rate",
