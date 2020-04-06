@@ -23,8 +23,8 @@ public class HostMonitorTask {
     @Resource
     private HostService hostService;
 
-    private static final String HOST_CPU = "host_cpu";
-    private static final String HOST_MEM = "host_mem";
+    private static final String HOST_CPU = "host-cpu";
+    private static final String HOST_MEM = "host-mem";
 
     @Scheduled(cron = "*/5 * * * * ? ")
     public void getCPUInfo() {
@@ -48,5 +48,6 @@ public class HostMonitorTask {
         jsonObject.put("fields", fields);
         return jsonObject.toJSONString();
     }
+
 
 }

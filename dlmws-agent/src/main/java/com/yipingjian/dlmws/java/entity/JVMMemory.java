@@ -8,6 +8,7 @@ import java.util.Date;
 public class JVMMemory {
     private String hostIp;
     private Integer pid;
-    private Long memoryUsed;
+    private Float memoryUsed;
+    private Float memoryCapacity;
     private Date time;
 }

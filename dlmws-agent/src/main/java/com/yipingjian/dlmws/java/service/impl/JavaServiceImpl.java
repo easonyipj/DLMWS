@@ -1,31 +1,32 @@
 package com.yipingjian.dlmws.java.service.impl;
 
+import com.google.common.collect.Lists;
 import com.sun.tools.attach.VirtualMachine;
+import com.yipingjian.dlmws.common.utils.ArrayUtils;
 import com.yipingjian.dlmws.common.utils.CommonUtils;
-import com.yipingjian.dlmws.java.entity.JPS;
-import com.yipingjian.dlmws.java.entity.JVMClass;
-import com.yipingjian.dlmws.java.entity.JVMMemory;
-import com.yipingjian.dlmws.java.entity.JVMThread;
+import com.yipingjian.dlmws.common.utils.ExecuteCmd;
+import com.yipingjian.dlmws.java.entity.*;
 import com.yipingjian.dlmws.java.service.JavaService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import sun.jvmstat.monitor.*;
-import sun.management.ConnectorAddressLink;
 
-import javax.management.MBeanServerConnection;
-import javax.management.remote.JMXConnector;
-import javax.management.remote.JMXConnectorFactory;
-import javax.management.remote.JMXServiceURL;
-import java.lang.management.*;
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.*;
 
 @Slf4j
 @Service
 public class JavaServiceImpl implements JavaService {
 
-    private static final String JETBRAINS = "jetbrains";
-    private static final String LOCAL_CONN_ADDR = "com.sun.management.jmxremote.localConnectorAddress";
+    private final static String PREFIX = "java.lang.Thread.State: ";
+    private final static String JETBRAINS = "jetbrains";
+    private final static List<String> excludeProcess = Lists.newArrayList("jetbrains", "sun.tools.jstat.Jstat", "sun.tools.jstack.JStack", "org/netbeans/Main");
+    private final static List<String> heapUsed = Lists.newArrayList("S0U", "S1U", "EU", "OU");
+    private final static List<String> heapCapacity = Lists.newArrayList("S0C", "S1C", "EC", "OC");
+    private final static String LOADED = "Loaded";
+    private final static String COMPILED = "Compiled";
 
     @Override
     public List<JPS> getJPSInfo() throws Exception{
@@ -35,7 +36,7 @@ public class JavaServiceImpl implements JavaService {
         for(Object process : vmList) {
             MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
             String processName = MonitoredVmUtil.mainClass(vm, true);
-            if(!StringUtils.isEmpty(processName) && !processName.contains(JETBRAINS)) {
+            if(!StringUtils.isEmpty(processName) && !excludeProcess.contains(processName) && !processName.contains(JETBRAINS)) {
                 jpsList.add(new JPS((Integer) process, processName));
             }
         }
@@ -44,65 +45,87 @@ public class JavaServiceImpl implements JavaService {
 
     @Override
     public JVMClass getJVMClassInfo(Integer pid) throws Exception {
-        ClassLoadingMXBean classLoadingMXBean = visitMBean(pid, ClassLoadingMXBean.class);
-        assert classLoadingMXBean != null;
         JVMClass jvmClass = new JVMClass();
         jvmClass.setPid(pid);
         jvmClass.setHostIp(CommonUtils.getHostIp());
-        jvmClass.setClassCount(classLoadingMXBean.getLoadedClassCount());
-        jvmClass.setTime(new Date(System.currentTimeMillis()));
-        System.out.println("TotalLoadedClassCount:" + classLoadingMXBean.getTotalLoadedClassCount());
+        List<KVEntity> jstatClass = jstat(new String[]{"jstat", "-class", String.valueOf(pid)});
+        for(KVEntity kvEntity : jstatClass) {
+            if(kvEntity.getKey().equals(LOADED)) {
+                jvmClass.setClassLoaded(Integer.parseInt(kvEntity.getValue()));
+                break;
+            }
+        }
+        List<KVEntity> jstatCompiler = jstat(new String[]{"jstat", "-compiler", String.valueOf(pid)});
+        for(KVEntity kvEntity : jstatCompiler) {
+            if(kvEntity.getKey().equals(COMPILED)) {
+                jvmClass.setClassLoaded(Integer.parseInt(kvEntity.getValue()));
+                break;
+            }
+        }
         return jvmClass;
     }
 
     @Override
     public JVMMemory getJVMMemoryInfo(Integer pid) throws Exception {
-        MemoryMXBean memoryMXBean = visitMBean(pid, MemoryMXBean.class);
-        assert memoryMXBean != null;
-        JVMMemory jvmMemory = new JVMMemory();
-        jvmMemory.setHostIp(CommonUtils.getHostIp());
+        List<KVEntity> kvEntityList = jstat(new String[]{"jstat", "-gc", String.valueOf(pid)});
+        JVMMemory jvmMemory = generateJVMMemory(kvEntityList);
         jvmMemory.setPid(pid);
-        jvmMemory.setMemoryUsed(memoryMXBean.getHeapMemoryUsage().getUsed() / (1024L*1024));
+        jvmMemory.setHostIp(CommonUtils.getHostIp());
         jvmMemory.setTime(new Date(System.currentTimeMillis()));
         return jvmMemory;
     }
 
     @Override
     public JVMThread getJVMThreadInfo(Integer pid) throws Exception {
-        ThreadMXBean threadMXBean = visitMBean(pid,ThreadMXBean.class);
-        assert threadMXBean != null;
+
         JVMThread jvmThread = new JVMThread();
+        String s = ExecuteCmd.execute(new String[]{"jstack", String.valueOf(pid)});
         jvmThread.setPid(pid);
-        jvmThread.setDaemonThreadCount(threadMXBean.getDaemonThreadCount());
-        jvmThread.setThreadCount(threadMXBean.getThreadCount());
         jvmThread.setHostIp(CommonUtils.getHostIp());
+        jvmThread.setTotal( ArrayUtils.appearNumber(s, "nid="));
+        jvmThread.setRunnable(ArrayUtils.appearNumber(s, PREFIX +"RUNNABLE"));
+        jvmThread.setTimeWaiting(ArrayUtils.appearNumber(s, PREFIX +"TIMED_WAITING"));
+        jvmThread.setWaiting(ArrayUtils.appearNumber(s, PREFIX +"WAITING"));
         jvmThread.setTime(new Date(System.currentTimeMillis()));
         return jvmThread;
     }
 
-    private <T extends PlatformManagedObject> T visitMBean(int pid, Class<T> clazz) throws Exception {
-        VirtualMachine virtualMachine = VirtualMachine.attach(Integer.toString(pid));
-        JMXServiceURL jmxServiceURL = getJMXServiceURL(virtualMachine);
-        if (jmxServiceURL == null) {
-            return null;
+    private JVMMemory generateJVMMemory(List<KVEntity> list) {
+        JVMMemory jvmMemory = new JVMMemory();
+        float totalUsed = 0;
+        float totalCapacity = 0;
+        for(KVEntity kvEntity : list) {
+            if(heapUsed.contains(kvEntity.getKey())) {
+                totalUsed += Float.parseFloat(kvEntity.getValue());
+            }
+            if(heapCapacity.contains(kvEntity.getKey())) {
+                totalCapacity += Float.parseFloat(kvEntity.getValue());
+            }
         }
-        JMXConnector jmxConnector = JMXConnectorFactory.connect(jmxServiceURL, null);
-        MBeanServerConnection mBeanServerConnection = jmxConnector.getMBeanServerConnection();
-        return ManagementFactory.getPlatformMXBean(mBeanServerConnection, clazz);
-
+        jvmMemory.setMemoryCapacity(totalCapacity / 1024);
+        jvmMemory.setMemoryUsed(totalUsed / 1024);
+        return jvmMemory;
     }
 
-    private JMXServiceURL getJMXServiceURL(VirtualMachine virtualMachine) throws Exception {
-        String address = virtualMachine.getAgentProperties().getProperty(LOCAL_CONN_ADDR);
-        if (address != null) {
-            address = address.replace("127.0.0.1","localhost");
-            return new JMXServiceURL(address);
+    private static List<KVEntity> jstat(String[] strings) throws Exception {
+        List<KVEntity> list = new ArrayList<>();
+        String s = ExecuteCmd.execute(strings);
+        assert s != null;
+        BufferedReader reader = new BufferedReader(new StringReader(s));
+        String[] keys = ArrayUtils.trim(reader.readLine().split("\\s+|\t"));
+        String[] values = ArrayUtils.trim(reader.readLine().split("\\s+|\t"));
+        // 特殊情况
+        if (strings[1].equals("-compiler")) {
+            for (int i = 0; i < 4; i++) {
+                list.add(new KVEntity(keys[i], values[i]));
+            }
+            return list;
         }
-        int pid = Integer.parseInt(virtualMachine.id());
-        address = ConnectorAddressLink.importFrom(pid);
-        if (address != null) {
-            return new JMXServiceURL(address);
+        // 正常流程
+        for (int i = 0; i < keys.length; i++) {
+            list.add(new KVEntity(keys[i], values[i]));
         }
-        return null;
+        return list;
     }
+
 }

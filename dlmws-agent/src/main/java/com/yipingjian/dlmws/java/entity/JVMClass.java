@@ -8,6 +8,7 @@ import java.util.Date;
 public class JVMClass {
     private String hostIp;
     private Integer pid;
-    private Integer classCount;
+    private Integer classLoaded;
+    private Integer classCompiled;
     private Date time;
 }

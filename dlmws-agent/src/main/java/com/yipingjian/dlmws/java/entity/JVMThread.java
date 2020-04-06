@@ -8,7 +8,10 @@ import java.util.Date;
 public class JVMThread {
     private String hostIp;
     private Integer pid;
-    private Integer threadCount;
-    private Integer daemonThreadCount;
+    private Integer total;
+    private Integer runnable;
+    private Integer timeWaiting;
+    private Integer waiting;
     private Date time;
+
 }
