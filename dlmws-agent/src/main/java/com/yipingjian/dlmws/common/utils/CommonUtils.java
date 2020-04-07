@@ -1,5 +1,6 @@
 package com.yipingjian.dlmws.common.utils;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yipingjian.dlmws.common.entity.AgentInfo;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,5 +21,14 @@ public class CommonUtils {
             return AgentInfo.STATIC_CLIENT_ID;
         }
         return ip;
+    }
+
+    public static String generateMessage(Object object, String type) {
+        JSONObject jsonObject = JSONObject.parseObject(JSONObject.toJSONString(object));
+        JSONObject fields = new JSONObject();
+        fields.put("type", type);
+        fields.put("project", AgentInfo.STATIC_CLIENT_NAME);
+        jsonObject.put("fields", fields);
+        return jsonObject.toJSONString();
     }
 }

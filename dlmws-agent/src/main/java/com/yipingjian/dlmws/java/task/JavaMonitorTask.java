@@ -1,7 +1,7 @@
 package com.yipingjian.dlmws.java.task;
 
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.yipingjian.dlmws.common.utils.CommonUtils;
 import com.yipingjian.dlmws.java.entity.JPS;
 import com.yipingjian.dlmws.java.service.JavaService;
 import com.yipingjian.dlmws.kafka.KafkaProducer;
@@ -30,46 +30,45 @@ public class JavaMonitorTask {
     /**
      * 每10s更新一次pid List
      */
-    @Scheduled(cron = "*/10 * * * * ? ")
+    @Scheduled(cron = "0/10 * * * * ? ")
     public void updatePidList() {
         try {
             pidList = javaService.getJPSInfo().stream().map(JPS::getPid).collect(Collectors.toList());
-            log.info("pid List:{}", pidList.toString());
         } catch (Exception e) {
             log.error("update pid list error", e);
         }
     }
 
-    @Scheduled(cron = "*/5 * * * * ? ")
+    @Scheduled(cron = "0/5 * * * * ? ")
     public void getJVMMemory() {
         for (Integer pid : pidList) {
             try {
-                log.info(JSONObject.toJSONString(javaService.getJVMMemoryInfo(pid)));
-                kafkaProducer.send(JVM_MEM, JSONObject.toJSONString(javaService.getJVMMemoryInfo(pid)));
+                String message = CommonUtils.generateMessage(javaService.getJVMMemoryInfo(pid), JVM_MEM);
+                kafkaProducer.send(JVM_MEM, message);
             } catch (Exception e) {
                 log.error("getJVMMemory error, pid:{}", pid, e);
             }
         }
     }
 
-    @Scheduled(cron = "*/5 * * * * ? ")
+    @Scheduled(cron = "0/5 * * * * ? ")
     public void getJVMClass() {
         for (Integer pid : pidList) {
             try {
-                log.info(JSONObject.toJSONString(javaService.getJVMClassInfo(pid)));
-                kafkaProducer.send(JVM_CLASS, JSONObject.toJSONString(javaService.getJVMClassInfo(pid)));
+                String message = CommonUtils.generateMessage(javaService.getJVMClassInfo(pid), JVM_CLASS);
+                kafkaProducer.send(JVM_CLASS, message);
             } catch (Exception e) {
                 log.error("getJVMClass error, pid:{}", pid, e);
             }
         }
     }
 
-    @Scheduled(cron = "*/5 * * * * ? ")
+    @Scheduled(cron = "0/5 * * * * ? ")
     public void getJVMThread() {
         for (Integer pid : pidList) {
             try {
-                log.info(JSONObject.toJSONString(javaService.getJVMThreadInfo(pid)));
-                kafkaProducer.send(JVM_THREAD, JSONObject.toJSONString(javaService.getJVMThreadInfo(pid)));
+                String message = CommonUtils.generateMessage(javaService.getJVMThreadInfo(pid), JVM_THREAD);
+                kafkaProducer.send(JVM_THREAD, message);
             } catch (Exception e) {
                 log.error("getJVMThread error, pid:{}", pid, e);
             }

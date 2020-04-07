@@ -22,7 +22,8 @@ public class JavaServiceImpl implements JavaService {
 
     private final static String PREFIX = "java.lang.Thread.State: ";
     private final static String JETBRAINS = "jetbrains";
-    private final static List<String> excludeProcess = Lists.newArrayList("jetbrains", "sun.tools.jstat.Jstat", "sun.tools.jstack.JStack", "org/netbeans/Main");
+    private final static List<String> excludeProcess = Lists.newArrayList("org.apache.zookeeper.server.quorum.QuorumPeerMain",
+            "sun.tools.jstat.Jstat", "sun.tools.jstack.JStack", "org/netbeans/Main", "kafka.Kafka", "com.yipingjian.dlmws.storm.topology.DLMWSTopology");
     private final static List<String> heapUsed = Lists.newArrayList("S0U", "S1U", "EU", "OU");
     private final static List<String> heapCapacity = Lists.newArrayList("S0C", "S1C", "EC", "OC");
     private final static String LOADED = "Loaded";
@@ -40,6 +41,7 @@ public class JavaServiceImpl implements JavaService {
                 jpsList.add(new JPS((Integer) process, processName));
             }
         }
+        log.info(jpsList.toString());
         return jpsList;
     }
 
@@ -48,6 +50,7 @@ public class JavaServiceImpl implements JavaService {
         JVMClass jvmClass = new JVMClass();
         jvmClass.setPid(pid);
         jvmClass.setHostIp(CommonUtils.getHostIp());
+        jvmClass.setTime(new Date(System.currentTimeMillis()));
         List<KVEntity> jstatClass = jstat(new String[]{"jstat", "-class", String.valueOf(pid)});
         for(KVEntity kvEntity : jstatClass) {
             if(kvEntity.getKey().equals(LOADED)) {
