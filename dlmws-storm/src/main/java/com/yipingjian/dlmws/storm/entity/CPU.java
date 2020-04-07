@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 public class CPU extends HostLogEntity{
     private String hostIp;
-    private Float userCpu;
-    private Float systemCpu;
+    private Double userCpu;
+    private Double systemCpu;
     private Date time;
 }

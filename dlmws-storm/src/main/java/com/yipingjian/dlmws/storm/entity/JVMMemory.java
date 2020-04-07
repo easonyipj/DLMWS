@@ -10,7 +10,7 @@ import java.util.Date;
 public class JVMMemory extends Entity{
     private String hostIp;
     private Integer pid;
-    private Float memoryUsed;
-    private Float memoryCapacity;
+    private Double memoryUsed;
+    private Double memoryCapacity;
     private Date time;
 }

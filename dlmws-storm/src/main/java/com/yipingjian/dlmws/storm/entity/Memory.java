@@ -9,9 +9,9 @@ import java.util.Date;
 @Data
 public class Memory extends HostLogEntity{
     private String hostIp;
-    private Float memoryUsed;
-    private Float memoryUsedRate;
-    private Float swapUsed;
-    private Float swapUsedRate;
+    private Double memoryUsed;
+    private Double memoryUsedRate;
+    private Double swapUsed;
+    private Double swapUsedRate;
     private Date time;
 }

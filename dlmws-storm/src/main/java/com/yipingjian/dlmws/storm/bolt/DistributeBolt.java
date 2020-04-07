@@ -40,28 +40,28 @@ public class DistributeBolt extends BaseRichBolt {
             if(CommonConstant.HOST_MEM.equals(logType)) {
                 Memory memory = JSONObject.parseObject(value, Memory.class);
                 outputCollector.emit(CommonConstant.HOST_MEM, new Values(memory.getHostIp(), memory.getMemoryUsed(), memory.getMemoryUsedRate(), memory.getSwapUsed(),
-                        memory.getSwapUsedRate(), memory.getTime()));
+                        memory.getSwapUsedRate(), memory.getTime().getTime()));
             }
             if(CommonConstant.HOST_CPU.equals(logType)) {
                 CPU cpu = JSONObject.parseObject(value, CPU.class);
-                outputCollector.emit(CommonConstant.HOST_CPU, new Values(cpu.getHostIp(), cpu.getUserCpu(), cpu.getSystemCpu(), cpu.getTime()));
+                outputCollector.emit(CommonConstant.HOST_CPU, new Values(cpu.getHostIp(), cpu.getUserCpu(), cpu.getSystemCpu(), cpu.getTime().getTime()));
             }
 
             // jvm 日志
             if(CommonConstant.JVM_CLASS.equals(logType)) {
                 JVMClass jvmClass = JSONObject.parseObject(value, JVMClass.class);
                 outputCollector.emit(CommonConstant.JVM_CLASS, new Values(jvmClass.getHostIp(), jvmClass.getPid(), jvmClass.getClassLoaded(),
-                        jvmClass.getClassCompiled(), jvmClass.getTime()));
+                        jvmClass.getClassCompiled(), jvmClass.getTime().getTime()));
             }
             if(CommonConstant.JVM_THREAD.equals(logType)) {
                 JVMThread jvmThread = JSONObject.parseObject(value, JVMThread.class);
                 outputCollector.emit(CommonConstant.JVM_THREAD, new Values(jvmThread.getHostIp(), jvmThread.getPid(), jvmThread.getTotal(),
-                        jvmThread.getRunnable(), jvmThread.getTimeWaiting(), jvmThread.getWaiting(), jvmThread.getTime()));
+                        jvmThread.getRunnable(), jvmThread.getTimeWaiting(), jvmThread.getWaiting(), jvmThread.getTime().getTime()));
             }
             if(CommonConstant.JVM_MEM.equals(logType)) {
                 JVMMemory jvmMemory = JSONObject.parseObject(value, JVMMemory.class);
                 outputCollector.emit(CommonConstant.JVM_MEM, new Values(jvmMemory.getHostIp(), jvmMemory.getPid(), jvmMemory.getMemoryUsed(),
-                        jvmMemory.getMemoryCapacity(), jvmMemory.getTime()));
+                        jvmMemory.getMemoryCapacity(), jvmMemory.getTime().getTime()));
             }
 
         } catch (Exception e) {
@@ -78,6 +78,6 @@ public class DistributeBolt extends BaseRichBolt {
         outputFieldsDeclarer.declareStream(CommonConstant.HOST_MEM, new Fields("host_ip", "mem_used", "mem_used_rate", "swap_used", "swap_used_rate", "time"));
         outputFieldsDeclarer.declareStream(CommonConstant.JVM_CLASS, new Fields("host_ip", "pid", "class_loaded", "class_compiled", "time"));
         outputFieldsDeclarer.declareStream(CommonConstant.JVM_MEM, new Fields("host_ip", "pid", "mem_used", "mem_capacity", "time"));
-        outputFieldsDeclarer.declareStream(CommonConstant.JVM_THREAD, new Fields("host_ip", "pid", "total", "runnable", "timeWaiting", "waiting", "time"));
+        outputFieldsDeclarer.declareStream(CommonConstant.JVM_THREAD, new Fields("host_ip", "pid", "total", "runnable", "time_waiting", "waiting", "time"));
     }
 }

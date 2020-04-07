@@ -2,10 +2,7 @@ package com.yipingjian.dlmws.storm.topology;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.yipingjian.dlmws.storm.bolt.DistributeBolt;
-import com.yipingjian.dlmws.storm.bolt.LogFormatBolt;
-import com.yipingjian.dlmws.storm.bolt.PersistTomcatLogBolt;
-import com.yipingjian.dlmws.storm.bolt.WarningBolt;
+import com.yipingjian.dlmws.storm.bolt.*;
 import com.yipingjian.dlmws.storm.common.CommonConstant;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
@@ -20,14 +17,6 @@ import java.util.Properties;
 
 public class DLMWSTopology {
 
-    public static final HashMap<String, String> JDBC_CONFIG_MAP = Maps.newHashMap(ImmutableMap.of(
-            "dataSourceClassName","com.mysql.jdbc.jdbc2.optional.MysqlDataSource",
-            "dataSource.url", "jdbc:mysql://localhost/dlmws",
-            "dataSource.user","root",
-            "dataSource.password","1874Ypj!"
-    ));
-
-
     public static void main(String[] args) throws Exception {
 
         TopologyBuilder topologyBuilder = new TopologyBuilder();
@@ -36,7 +25,7 @@ public class DLMWSTopology {
         properties.setProperty("group.id", "test-news-topic");
         // 定义一个KafkaSpoutConfig
         KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("localhost:9092",
-                "tomcat", "host-cpu", "host-mem")
+                "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
         // KafkaSpout 实例
@@ -50,10 +39,20 @@ public class DLMWSTopology {
         // 分发bolt
         topologyBuilder.setBolt("distribute", new DistributeBolt(), 1).shuffleGrouping("warning-format");
         // 持久化tomcat log到es集群
-        topologyBuilder.setBolt("persist-tomcat-log-format", new PersistTomcatLogBolt(), 1).
-                localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);
-        // 持久化host mem 到 mysql
-
+        topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);
+        // 持久化host log到 mysql
+        topologyBuilder.setBolt("persist-host-mem", PersistToMySQLBoltBuilder.createHostMemInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.HOST_MEM);
+        topologyBuilder.setBolt("persist-host-cpu", PersistToMySQLBoltBuilder.createHostCpuInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.HOST_CPU);
+        // 持久化jvm log到mysql
+        topologyBuilder.setBolt("persist-jvm-mem", PersistToMySQLBoltBuilder.createJvmMemInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_MEM);
+        topologyBuilder.setBolt("persist-jvm-thread", PersistToMySQLBoltBuilder.createJvmThreadInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_THREAD);
+        topologyBuilder.setBolt("persist-jvm-class", PersistToMySQLBoltBuilder.createJvmClassInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_CLASS);
 
 
         // 提交到storm集群
