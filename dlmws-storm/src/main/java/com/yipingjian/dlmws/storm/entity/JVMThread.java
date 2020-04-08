@@ -7,7 +7,7 @@ import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class JVMThread extends Entity{
+public class JVMThread extends Entity {
     private String hostIp;
     private Integer pid;
     private Integer total;

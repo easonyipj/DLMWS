@@ -48,21 +48,21 @@ public class LogFormatBolt extends BaseRichBolt {
             }
 
             // host日志
-            if(CommonConstant.HOST_MEM.equals(logType)) {
+            if (CommonConstant.HOST_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), Memory.class);
             }
-            if(CommonConstant.HOST_CPU.equals(logType)) {
+            if (CommonConstant.HOST_CPU.equals(logType)) {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), CPU.class);
             }
 
             // jvm 日志
-            if(CommonConstant.JVM_CLASS.equals(logType)) {
+            if (CommonConstant.JVM_CLASS.equals(logType)) {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), JVMClass.class);
             }
-            if(CommonConstant.JVM_THREAD.equals(logType)) {
+            if (CommonConstant.JVM_THREAD.equals(logType)) {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), JVMThread.class);
             }
-            if(CommonConstant.JVM_MEM.equals(logType)) {
+            if (CommonConstant.JVM_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), JVMMemory.class);
             }
 

@@ -7,7 +7,7 @@ import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class Memory extends HostLogEntity{
+public class Memory extends HostLogEntity {
     private String hostIp;
     private Double memoryUsed;
     private Double memoryUsedRate;

@@ -34,31 +34,31 @@ public class WarningBolt extends BaseRichBolt {
             String value = tuple.getStringByField("value");
             logType = tuple.getStringByField("type");
 
-            // tomcatÈÕÖ¾
+            // tomcatï¿½ï¿½Ö¾
             if (CommonConstant.TOMCAT.equals(logType)) {
-                // TODO ±¨¾¯Âß¼­
+                // TODO ï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½
                 entity = JSONObject.parseObject(value, TomcatLogEntity.class);
                 stream = CommonConstant.TOMCAT;
             }
 
-            // host ÈÕÖ¾
-            if(CommonConstant.HOST_MEM.equals(logType)) {
+            // host ï¿½ï¿½Ö¾
+            if (CommonConstant.HOST_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(value, Memory.class);
                 stream = CommonConstant.HOST_CPU;
             }
-            if(CommonConstant.HOST_CPU.equals(logType)) {
+            if (CommonConstant.HOST_CPU.equals(logType)) {
                 entity = JSONObject.parseObject(value, CPU.class);
                 stream = CommonConstant.HOST_CPU;
             }
 
-            // jvm ÈÕÖ¾
-            if(CommonConstant.JVM_CLASS.equals(logType)) {
+            // jvm ï¿½ï¿½Ö¾
+            if (CommonConstant.JVM_CLASS.equals(logType)) {
                 entity = JSONObject.parseObject(value, JVMClass.class);
             }
-            if(CommonConstant.JVM_THREAD.equals(logType)) {
+            if (CommonConstant.JVM_THREAD.equals(logType)) {
                 entity = JSONObject.parseObject(value, JVMThread.class);
             }
-            if(CommonConstant.JVM_MEM.equals(logType)) {
+            if (CommonConstant.JVM_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(value, JVMMemory.class);
             }
 

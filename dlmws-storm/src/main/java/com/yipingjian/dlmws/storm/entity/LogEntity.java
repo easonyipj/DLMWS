@@ -7,7 +7,7 @@ import java.util.Date;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-class LogEntity extends Entity{
+class LogEntity extends Entity {
     /**
      * 日志所在项目 filebeat中配置
      */

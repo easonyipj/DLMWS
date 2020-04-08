@@ -6,5 +6,5 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-class HostLogEntity extends Entity{
+class HostLogEntity extends Entity {
 }

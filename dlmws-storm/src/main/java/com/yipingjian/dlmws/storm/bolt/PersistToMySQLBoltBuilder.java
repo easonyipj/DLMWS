@@ -17,10 +17,10 @@ import java.util.List;
 
 public class PersistToMySQLBoltBuilder {
     private static final HashMap<String, Object> JDBC_CONFIG_MAP = Maps.newHashMap(ImmutableMap.of(
-            "dataSourceClassName","com.mysql.cj.jdbc.MysqlDataSource",
+            "dataSourceClassName", "com.mysql.cj.jdbc.MysqlDataSource",
             "dataSource.url", "jdbc:mysql://localhost:3306/dlmws?serverTimezone=Asia/Shanghai&allowMultiQueries=true&autoReconnect=true&useUnicode=true&failOverReadOnly=false&useSSL=false&characterEncoding=utf-8",
-            "dataSource.user","root",
-            "dataSource.password","1874Ypj!"
+            "dataSource.user", "root",
+            "dataSource.password", "1874Ypj!"
     ));
 
     private static final ConnectionProvider connectionProvider = new HikariCPConnectionProvider(JDBC_CONFIG_MAP);

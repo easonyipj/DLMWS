@@ -37,28 +37,28 @@ public class DistributeBolt extends BaseRichBolt {
             }
 
             // host 日志
-            if(CommonConstant.HOST_MEM.equals(logType)) {
+            if (CommonConstant.HOST_MEM.equals(logType)) {
                 Memory memory = JSONObject.parseObject(value, Memory.class);
                 outputCollector.emit(CommonConstant.HOST_MEM, new Values(memory.getHostIp(), memory.getMemoryUsed(), memory.getMemoryUsedRate(), memory.getSwapUsed(),
                         memory.getSwapUsedRate(), memory.getTime().getTime()));
             }
-            if(CommonConstant.HOST_CPU.equals(logType)) {
+            if (CommonConstant.HOST_CPU.equals(logType)) {
                 CPU cpu = JSONObject.parseObject(value, CPU.class);
                 outputCollector.emit(CommonConstant.HOST_CPU, new Values(cpu.getHostIp(), cpu.getUserCpu(), cpu.getSystemCpu(), cpu.getTime().getTime()));
             }
 
             // jvm 日志
-            if(CommonConstant.JVM_CLASS.equals(logType)) {
+            if (CommonConstant.JVM_CLASS.equals(logType)) {
                 JVMClass jvmClass = JSONObject.parseObject(value, JVMClass.class);
                 outputCollector.emit(CommonConstant.JVM_CLASS, new Values(jvmClass.getHostIp(), jvmClass.getPid(), jvmClass.getClassLoaded(),
                         jvmClass.getClassCompiled(), jvmClass.getTime().getTime()));
             }
-            if(CommonConstant.JVM_THREAD.equals(logType)) {
+            if (CommonConstant.JVM_THREAD.equals(logType)) {
                 JVMThread jvmThread = JSONObject.parseObject(value, JVMThread.class);
                 outputCollector.emit(CommonConstant.JVM_THREAD, new Values(jvmThread.getHostIp(), jvmThread.getPid(), jvmThread.getTotal(),
                         jvmThread.getRunnable(), jvmThread.getTimeWaiting(), jvmThread.getWaiting(), jvmThread.getTime().getTime()));
             }
-            if(CommonConstant.JVM_MEM.equals(logType)) {
+            if (CommonConstant.JVM_MEM.equals(logType)) {
                 JVMMemory jvmMemory = JSONObject.parseObject(value, JVMMemory.class);
                 outputCollector.emit(CommonConstant.JVM_MEM, new Values(jvmMemory.getHostIp(), jvmMemory.getPid(), jvmMemory.getMemoryUsed(),
                         jvmMemory.getMemoryCapacity(), jvmMemory.getTime().getTime()));
