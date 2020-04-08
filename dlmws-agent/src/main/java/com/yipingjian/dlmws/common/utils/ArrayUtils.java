@@ -18,7 +18,7 @@ public class ArrayUtils {
     }
 
     public static String[] trim(String[] olds) {
-        if (olds == null ||olds.length == 0){
+        if (olds == null || olds.length == 0) {
             return olds;
         }
         List<String> list = new ArrayList<>();

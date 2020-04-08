@@ -46,7 +46,7 @@ public class SystemInfoTest {
 
     /**
      * Test that this platform is implemented..
-//     */
+     //     */
 //    @Test
 //    public void testPlatformEnum() {
 //        assertFalse(PlatformEnum.UNKNOWN.equals(SystemInfo.getCurrentPlatformEnum()));
@@ -57,8 +57,7 @@ public class SystemInfoTest {
     /**
      * The main method, demonstrating use of classes.
      *
-     * @param args
-     *            the arguments (unused)
+     * @param args the arguments (unused)
      */
     public static void main(String[] args) {
         logger.info("Initializing System...");

@@ -78,15 +78,15 @@ public class HostServiceImpl implements HostService {
         long totalCpu = user + nice + sys + idle + iowait + irq + softirq + steal;
         cpu.setHostIp(CommonUtils.getHostIp());
         cpu.setUserCpu((float) user / totalCpu);
-        cpu.setSystemCpu((float)sys / totalCpu);
+        cpu.setSystemCpu((float) sys / totalCpu);
         cpu.setTime(new Date(System.currentTimeMillis()));
         return cpu;
     }
 
     private Float[] generateMemoryUsed(long total, long available) {
         Float[] memories = new Float[2];
-        float totalGib = (float) total / (1024*1024*1024);
-        float availableGib = (float) available / (1024*1024*1024);
+        float totalGib = (float) total / (1024 * 1024 * 1024);
+        float availableGib = (float) available / (1024 * 1024 * 1024);
         float usedGib = totalGib - availableGib;
         float usedRate = usedGib / totalGib;
         memories[0] = usedGib;
@@ -96,8 +96,8 @@ public class HostServiceImpl implements HostService {
 
     private Float[] generateSwapUsed(long total, long used) {
         Float[] memories = new Float[2];
-        float totalGib = (float) total / (1024*1024*1024);
-        float usedGib = (float) used / (1024*1024*1024);
+        float totalGib = (float) total / (1024 * 1024 * 1024);
+        float usedGib = (float) used / (1024 * 1024 * 1024);
         float usedRate = usedGib / totalGib;
         memories[0] = usedGib;
         memories[1] = usedRate;

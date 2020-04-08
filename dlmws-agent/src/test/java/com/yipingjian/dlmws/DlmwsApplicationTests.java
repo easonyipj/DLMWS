@@ -22,7 +22,7 @@ class DlmwsApplicationTests {
     }
 
     @Test
-    public void testHostService() throws Exception{
+    public void testHostService() throws Exception {
         System.out.println(hostService.getCPULoad());
     }
 

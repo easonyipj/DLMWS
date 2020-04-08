@@ -18,18 +18,18 @@ import java.util.Set;
 
 
 public class CommonTest {
-    public static void main(String[] args) throws Exception{
+    public static void main(String[] args) throws Exception {
         visitRemoteMXBean(27121);
         // getJavaProcess();
     }
 
-    public static void getJavaProcess() throws Exception{
+    public static void getJavaProcess() throws Exception {
         // 获取监控主机
         MonitoredHost local = MonitoredHost.getMonitoredHost("localhost");
         // 取得所有在活动的虚拟机集合
         Set<?> vmlist = new HashSet<>(local.activeVms());
         // 遍历集合，输出PID和进程名
-        for(Object process : vmlist) {
+        for (Object process : vmlist) {
             MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
             // 获取类名
             String processname = MonitoredVmUtil.mainClass(vm, true);
@@ -37,17 +37,17 @@ public class CommonTest {
         }
     }
 
-    public static void visitRemoteMXBean(int pid) throws Exception{
-        ThreadMXBean threadMXBean = visitMBean(pid,ThreadMXBean.class);
+    public static void visitRemoteMXBean(int pid) throws Exception {
+        ThreadMXBean threadMXBean = visitMBean(pid, ThreadMXBean.class);
         assert threadMXBean != null;
         System.out.println("ThreadCount: " + threadMXBean.getThreadCount());
         System.out.println("DaemonThreadCount: " + threadMXBean.getDaemonThreadCount());
         System.out.println("PeakThreadCount: " + threadMXBean.getPeakThreadCount());
 
 
-        List<GarbageCollectorMXBean> collectorMXBeanList2 = visitMBeans (pid, GarbageCollectorMXBean.class);
+        List<GarbageCollectorMXBean> collectorMXBeanList2 = visitMBeans(pid, GarbageCollectorMXBean.class);
         assert collectorMXBeanList2 != null;
-        for(GarbageCollectorMXBean GarbageCollectorMXBean : collectorMXBeanList2){
+        for (GarbageCollectorMXBean GarbageCollectorMXBean : collectorMXBeanList2) {
             System.out.println("gc name:" + GarbageCollectorMXBean.getName());
             System.out.println("CollectionCount:" + GarbageCollectorMXBean.getCollectionCount());
             System.out.println("CollectionTime" + GarbageCollectorMXBean.getCollectionTime());
@@ -55,8 +55,8 @@ public class CommonTest {
 
         MemoryMXBean memoryMXBean = visitMBean(pid, MemoryMXBean.class);
         assert memoryMXBean != null;
-        System.out.println("HeapMemoryMax:" + memoryMXBean.getHeapMemoryUsage().getMax() / (1024L*1024));
-        System.out.println("HeapMemoryUsed:" + memoryMXBean.getHeapMemoryUsage().getUsed() / (1024L*1024));
+        System.out.println("HeapMemoryMax:" + memoryMXBean.getHeapMemoryUsage().getMax() / (1024L * 1024));
+        System.out.println("HeapMemoryUsed:" + memoryMXBean.getHeapMemoryUsage().getUsed() / (1024L * 1024));
         System.out.println("NonHeapMemoryMax:" + memoryMXBean.getNonHeapMemoryUsage().getMax());
         System.out.println("NonHeapMemoryUsed:" + memoryMXBean.getNonHeapMemoryUsage().getUsed());
 

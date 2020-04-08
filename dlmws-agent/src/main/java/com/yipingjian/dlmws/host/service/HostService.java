@@ -6,6 +6,8 @@ import com.yipingjian.dlmws.host.entity.Memory;
 
 public interface HostService {
     HostBasicInfo getHostBasicInfo();
+
     Memory getMemoryLoad();
+
     CPU getCPULoad();
 }

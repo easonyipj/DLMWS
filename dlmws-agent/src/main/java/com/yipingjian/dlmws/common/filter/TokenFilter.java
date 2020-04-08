@@ -41,10 +41,10 @@ public class TokenFilter implements Filter {
         // 这里填写你允许进行跨域的主机ip（正式上线时可以动态配置具体允许的域名和IP）
         rep.setHeader("Access-Control-Allow-Origin", "*");
         // 允许的访问方法
-        rep.setHeader("Access-Control-Allow-Methods","POST, GET");
+        rep.setHeader("Access-Control-Allow-Methods", "POST, GET");
         // Access-Control-Max-Age 用于 CORS 相关配置的缓存
         rep.setHeader("Access-Control-Max-Age", "3600");
-        rep.setHeader("Access-Control-Allow-Headers","token,Origin, X-Requested-With, Content-Type, Accept");
+        rep.setHeader("Access-Control-Allow-Headers", "token,Origin, X-Requested-With, Content-Type, Accept");
 
         servletResponse.setCharacterEncoding("UTF-8");
         servletResponse.setContentType("application/json; charset=utf-8");
@@ -60,7 +60,7 @@ public class TokenFilter implements Filter {
         if (!TOKEN.equals(token)) {
             response = Response.unAuth(HTTPResponseConstant.ERROR_TOKEN);
             outPut(servletResponse, response);
-        }else {
+        } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
     }
@@ -75,13 +75,13 @@ public class TokenFilter implements Filter {
             writer.write(jsonStr);
         } catch (Exception e) {
             log.error("response filter info error", e);
-         } finally {
-            if(writer != null) {
+        } finally {
+            if (writer != null) {
                 writer.flush();
                 writer.close();
             }
             try {
-                if(osw != null) {
+                if (osw != null) {
                     osw.close();
                 }
             } catch (IOException e) {

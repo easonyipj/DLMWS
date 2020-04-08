@@ -9,7 +9,10 @@ import java.util.List;
 
 public interface JavaService {
     List<JPS> getJPSInfo() throws Exception;
+
     JVMClass getJVMClassInfo(Integer pid) throws Exception;
+
     JVMMemory getJVMMemoryInfo(Integer pid) throws Exception;
+
     JVMThread getJVMThreadInfo(Integer pid) throws Exception;
 }

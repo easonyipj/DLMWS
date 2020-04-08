@@ -1,8 +1,6 @@
 package com.yipingjian.dlmws.host.task;
 
 
-import com.alibaba.fastjson.JSONObject;
-import com.yipingjian.dlmws.common.entity.AgentInfo;
 import com.yipingjian.dlmws.common.utils.CommonUtils;
 import com.yipingjian.dlmws.host.entity.CPU;
 import com.yipingjian.dlmws.host.entity.Memory;
@@ -40,8 +38,6 @@ public class HostMonitorTask {
         String message = CommonUtils.generateMessage(memory, HOST_MEM);
         kafkaProducer.send(HOST_MEM, message);
     }
-
-
 
 
 }

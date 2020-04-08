@@ -30,14 +30,14 @@ public class JavaServiceImpl implements JavaService {
     private final static String COMPILED = "Compiled";
 
     @Override
-    public List<JPS> getJPSInfo() throws Exception{
+    public List<JPS> getJPSInfo() throws Exception {
         List<JPS> jpsList = new ArrayList<>();
         MonitoredHost local = MonitoredHost.getMonitoredHost("localhost");
         Set<?> vmList = new HashSet<>(local.activeVms());
-        for(Object process : vmList) {
+        for (Object process : vmList) {
             MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
             String processName = MonitoredVmUtil.mainClass(vm, true);
-            if(!StringUtils.isEmpty(processName) && !excludeProcess.contains(processName) && !processName.contains(JETBRAINS)) {
+            if (!StringUtils.isEmpty(processName) && !excludeProcess.contains(processName) && !processName.contains(JETBRAINS)) {
                 jpsList.add(new JPS((Integer) process, processName));
             }
         }
@@ -52,15 +52,15 @@ public class JavaServiceImpl implements JavaService {
         jvmClass.setHostIp(CommonUtils.getHostIp());
         jvmClass.setTime(new Date(System.currentTimeMillis()));
         List<KVEntity> jstatClass = jstat(new String[]{"jstat", "-class", String.valueOf(pid)});
-        for(KVEntity kvEntity : jstatClass) {
-            if(kvEntity.getKey().equals(LOADED)) {
+        for (KVEntity kvEntity : jstatClass) {
+            if (kvEntity.getKey().equals(LOADED)) {
                 jvmClass.setClassLoaded(Integer.parseInt(kvEntity.getValue()));
                 break;
             }
         }
         List<KVEntity> jstatCompiler = jstat(new String[]{"jstat", "-compiler", String.valueOf(pid)});
-        for(KVEntity kvEntity : jstatCompiler) {
-            if(kvEntity.getKey().equals(COMPILED)) {
+        for (KVEntity kvEntity : jstatCompiler) {
+            if (kvEntity.getKey().equals(COMPILED)) {
                 jvmClass.setClassLoaded(Integer.parseInt(kvEntity.getValue()));
                 break;
             }
@@ -85,10 +85,10 @@ public class JavaServiceImpl implements JavaService {
         String s = ExecuteCmd.execute(new String[]{"jstack", String.valueOf(pid)});
         jvmThread.setPid(pid);
         jvmThread.setHostIp(CommonUtils.getHostIp());
-        jvmThread.setTotal( ArrayUtils.appearNumber(s, "nid="));
-        jvmThread.setRunnable(ArrayUtils.appearNumber(s, PREFIX +"RUNNABLE"));
-        jvmThread.setTimeWaiting(ArrayUtils.appearNumber(s, PREFIX +"TIMED_WAITING"));
-        jvmThread.setWaiting(ArrayUtils.appearNumber(s, PREFIX +"WAITING"));
+        jvmThread.setTotal(ArrayUtils.appearNumber(s, "nid="));
+        jvmThread.setRunnable(ArrayUtils.appearNumber(s, PREFIX + "RUNNABLE"));
+        jvmThread.setTimeWaiting(ArrayUtils.appearNumber(s, PREFIX + "TIMED_WAITING"));
+        jvmThread.setWaiting(ArrayUtils.appearNumber(s, PREFIX + "WAITING"));
         jvmThread.setTime(new Date(System.currentTimeMillis()));
         return jvmThread;
     }
@@ -97,11 +97,11 @@ public class JavaServiceImpl implements JavaService {
         JVMMemory jvmMemory = new JVMMemory();
         float totalUsed = 0;
         float totalCapacity = 0;
-        for(KVEntity kvEntity : list) {
-            if(heapUsed.contains(kvEntity.getKey())) {
+        for (KVEntity kvEntity : list) {
+            if (heapUsed.contains(kvEntity.getKey())) {
                 totalUsed += Float.parseFloat(kvEntity.getValue());
             }
-            if(heapCapacity.contains(kvEntity.getKey())) {
+            if (heapCapacity.contains(kvEntity.getKey())) {
                 totalCapacity += Float.parseFloat(kvEntity.getValue());
             }
         }
