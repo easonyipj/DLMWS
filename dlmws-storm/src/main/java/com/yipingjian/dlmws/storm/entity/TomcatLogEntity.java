@@ -8,6 +8,10 @@ import lombok.EqualsAndHashCode;
 @Data
 public class TomcatLogEntity extends LogEntity {
     /**
+     * 日志所在进程
+     */
+    private String pid;
+    /**
      * 日志所在线程
      */
     private String threadPosition;

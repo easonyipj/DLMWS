@@ -34,24 +34,20 @@ public class WarningBolt extends BaseRichBolt {
             String value = tuple.getStringByField("value");
             logType = tuple.getStringByField("type");
 
-            // tomcat��־
+            // tomcat
             if (CommonConstant.TOMCAT.equals(logType)) {
-                // TODO �����߼�
                 entity = JSONObject.parseObject(value, TomcatLogEntity.class);
-                stream = CommonConstant.TOMCAT;
             }
 
-            // host ��־
+            // host
             if (CommonConstant.HOST_MEM.equals(logType)) {
                 entity = JSONObject.parseObject(value, Memory.class);
-                stream = CommonConstant.HOST_CPU;
             }
             if (CommonConstant.HOST_CPU.equals(logType)) {
                 entity = JSONObject.parseObject(value, CPU.class);
-                stream = CommonConstant.HOST_CPU;
             }
 
-            // jvm ��־
+            // jvm
             if (CommonConstant.JVM_CLASS.equals(logType)) {
                 entity = JSONObject.parseObject(value, JVMClass.class);
             }
@@ -62,7 +58,7 @@ public class WarningBolt extends BaseRichBolt {
                 entity = JSONObject.parseObject(value, JVMMemory.class);
             }
 
-            outputCollector.emit(new Values(JSONObject.toJSONString(entity), logType));
+
             log.info("warning data \n{}", entity);
 
         } catch (Exception e) {
@@ -74,7 +70,7 @@ public class WarningBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declare(new Fields("value", "type"));
+
     }
 }
 

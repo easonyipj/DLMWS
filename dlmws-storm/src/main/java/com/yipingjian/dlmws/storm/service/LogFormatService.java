@@ -24,6 +24,16 @@ public class LogFormatService {
         Agent agent = JSONObject.parseObject(jsonObject.getString("agent"), Agent.class);
         tomcatLogEntity.setAgentId(agent.getId());
         tomcatLogEntity.setHostName(agent.getHostname());
+        // 如果获取不到线程名称 则将message字段放进logMessage
+        if(StringUtils.isEmpty(tomcatLogEntity.getThreadPosition())) {
+            tomcatLogEntity.setLogMessage(jsonObject.getString("message"));
+            return tomcatLogEntity;
+        }
+        // 将部分字段前后的空格去掉
+        tomcatLogEntity.setThreadPosition(tomcatLogEntity.getThreadPosition().trim());
+        tomcatLogEntity.setClassPosition(tomcatLogEntity.getClassPosition().trim());
+        tomcatLogEntity.setLevel(tomcatLogEntity.getLevel().trim());
+        // 格式化Java错误堆栈
         if (StringUtils.isNotEmpty(tomcatLogEntity.getStacktrace())) {
             // 过滤java errorStack的"\n"
             String stackTrace = tomcatLogEntity.getStacktrace().replaceFirst("\n", "");

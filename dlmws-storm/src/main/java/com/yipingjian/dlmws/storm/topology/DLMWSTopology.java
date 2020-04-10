@@ -37,7 +37,7 @@ public class DLMWSTopology {
         // 根据配置对数据告警
         topologyBuilder.setBolt("warning-format", new WarningBolt(), 1).shuffleGrouping("log-format");
         // 分发bolt
-        topologyBuilder.setBolt("distribute", new DistributeBolt(), 1).shuffleGrouping("warning-format");
+        topologyBuilder.setBolt("distribute", new DistributeBolt(), 1).shuffleGrouping("log-format");
         // 持久化tomcat log到es集群
         topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)
                 .localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);

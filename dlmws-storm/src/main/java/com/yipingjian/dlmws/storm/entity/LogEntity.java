@@ -23,7 +23,7 @@ class LogEntity extends Entity {
     /**
      * 发生时间
      */
-    private String occurredTime;
+    private Date occurredTime;
     /**
      * agentId
      */
