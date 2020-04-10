@@ -5,13 +5,10 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class JVMThread{
+public class JvmMem {
     private String hostIp;
     private Integer pid;
-    private Integer total;
-    private Integer runnable;
-    private Integer timeWaiting;
-    private Integer waiting;
+    private Double memUsed;
+    private Double memCapacity;
     private Date time;
-
 }

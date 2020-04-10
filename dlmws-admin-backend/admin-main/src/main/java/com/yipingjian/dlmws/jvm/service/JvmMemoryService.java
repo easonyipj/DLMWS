@@ -1,9 +1,9 @@
 package com.yipingjian.dlmws.jvm.service;
 
-import com.yipingjian.dlmws.jvm.entity.JVMMemory;
+import com.yipingjian.dlmws.jvm.entity.JvmMem;
 
 import java.util.List;
 
 public interface JvmMemoryService {
-    List<JVMMemory> getJvmMemoryList(String ip, int pid, long start, long end);
+    List<JvmMem> getJvmMemoryList(String ip, int pid, long start, long end);
 }
