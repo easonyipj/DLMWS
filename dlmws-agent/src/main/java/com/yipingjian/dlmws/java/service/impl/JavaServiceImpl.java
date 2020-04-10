@@ -1,7 +1,6 @@
 package com.yipingjian.dlmws.java.service.impl;
 
 import com.google.common.collect.Lists;
-import com.sun.tools.attach.VirtualMachine;
 import com.yipingjian.dlmws.common.utils.ArrayUtils;
 import com.yipingjian.dlmws.common.utils.CommonUtils;
 import com.yipingjian.dlmws.common.utils.ExecuteCmd;
@@ -30,15 +29,21 @@ public class JavaServiceImpl implements JavaService {
     private final static String COMPILED = "Compiled";
 
     @Override
-    public List<JPS> getJPSInfo() throws Exception {
+    public List<JPS> getJPSInfo()  throws Exception{
         List<JPS> jpsList = new ArrayList<>();
         MonitoredHost local = MonitoredHost.getMonitoredHost("localhost");
         Set<?> vmList = new HashSet<>(local.activeVms());
+
         for (Object process : vmList) {
-            MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
-            String processName = MonitoredVmUtil.mainClass(vm, true);
-            if (!StringUtils.isEmpty(processName) && !excludeProcess.contains(processName) && !processName.contains(JETBRAINS)) {
-                jpsList.add(new JPS((Integer) process, processName));
+
+            try {
+                MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
+                String processName = MonitoredVmUtil.mainClass(vm, true);
+                if (!StringUtils.isEmpty(processName) && !excludeProcess.contains(processName) && !processName.contains(JETBRAINS)) {
+                    jpsList.add(new JPS((Integer) process, processName));
+                }
+            } catch (Exception e) {
+                log.error("get jps info error", e);
             }
         }
         log.info(jpsList.toString());
@@ -79,7 +84,7 @@ public class JavaServiceImpl implements JavaService {
     }
 
     @Override
-    public JVMThread getJVMThreadInfo(Integer pid) throws Exception {
+    public JVMThread getJVMThreadInfo(Integer pid) {
 
         JVMThread jvmThread = new JVMThread();
         String s = ExecuteCmd.execute(new String[]{"jstack", String.valueOf(pid)});
