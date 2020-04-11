@@ -30,6 +30,4 @@ public class HostController {
             return Response.error();
         }
     }
-
-
 }
