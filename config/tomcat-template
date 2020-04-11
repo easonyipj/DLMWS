@@ -1,0 +1,128 @@
+PUT _template/tomcat-tempate
+{
+  "order": 0,
+  "index_patterns": [
+    "tomcat*"
+  ],
+  "settings": {
+    "index": {
+      "analysis": {
+        "filter": {
+          "java_stop": {
+            "type": "stop",
+            "stopwords": [
+              "at",
+              "java",
+              "caused",
+              "by",
+              "lang",
+              "and",
+              "of"
+            ]
+          }
+        },
+        "char_filter": {
+          "camel_case_filter": {
+            "pattern": "(?<=\\p{Lower})(?=\\p{Upper})",
+            "type": "pattern_replace",
+            "replacement": " "
+          }
+        },
+        "analyzer": {
+          "my_analyzer": {
+            "filter": [
+              "lowercase",
+              "java_stop",
+              "unique"
+            ],
+            "char_filter": [
+              "camel_case_filter"
+            ],
+            "tokenizer": "lowercase"
+          }
+        },
+        "tokenizer": {
+          "my_tokenizer": {
+            "pattern": "[ .,!?]",
+            "type": "pattern"
+          }
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "logType": {
+        "type": "keyword"
+      },
+      "hostName": {
+        "type": "keyword"
+      },
+      "agentId": {
+        "type": "keyword"
+      },
+      "stacktrace": {
+        "analyzer": "my_analyzer",
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      },
+      "level": {
+        "type": "keyword"
+      },
+      "errorType": {
+        "analyzer": "my_analyzer",
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      },
+      "occurredTime": {
+        "type": "date"
+      },
+      "logMessage": {
+        "analyzer": "my_analyzer",
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      },
+      "project": {
+        "type": "keyword"
+      },
+      "pid": {
+        "type": "keyword"
+      },
+      "classPosition": {
+        "analyzer": "my_analyzer",
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      },
+      "threadPosition": {
+        "analyzer": "my_analyzer",
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "ignore_above": 256,
+            "type": "keyword"
+          }
+        }
+      }
+    }
+  }
+}
