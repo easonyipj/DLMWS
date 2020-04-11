@@ -25,6 +25,7 @@
 
     <properties>
         <java.version>11</java.version>
+        <elasticsearch.version>7.5.0</elasticsearch.version>
     </properties>
 
     <dependencies>
@@ -79,15 +80,17 @@
             <artifactId>fastjson</artifactId>
             <version>1.2.61</version>
         </dependency>
+        <dependency>
+            <groupId>org.elasticsearch.client</groupId>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>7.5.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>7.5.0</version>
+        </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
