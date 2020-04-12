@@ -29,7 +29,7 @@ public class EsRequestVo {
     /**
      * 发生时间
      */
-    private Date occurredTime;
+    private String occurredTime;
     /**
      * agentId
      */
