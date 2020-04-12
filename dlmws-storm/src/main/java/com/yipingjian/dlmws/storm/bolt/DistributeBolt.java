@@ -33,7 +33,10 @@ public class DistributeBolt extends BaseRichBolt {
             // tomcat日志
             if (CommonConstant.TOMCAT.equals(logType)) {
                 TomcatLogEntity tomcatLogEntity = JSONObject.parseObject(value, TomcatLogEntity.class);
-                outputCollector.emit(CommonConstant.TOMCAT, new Values(JSONObject.toJSONString(tomcatLogEntity), logType));
+                // 获取不到发生时间的日志不报送
+                if(tomcatLogEntity.getOccurredTime() != null) {
+                    outputCollector.emit(CommonConstant.TOMCAT, new Values(JSONObject.toJSONString(tomcatLogEntity), logType));
+                }
             }
 
             // host 日志
