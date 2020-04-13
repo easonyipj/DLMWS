@@ -5,10 +5,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class LogCountGroupByProjectPerMin {
+public class TopCount {
     private String project;
-    private List<LogCountMills> logCounts;
-    public LogCountGroupByProjectPerMin(String project, List<LogCountMills> counts){
+    private List<LogCount> logCounts;
+    public TopCount(String project, List<LogCount> counts) {
         this.project = project;
         this.logCounts = counts;
     }
