@@ -7,3 +7,11 @@ export function search(params) {
     params
   })
 }
+
+export function logCount(data) {
+  return request({
+    url: '/tomcat/logCount/project/min',
+    method: 'post',
+    data
+  })
+}

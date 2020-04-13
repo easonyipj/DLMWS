@@ -2,11 +2,14 @@ import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
-
+import qs from 'qs'
 // create an axios instance
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
+  headers: {
+    'Content-Type': 'application/json; charset=utf-8'
+  },
   timeout: 5000 // request timeout
 })
 
@@ -14,12 +17,13 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-
+    config.headers['Content-Type'] = 'application/json; charset=utf-8'
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
       config.headers['X-Token'] = getToken()
+
     }
     return config
   },
@@ -81,5 +85,22 @@ service.interceptors.response.use(
     return Promise.reject(error)
   }
 )
+
+
+/**
+ * post请求数据处理
+ * @param {*} data 数据对象
+ * @param {*} openDefultdata 是否开启默认数据?
+ * @param {*} contentType 数据格式
+ *  json: 'application/json; charset=utf-8'
+ *  form: 'application/x-www-form-urlencoded; charset=utf-8'
+ */
+service.adornData = (data = {}, openDefultdata = true, contentType = 'json') => {
+  var defaults = {
+    't': new Date().getTime()
+  }
+  data = openDefultdata ? merge(defaults, data) : data
+  return contentType === 'json' ? JSON.stringify(data) : qs.stringify(data)
+}
 
 export default service
