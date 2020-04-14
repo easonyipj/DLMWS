@@ -1,6 +1,10 @@
 package com.yipingjian.dlmws.host.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yipingjian.dlmws.host.entity.Host;
 import com.yipingjian.dlmws.host.entity.HostDataEntity;
+import com.yipingjian.dlmws.host.mapper.HostMapper;
 import com.yipingjian.dlmws.host.service.HostCpuService;
 import com.yipingjian.dlmws.host.service.HostMemService;
 import com.yipingjian.dlmws.host.service.HostService;
@@ -8,17 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Slf4j
 @Service
-public class HostServiceImpl implements HostService {
+public class HostServiceImpl extends ServiceImpl<HostMapper, Host> implements HostService {
 
     @Resource
     private HostCpuService hostCpuService;
     @Resource
     private HostMemService hostMemService;
 
-    private static final Long THIRTY_MIN = 24L * 60 * 60 * 1000;
+    private static final Long THIRTY_MIN = 7 * 24L * 60 * 60 * 1000;
 
     @Override
     public HostDataEntity getHostData(String ip, long[] cpuInterval) {
@@ -38,5 +43,10 @@ public class HostServiceImpl implements HostService {
             log.error("get jvm data", e);
         }
         return hostDataEntity;
+    }
+
+    @Override
+    public List<Host> getHostList(String owner) {
+        return list(new QueryWrapper<Host>().eq("owner", owner));
     }
 }
