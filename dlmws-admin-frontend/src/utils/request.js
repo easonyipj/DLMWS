@@ -3,28 +3,29 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import qs from 'qs'
+import merge from 'element-ui/src/utils/merge'
 // create an axios instance
+
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  // withCredentials: true, // send cookies when cross-domain requests
+  baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
+  withCredentials: true, // 跨域请求时发送 cookies
+  timeout: 5 * 1000, // request timeout
   headers: {
     'Content-Type': 'application/json; charset=utf-8'
-  },
-  timeout: 5000 // request timeout
+  }
 })
 
 // request interceptor
 service.interceptors.request.use(
   config => {
     // do something before request is sent
-    config.headers['Content-Type'] = 'application/json; charset=utf-8'
     if (store.getters.token) {
       // let each request carry token
       // ['X-Token'] is a custom headers key
-      // please modify it according to the actual situation
+      // please modify it according to the actual situation easonyisfans
       config.headers['X-Token'] = getToken()
-
     }
+    console.log(config.data)
     return config
   },
   error => {
@@ -86,7 +87,44 @@ service.interceptors.response.use(
   }
 )
 
+service.post = (url, data) => {
+  return service.request({
+    url: url,
+    method: 'post',
+    data
+  })
+}
 
+service.get = (url, query) => {
+  return service.request({
+    url: url,
+    method: 'get',
+    params: query || {}
+  })
+}
+
+service.put = (url, data) => {
+  return service.request({
+    url: url,
+    method: 'put',
+    data
+  })
+}
+
+service.del = (url) => {
+  return service.request({
+    url: url,
+    method: 'delete'
+  })
+}
+
+service.getUrl = (url) => {
+  return process.env.VUE_APP_BASE_API + url
+}
+
+service.adornUrl = (url) => {
+  return url
+}
 /**
  * post请求数据处理
  * @param {*} data 数据对象

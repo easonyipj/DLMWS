@@ -8,10 +8,26 @@ export function search(params) {
   })
 }
 
-export function logCount(data) {
+export function logCount(params) {
   return request({
     url: '/tomcat/logCount/project/min',
-    method: 'post',
-    data
+    method: 'get',
+    params
+  })
+}
+
+export function levelCount(params) {
+  return request({
+    url: '/tomcat/logCount/level/project',
+    method: 'get',
+    params
+  })
+}
+
+export function topCount(params) {
+  return request({
+    url: '/tomcat/logCount/top',
+    method: 'get',
+    params
   })
 }

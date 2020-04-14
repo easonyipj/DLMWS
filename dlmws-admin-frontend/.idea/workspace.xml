@@ -2,29 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9dba540e-8def-4b5c-81cd-24e8b012073c" name="Default Changelist" comment="[init]dlmws-admin-frontend">
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountGroupByLevelPerProject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountMills.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/TopCount.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/monitor/search.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/monitor/statistics.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/entity/Host.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/mapper/HostMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/api/host.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/host/chartMonitor.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/jvm/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dlmws-agent/src/main/java/com/yipingjian/dlmws/host/entity/InfoVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DataDesign.pdman.json" beforeDir="false" afterPath="$PROJECT_DIR$/../DataDesign.pdman.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/controller/HostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/controller/HostController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/service/HostService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/service/HostService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/service/impl/HostServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/service/impl/HostServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/controller/TomcatLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/controller/TomcatLogController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountGroupByProjectPerMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountGroupByProjectPerMin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountPerMin.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCount.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/service/TomcatLogService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/service/TomcatLogService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/service/impl/TomcatLogServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/service/impl/TomcatLogServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/LogCountVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mock/table.js" beforeDir="false" afterPath="$PROJECT_DIR$/mock/table.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/table.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/api/tomcat.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/tomcat.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/utils/request.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/request.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/login/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/login/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/table/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitor/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitor/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitor/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/monitor/statistics.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitor/statistics.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/tree/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/host/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-agent/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-agent/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-agent/src/main/java/com/yipingjian/dlmws/common/utils/ExecuteCmd.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-agent/src/main/java/com/yipingjian/dlmws/common/utils/ExecuteCmd.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-agent/src/main/java/com/yipingjian/dlmws/host/controller/HostController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-agent/src/main/java/com/yipingjian/dlmws/host/controller/HostController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-agent/src/test/java/com/yipingjian/dlmws/CommonTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-agent/src/test/java/com/yipingjian/dlmws/CommonTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -84,8 +85,18 @@
       <workItem from="1586594197081" duration="1475000" />
       <workItem from="1586660335622" duration="15548000" />
       <workItem from="1586709510223" duration="112000" />
-      <workItem from="1586744048717" duration="20794000" />
+      <workItem from="1586744048717" duration="21291000" />
+      <workItem from="1586796457360" duration="879000" />
+      <workItem from="1586835408026" duration="33946000" />
     </task>
+    <task id="LOCAL-00001" summary="[init]dlmws-admin-frontend">
+      <created>1586795745032</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1586795745032</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -101,89 +112,93 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="96" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.760@0.0.1280.760" timestamp="1586594465678" />
-    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1586708627143">
+    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1586795733916">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1586708627143" />
+    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1586795733916" />
     <state x="421" y="138" key="FileChooserDialogImpl" timestamp="1586777862149">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="421" y="138" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1586777862149" />
-    <state width="1260" height="270" key="GridCell.Tab.0.bottom" timestamp="1586793225749">
+    <state width="1260" height="17" key="GridCell.Tab.0.bottom" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586793225749" />
-    <state width="1260" height="270" key="GridCell.Tab.0.center" timestamp="1586793225749">
+    <state width="1260" height="17" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.0.center" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1586793225749" />
-    <state width="1260" height="270" key="GridCell.Tab.0.left" timestamp="1586793225749">
+    <state width="1260" height="17" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.0.left" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1586793225749" />
-    <state width="1260" height="270" key="GridCell.Tab.0.right" timestamp="1586793225749">
+    <state width="1260" height="17" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.0.right" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1586793225749" />
-    <state width="1260" height="270" key="GridCell.Tab.1.bottom" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.1.bottom" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.1.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.1.center" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.1.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.1.center" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.1.center/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.1.left" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.1.center/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.1.left" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.1.left/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.1.right" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.1.left/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.1.right" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.1.right/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.2.bottom" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.1.right/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.2.bottom" timestamp="1586880089957">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.2.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.2.center" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.2.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586880089957" />
+    <state width="1260" height="17" key="GridCell.Tab.2.center" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.2.center/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.2.left" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.2.center/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.2.left" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.2.left/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.2.right" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.2.left/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.2.right" timestamp="1586880089956">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.2.right/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.3.bottom" timestamp="1586793225561">
+    <state width="1260" height="17" key="GridCell.Tab.2.right/0.0.1280.760@0.0.1280.760" timestamp="1586880089956" />
+    <state width="1260" height="17" key="GridCell.Tab.3.bottom" timestamp="1586880089957">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.3.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586793225561" />
-    <state width="1260" height="270" key="GridCell.Tab.3.center" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.3.bottom/0.0.1280.760@0.0.1280.760" timestamp="1586880089957" />
+    <state width="1260" height="17" key="GridCell.Tab.3.center" timestamp="1586880089957">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.3.center/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.3.left" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.3.center/0.0.1280.760@0.0.1280.760" timestamp="1586880089957" />
+    <state width="1260" height="17" key="GridCell.Tab.3.left" timestamp="1586880089957">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.3.left/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
-    <state width="1260" height="270" key="GridCell.Tab.3.right" timestamp="1586793225560">
+    <state width="1260" height="17" key="GridCell.Tab.3.left/0.0.1280.760@0.0.1280.760" timestamp="1586880089957" />
+    <state width="1260" height="17" key="GridCell.Tab.3.right" timestamp="1586880089957">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="270" key="GridCell.Tab.3.right/0.0.1280.760@0.0.1280.760" timestamp="1586793225560" />
+    <state width="1260" height="17" key="GridCell.Tab.3.right/0.0.1280.760@0.0.1280.760" timestamp="1586880089957" />
     <state x="508" y="93" key="RollbackChangesDialog" timestamp="1586745239883">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="508" y="93" key="RollbackChangesDialog/0.0.1280.760@0.0.1280.760" timestamp="1586745239883" />
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2" timestamp="1586795753174">
+      <screen x="0" y="0" width="1280" height="760" />
+    </state>
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1586795753174" />
     <state x="331" y="134" width="616" height="490" key="find.popup" timestamp="1586666782827">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="331" y="134" width="616" height="490" key="find.popup/0.0.1280.760@0.0.1280.760" timestamp="1586666782827" />
-    <state x="303" y="82" width="672" height="678" key="search.everywhere.popup" timestamp="1586663752692">
+    <state x="304" y="83" width="672" height="678" key="search.everywhere.popup" timestamp="1586835632022">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="303" y="82" width="672" height="678" key="search.everywhere.popup/0.0.1280.760@0.0.1280.760" timestamp="1586663752692" />
+    <state x="304" y="83" width="672" height="678" key="search.everywhere.popup/0.0.1280.760@0.0.1280.760" timestamp="1586835632022" />
   </component>
 </project>
