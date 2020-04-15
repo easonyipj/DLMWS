@@ -1,6 +1,7 @@
 package com.yipingjian.dlmws.host.service.impl;
 
 
+import com.yipingjian.dlmws.common.entity.AgentInfo;
 import com.yipingjian.dlmws.common.utils.CommonUtils;
 import com.yipingjian.dlmws.host.entity.CPU;
 import com.yipingjian.dlmws.host.entity.HostBasicInfo;
@@ -32,15 +33,8 @@ public class HostServiceImpl implements HostService {
     @Override
     public HostBasicInfo getHostBasicInfo() {
         HostBasicInfo hostBasicInfo = new HostBasicInfo();
-        hostBasicInfo.setOSType(SYSTEM_INFO.toString());
-        hostBasicInfo.setSystem(COMPUTER_SYSTEM.toString());
-        hostBasicInfo.setBaseboard(COMPUTER_SYSTEM.getBaseboard().toString());
-        hostBasicInfo.setFirmware(COMPUTER_SYSTEM.getFirmware().toString());
-        hostBasicInfo.setProcessors(HARDWARE_ABSTRACTION_LAYER.getProcessor().toString());
-        hostBasicInfo.setMemory(getPhysicsMemory(HARDWARE_ABSTRACTION_LAYER.getMemory()));
-        hostBasicInfo.setNetwork(getNetworkInterfaces(HARDWARE_ABSTRACTION_LAYER.getNetworkIFs()));
-        hostBasicInfo.setFilesystem(getFileSystem(OPERATING_SYSTEM.getFileSystem()));
-        hostBasicInfo.setPowerSources(getPowerSources(HARDWARE_ABSTRACTION_LAYER.getPowerSources()));
+        hostBasicInfo.setIp(CommonUtils.getHostIp());
+        hostBasicInfo.setToken(AgentInfo.STATIC_TOKEN);
         return hostBasicInfo;
     }
 

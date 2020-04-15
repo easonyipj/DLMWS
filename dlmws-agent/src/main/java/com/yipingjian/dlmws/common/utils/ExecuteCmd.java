@@ -26,7 +26,7 @@ public class ExecuteCmd {
             int num = 1;
             try {
                 while (bReader.readLine() != null) {
-                    System.out.println("---->" + String.format("%02d", num++) + " ");
+                    //System.out.println("---->" + String.format("%02d", num++) + " ");
                 }
                 bReader.close();
             } catch (Exception ex) {

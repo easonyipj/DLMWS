@@ -13,13 +13,17 @@ public class AgentInfo {
     private String CLIENT_ID;
     @Value("${client.name}")
     private String CLIENT_NAME;
+    @Value("${token}")
+    private String TOKEN;
 
     public static String STATIC_CLIENT_ID;
     public static String STATIC_CLIENT_NAME;
+    public static String STATIC_TOKEN;
 
     @PostConstruct
     public void postConstruct() {
         STATIC_CLIENT_ID = CLIENT_ID;
         STATIC_CLIENT_NAME = CLIENT_NAME;
+        STATIC_TOKEN = TOKEN;
     }
 }

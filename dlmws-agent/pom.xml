@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yipingjian</groupId>
-    <artifactId>dlmws</artifactId>
+    <artifactId>dlmws-agent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dlmws-agent</name>
     <description>DLMWS-Agent</description>

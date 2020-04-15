@@ -33,7 +33,7 @@ public class CommonTest {
             MonitoredVm vm = local.getMonitoredVm(new VmIdentifier("//" + process));
             // 获取类名
             String processname = MonitoredVmUtil.mainClass(vm, true);
-            System.out.println(process + " ------> " + processname);
+            // System.out.println(process + " ------> " + processname);
         }
     }
 
