@@ -41,7 +41,7 @@ public class JvmServiceImpl extends ServiceImpl<JvmMapper, JvmEntity> implements
     @Resource
     private HostService hostService;
 
-    private static final Long THREE_HUNDREDS_MIN = 7 * 24L * 60 * 60 * 1000;
+    private static final Long THREE_HUNDREDS_MIN = 24L * 60 * 60 * 1000;
     private static final String JVM_URL = "http://%s:7999/java/jps";
 
     @Override

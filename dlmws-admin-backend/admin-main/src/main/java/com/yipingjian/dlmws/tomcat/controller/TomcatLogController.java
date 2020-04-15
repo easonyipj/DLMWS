@@ -46,7 +46,7 @@ public class TomcatLogController {
     public Response getTopThreadCount(LogCountVo logCountVo) {
         // TODO : 校验用户请求合法性 不允许查未授权的项目
         List<String> projects = Lists.newArrayList(logCountVo.getProjects().split(","));
-        List<TopCount> list = tomcatLogService.getTopCount(logCountVo.getType(), projects, logCountVo.getFrom(), logCountVo.getTo(), 10);
+        List<TopCount> list = tomcatLogService.getTopCount(logCountVo.getType(), projects, logCountVo.getFrom(), logCountVo.getTo(), 5);
         return Response.ok().put("data", list);
     }
 }

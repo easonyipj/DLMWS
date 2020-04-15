@@ -79,6 +79,14 @@ public class TomcatLogServiceImpl implements TomcatLogService {
     }
     private BoolQueryBuilder generateBoolQueryBuilder(EsRequestVo requestVo){
         BoolQueryBuilder boolQueryBuilder = new BoolQueryBuilder();
+        BoolQueryBuilder errorQueryBuilder = new BoolQueryBuilder();
+        if(!StringUtils.isEmpty(requestVo.getStacktrace())) {
+            errorQueryBuilder.should(new MatchQueryBuilder("stacktrace", requestVo.getStacktrace()));
+        }
+        if(!StringUtils.isEmpty(requestVo.getErrorType())) {
+            errorQueryBuilder.should(new MatchQueryBuilder("errorType", requestVo.getErrorType()));
+        }
+        boolQueryBuilder.must(errorQueryBuilder);
         if(!StringUtils.isEmpty(requestVo.getProject())) {
             boolQueryBuilder.must(new MatchQueryBuilder("project", requestVo.getProject()));
         }
@@ -103,12 +111,7 @@ public class TomcatLogServiceImpl implements TomcatLogService {
         if(!StringUtils.isEmpty(requestVo.getLevel())) {
             boolQueryBuilder.must(new MatchQueryBuilder("level", requestVo.getLevel()));
         }
-        if(!StringUtils.isEmpty(requestVo.getStacktrace())) {
-            boolQueryBuilder.must(new MatchQueryBuilder("stacktrace", requestVo.getStacktrace()));
-        }
-        if(!StringUtils.isEmpty(requestVo.getErrorType())) {
-            boolQueryBuilder.must(new MatchQueryBuilder("errorType", requestVo.getErrorType()));
-        }
+
         // time range
         if(!StringUtils.isEmpty(requestVo.getOccurredTime())) {
             String[] dates = requestVo.getOccurredTime().split(",");
