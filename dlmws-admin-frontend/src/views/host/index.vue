@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div v-if="chartVisible">
-      <chart-monitor height="800px" width="100%" :ip="ip" />
+      <chart-monitor v-on:back="changeVisible(false)" height="800px" width="100%" :ip="ip" />
     </div>
     <div v-if="!chartVisible">
       <el-row :gutter="0">
@@ -63,6 +63,25 @@
         </el-col>
       </el-row>
     </div>
+    <div>
+      <el-dialog title="添加主机" :visible.sync="dialogFormVisible">
+        <el-form :model="host">
+          <el-form-item label="ip" >
+            <el-input v-model="host.ip" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="name" >
+            <el-input v-model="host.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密钥" >
+            <el-input v-model="host.secret" autocomplete="off"></el-input>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        </div>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
@@ -88,10 +107,16 @@ export default {
   },
   data() {
     return {
+      dialogFormVisible: false,
       ip: '',
       chartVisible: false,
       listLoading: true,
       hostList: [],
+      host:{
+        ip:'',
+        name: '',
+        secret:''
+      },
     }
   },
   watch: {
@@ -109,7 +134,7 @@ export default {
       return '';
     },
     addHost() {
-
+      this.dialogFormVisible = true;
     },
     statistics() {
 
@@ -123,13 +148,16 @@ export default {
         this.hostList = res.data;
         this.listLoading = false
       })
-    }
+    },
+    changeVisible(bool) {
+      this.chartVisible = bool;
+    },
   }
 }
 </script>
-<style>
+<style scoped>
   .el-table .warning-row {
-    background: oldlace;
+    background: #ff8922;
   }
 
   .el-table .success-row {

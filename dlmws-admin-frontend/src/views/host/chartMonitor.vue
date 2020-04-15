@@ -12,6 +12,9 @@
         end-placeholder="结束日期"
         align="right">
       </el-date-picker>
+
+      <el-button size="mini" type="info" icon="el-icon-back" v-on:click="$emit('back')">返回</el-button>
+
     </div>
     <div :id="id" :class="className" :style="{height:height,width:width}" />
   </div>
@@ -101,7 +104,7 @@
           'ed': ed
         };
         this.websocket_send(JSON.stringify(data));
-      }
+      },
     },
     mounted() {
       this.initWebSocket();
@@ -116,6 +119,7 @@
       }
       this.chart.dispose()
       this.chart = null
+      this.websocket.close()
     },
     methods: {
       initWebSocket() {
