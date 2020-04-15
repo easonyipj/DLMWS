@@ -6,6 +6,7 @@ import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.LogFormatService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;

@@ -42,6 +42,9 @@ public class LogFormatService {
             String errorType = stackTrace.split("\n")[0].split(":")[0];
             tomcatLogEntity.setErrorType(errorType);
         }
+        if(tomcatLogEntity.getLevel().equals("ERROR") && StringUtils.isEmpty(tomcatLogEntity.getStacktrace())) {
+            tomcatLogEntity.setErrorType(tomcatLogEntity.getLogMessage());
+        }
         return tomcatLogEntity;
     }
 
