@@ -7,4 +7,5 @@ public class CommonConstant {
     public static final String JVM_MEM = "jvm-mem";
     public static final String JVM_THREAD = "jvm-thread";
     public static final String JVM_CLASS = "jvm-class";
+    public static final String INTERVAL_TYPE = "interval";
 }

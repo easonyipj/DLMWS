@@ -28,6 +28,10 @@ public class DLMWSTopology {
                 "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
+
+        // Redis配置
+        // JedisPoolConfig jedisPoolConfig = new JedisPoolConfig.Builder().setHost("localhost").setPort(6379).setPassword("easonyipj").build();
+
         // KafkaSpout 实例
         KafkaSpout<String, String> kafkaSpout = new KafkaSpout<>(kafkaSpoutConfig);
         // 注入Spout

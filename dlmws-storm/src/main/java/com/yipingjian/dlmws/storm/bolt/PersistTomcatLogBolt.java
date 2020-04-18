@@ -37,8 +37,7 @@ public class PersistTomcatLogBolt extends BaseRichBolt {
     @Override
     public void execute(Tuple tuple) {
         String source = null;
-        String logType = null;
-        String id = null;
+        String logType;
         String index = null;
         try {
             source = tuple.getStringByField("value");
