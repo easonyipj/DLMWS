@@ -7,5 +7,5 @@ public class Rules {
     private String keywords;
     private String type;
     private Integer threshold;
-    private Long interval;
+    private Integer interval;
 }

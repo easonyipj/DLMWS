@@ -7,6 +7,9 @@ import com.yipingjian.dlmws.storm.common.CommonConstant;
 import org.apache.storm.Config;
 import org.apache.storm.LocalCluster;
 import org.apache.storm.StormSubmitter;
+import org.apache.storm.kafka.bolt.KafkaBolt;
+import org.apache.storm.kafka.bolt.mapper.FieldNameBasedTupleToKafkaMapper;
+import org.apache.storm.kafka.bolt.selector.DefaultTopicSelector;
 import org.apache.storm.kafka.spout.FirstPollOffsetStrategy;
 import org.apache.storm.kafka.spout.KafkaSpout;
 import org.apache.storm.kafka.spout.KafkaSpoutConfig;
@@ -28,9 +31,20 @@ public class DLMWSTopology {
                 "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
+        // 定义KafkaBolt
+        Properties props = new Properties();
+        props.put("bootstrap.servers", "localhost:9092");
+        props.put("acks", "1");
+        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
-        // Redis配置
-        // JedisPoolConfig jedisPoolConfig = new JedisPoolConfig.Builder().setHost("localhost").setPort(6379).setPassword("easonyipj").build();
+        @SuppressWarnings("unchecked")
+        KafkaBolt bolt = new KafkaBolt()
+                .withProducerProperties(props)
+                .withTopicSelector(new DefaultTopicSelector("warning"))
+                .withTupleToKafkaMapper(new FieldNameBasedTupleToKafkaMapper());
+
+
 
         // KafkaSpout 实例
         KafkaSpout<String, String> kafkaSpout = new KafkaSpout<>(kafkaSpoutConfig);
@@ -40,7 +54,15 @@ public class DLMWSTopology {
         topologyBuilder.setBolt("log-format", new LogFormatBolt(), 1).shuffleGrouping("kafka-spout");
         // 根据配置对数据告警
         topologyBuilder.setBolt("warning-format", new WarningBolt(), 1).shuffleGrouping("log-format");
-        // 分发bolt
+        // 时间序列阈值计算
+        topologyBuilder.setBolt("interval-bolt", new IntervalCountBolt(), 1)
+                .localOrShuffleGrouping("warning-format", CommonConstant.INTERVAL_TYPE);
+        topologyBuilder.setBolt("kafka-bolt", bolt, 1)
+                .localOrShuffleGrouping("warning-format", CommonConstant.IMMEDIATE_TYPE)
+                .shuffleGrouping("interval-bolt");
+
+
+        // 持久化分发bolt
         topologyBuilder.setBolt("distribute", new DistributeBolt(), 1).shuffleGrouping("log-format");
         // 持久化tomcat log到es集群
         topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)

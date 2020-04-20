@@ -2,6 +2,10 @@ package com.yipingjian.dlmws.storm.service;
 
 
 
+import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.JedisPoolConfig;
+
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,7 +15,9 @@ public class TomcatLogFormatServiceTest {
     private static final String DATE_THREAD_PATTERN = "\\[\\^[*]";
 
     public static void main(String[] args) {
-        String firstLine = "[2020-03-08 15:35:35,255] [idc-network-schedule-pool-14] ERROR SnmpTrapSender - get OID error:1.0.8802.1.1.2.1.3.3.0";
-        //JedisCommands jedisCommands;
+//        JedisPool jedisPool = new JedisPool(new JedisPoolConfig(), "127.0.0.1", 6379);
+//        JedisCommands jedisCommands = jedisPool.getResource();
+//        String queue = jedisCommands.get("test");
+//        System.out.println(queue);
     }
 }
