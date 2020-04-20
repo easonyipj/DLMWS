@@ -2,14 +2,14 @@ package com.yipingjian.dlmws.storm.bolt;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+
 import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
 import lombok.extern.slf4j.Slf4j;
 
+import org.apache.commons.collections.map.LRUMap;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -17,10 +17,8 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.commands.JedisCommands;
 
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,13 +26,13 @@ import java.util.Map;
 public class WarningBolt extends BaseRichBolt{
 
     private OutputCollector outputCollector;
-    private LinkedHashMap<String, List<Rules>> rulesMap;
+    private LRUMap rulesMap;
     private JedisCommands jedisCommands;
 
     @Override
     public void prepare(Map<String, Object> map, TopologyContext topologyContext, OutputCollector outputCollector) {
         this.outputCollector = outputCollector;
-        this.rulesMap = Maps.newLinkedHashMap();
+        this.rulesMap = new LRUMap();
         this.jedisCommands = JedisPoolConfig.jedisPool.getResource();
     }
 
@@ -56,7 +54,9 @@ public class WarningBolt extends BaseRichBolt{
                     rulesMap.put(project, rules);
                 }
                 // 匹配关键字
-                rulesMap.get(project).forEach(rule -> {
+                @SuppressWarnings("unchecked")
+                List<Rules> rules = (List<Rules>)rulesMap.get(project);
+                rules.forEach(rule -> {
                     // 命中关键字
                     if(tomcatLogEntity.getLogMessage().contains(rule.getKeywords())) {
                         if(CommonConstant.INTERVAL_TYPE.equals(rule.getType())) {

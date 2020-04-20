@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
-import com.yipingjian.dlmws.storm.entity.Rules;
+
 import com.yipingjian.dlmws.storm.entity.TomcatLogEntity;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +15,7 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import redis.clients.jedis.JedisPool;
+
 import redis.clients.jedis.commands.JedisCommands;
 
 
@@ -47,7 +47,7 @@ public class IntervalCountBolt extends BaseRichBolt {
 
         String key = project + "&" + keyword;
 
-        List<Long> timeSeq = null;
+        List<Long> timeSeq;
         String queue = jedisCommands.get(key);
 
         if(queue == null) {
