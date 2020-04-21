@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class WarnMsg {
-    private String project;
-    private String keyword;
-    private String log;
+    private TomcatLogEntity log;
+    private Rule rule;
 }

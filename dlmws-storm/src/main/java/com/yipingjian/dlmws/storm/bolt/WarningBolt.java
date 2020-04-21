@@ -5,11 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 
 import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
+import com.yipingjian.dlmws.storm.config.LRUMapUtil;
 import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.collections.map.LRUMap;
 import org.apache.storm.task.OutputCollector;
 import org.apache.storm.task.TopologyContext;
 import org.apache.storm.topology.OutputFieldsDeclarer;
@@ -26,13 +26,11 @@ import java.util.Map;
 public class WarningBolt extends BaseRichBolt{
 
     private OutputCollector outputCollector;
-    private LRUMap rulesMap;
     private JedisCommands jedisCommands;
 
     @Override
     public void prepare(Map<String, Object> map, TopologyContext topologyContext, OutputCollector outputCollector) {
         this.outputCollector = outputCollector;
-        this.rulesMap = new LRUMap();
         this.jedisCommands = JedisPoolConfig.jedisPool.getResource();
     }
 
@@ -48,26 +46,28 @@ public class WarningBolt extends BaseRichBolt{
                 TomcatLogEntity tomcatLogEntity = JSONObject.parseObject(value, TomcatLogEntity.class);
                 // 查看map中是否包含project
                 String project = tomcatLogEntity.getProject();
-                if(!rulesMap.containsKey(project)) {
+                if(!LRUMapUtil.RULE_MAP.containsKey(project)) {
+                    // TODO 加锁
                     String ruleString = jedisCommands.get(project);
-                    List<Rules> rules = JSONArray.parseArray(ruleString, Rules.class);
-                    rulesMap.put(project, rules);
+                    List<Rule> rules = JSONArray.parseArray(ruleString, Rule.class);
+                    LRUMapUtil.RULE_MAP.put(project, rules);
                 }
                 // 匹配关键字
                 @SuppressWarnings("unchecked")
-                List<Rules> rules = (List<Rules>)rulesMap.get(project);
+                List<Rule> rules = (List<Rule>)LRUMapUtil.RULE_MAP.get(project);
                 rules.forEach(rule -> {
                     // 命中关键字
-                    if(tomcatLogEntity.getLogMessage().contains(rule.getKeywords())) {
+                    if(tomcatLogEntity.getLogMessage().contains(rule.getKeyword())) {
                         if(CommonConstant.INTERVAL_TYPE.equals(rule.getType())) {
                             // 发送到 intervalBolt 进行统计处理
                             log.info("warning-bolt: interval process, match rules:{}", rule.toString());
-                            outputCollector.emit(CommonConstant.INTERVAL_TYPE, new Values(value, rule.getKeywords(), rule.getThreshold(), rule.getInterval()));
+                            outputCollector.emit(CommonConstant.INTERVAL_TYPE, new Values(tomcatLogEntity, rule.getKeyword(), rule));
                         }else{
                             // 组装消息发送到kafka写入Bolt
-                            String message = WarnMessageService.generateWarnMsg(value, project, rule.getKeywords());
+                            String message = WarnMessageService.generateWarnMsg(tomcatLogEntity, rule);
+                            //log.info("warning-bolt: 性能测试");
                             log.info("warning-bolt: immediate process, match rules:{}, message:{}", rule.toString(), message);
-                            outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(value));
+                            outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(message));
                         }
                     }
                 });
@@ -82,7 +82,7 @@ public class WarningBolt extends BaseRichBolt{
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declareStream(CommonConstant.INTERVAL_TYPE, new Fields("value", "keyword", "threshold", "interval"));
+        outputFieldsDeclarer.declareStream(CommonConstant.INTERVAL_TYPE, new Fields("log", "keyword", "rule"));
         outputFieldsDeclarer.declareStream(CommonConstant.IMMEDIATE_TYPE, new Fields("message"));
     }
 }

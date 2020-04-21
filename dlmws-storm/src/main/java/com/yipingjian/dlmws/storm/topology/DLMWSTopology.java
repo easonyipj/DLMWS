@@ -14,6 +14,7 @@ import org.apache.storm.kafka.spout.FirstPollOffsetStrategy;
 import org.apache.storm.kafka.spout.KafkaSpout;
 import org.apache.storm.kafka.spout.KafkaSpoutConfig;
 import org.apache.storm.topology.TopologyBuilder;
+import org.apache.storm.tuple.Fields;
 
 import java.util.HashMap;
 import java.util.Properties;
@@ -51,19 +52,20 @@ public class DLMWSTopology {
         // 注入Spout
         topologyBuilder.setSpout("kafka-spout", kafkaSpout, 1);
         // 获取kafka-spout数据 进行格式化
-        topologyBuilder.setBolt("log-format", new LogFormatBolt(), 1).shuffleGrouping("kafka-spout");
+        topologyBuilder.setBolt("log-format", new LogFormatBolt(), 4).shuffleGrouping("kafka-spout");
         // 根据配置对数据告警
-        topologyBuilder.setBolt("warning-format", new WarningBolt(), 1).shuffleGrouping("log-format");
+        topologyBuilder.setBolt("warning-format", new WarningBolt(), 2).shuffleGrouping("log-format");
         // 时间序列阈值计算
-        topologyBuilder.setBolt("interval-bolt", new IntervalCountBolt(), 1)
-                .localOrShuffleGrouping("warning-format", CommonConstant.INTERVAL_TYPE);
-        topologyBuilder.setBolt("kafka-bolt", bolt, 1)
+        topologyBuilder.setBolt("interval-bolt", new IntervalCountBolt(), 2)
+               // .localOrShuffleGrouping("warning-format", CommonConstant.INTERVAL_TYPE)
+                .fieldsGrouping("warning-format", CommonConstant.INTERVAL_TYPE, new Fields("keyword"));
+        topologyBuilder.setBolt("kafka-bolt", bolt, 2)
                 .localOrShuffleGrouping("warning-format", CommonConstant.IMMEDIATE_TYPE)
                 .shuffleGrouping("interval-bolt");
 
 
         // 持久化分发bolt
-        topologyBuilder.setBolt("distribute", new DistributeBolt(), 1).shuffleGrouping("log-format");
+        topologyBuilder.setBolt("distribute", new DistributeBolt(), 2).shuffleGrouping("log-format");
         // 持久化tomcat log到es集群
         topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)
                 .localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);
