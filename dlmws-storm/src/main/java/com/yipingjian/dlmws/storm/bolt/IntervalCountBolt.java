@@ -57,7 +57,7 @@ public class IntervalCountBolt extends BaseRichBolt {
         timeSeq.add(occurredTime);
         // 已满则从对头开始删除与当前日志产生时间大于interval的数据
         if(timeSeq.size() > rule.getThreshold()) {
-            Long date = occurredTime - rule.getInterval() * 1000;
+            Long date = occurredTime - rule.getIntervalTime() * 1000;
             while (timeSeq.size() > 0 && timeSeq.get(0) < date) {
                 timeSeq.remove(0);
             }
@@ -69,7 +69,7 @@ public class IntervalCountBolt extends BaseRichBolt {
             outputCollector.emit(new Values(message));
         }
         // 更新并设置过期时间
-        jedisCommands.setex(key, rule.getInterval(), JSONArray.toJSONString(timeSeq));
+        jedisCommands.setex(key, rule.getIntervalTime(), JSONArray.toJSONString(timeSeq));
 
         log.info("interval-bolt: process log{}", tomcatLogEntity);
         // log.info("interval-bolt: 性能测试");

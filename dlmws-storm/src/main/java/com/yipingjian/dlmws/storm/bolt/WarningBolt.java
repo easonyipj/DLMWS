@@ -3,6 +3,7 @@ package com.yipingjian.dlmws.storm.bolt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
+import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 import com.yipingjian.dlmws.storm.config.LRUMapUtil;
@@ -50,6 +51,9 @@ public class WarningBolt extends BaseRichBolt{
                     // TODO 加锁
                     String ruleString = jedisCommands.get(project);
                     List<Rule> rules = JSONArray.parseArray(ruleString, Rule.class);
+                    if(rules == null) {
+                        rules = Lists.newArrayList();
+                    }
                     LRUMapUtil.RULE_MAP.put(project, rules);
                 }
                 // 匹配关键字

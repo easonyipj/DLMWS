@@ -3,10 +3,37 @@ package com.yipingjian.dlmws.storm.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.util.Date;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class TomcatLogEntity extends LogEntity {
+public class TomcatLogEntity extends LogEntity implements Serializable {
+    /**
+     * 日志所在项目 filebeat中配置
+     */
+    private String project;
+    /**
+     * 日志类型 filebeat中配置
+     */
+    private String logType;
+    /**
+     * 日志类容
+     */
+    private String logMessage;
+    /**
+     * 发生时间
+     */
+    private Date occurredTime;
+    /**
+     * agentId
+     */
+    private String agentId;
+    /**
+     * host
+     */
+    private String hostName;
     /**
      * 日志所在进程
      */
