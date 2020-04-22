@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface RuleService {
     void addRule(String key, Rule rule);
-    List<Rule> getRules(String key);
+    void updateRule(String key, Rule rule);
+    void deleteRule(String key, Rule rule);
+    List<Rule> getRulesByKey(String key);
+    List<Rule> getRulesByOwner(String owner);
 }

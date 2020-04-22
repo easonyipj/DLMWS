@@ -27,4 +27,12 @@ public class RedisUtil {
         return JSONArray.parseArray(value, Rule.class);
     }
 
+    public void deleteKey(String key) {
+        redisTemplate.delete(key);
+    }
+
+    public void push(String channel, String value) {
+        redisTemplate.convertAndSend(channel, value);
+    }
+
 }
