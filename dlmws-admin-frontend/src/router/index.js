@@ -82,7 +82,28 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/warn',
+    component: Layout,
+    redirect: '/warn/list',
+    name: '报警中心',
+    meta: { title: '报警中心', icon: 'form' },
+    children: [
+      {
+        path: 'list',
+        name: '报警列表',
+        component: () => import('@/views/warn/index'),
+        meta: { title: '报警列表', icon: 'nested' }
+      },
+      {
+        path: 'rule',
+        name: '规则配置',
+        component: () => import('@/views/rule/index'),
+        meta: { title: '规则配置', icon: 'link' }
+      },
 
+    ]
+  },
   // {
   //   path: '/form',
   //   component: Layout,
