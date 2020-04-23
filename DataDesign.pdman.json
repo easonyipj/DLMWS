@@ -233,21 +233,21 @@
             {
               "name": "project_id",
               "type": "DefaultString",
-              "remark": "",
-              "chnname": "关联项目id",
+              "remark": "英文逗号隔开",
+              "chnname": "关联项目ids",
               "notNull": true
             },
             {
-              "name": "username",
+              "name": "owner",
               "type": "DefaultString",
               "remark": "",
-              "chnname": "关联用户名",
+              "chnname": "owner",
               "notNull": true
             },
             {
               "name": "info",
               "type": "LongText",
-              "remark": "",
+              "remark": "JSON格式字符串",
               "chnname": "主机信息",
               "notNull": true
             },
@@ -878,6 +878,105 @@
           ],
           "chnname": "主机磁盘信息",
           "remark": "主机磁盘信息"
+        },
+        {
+          "title": "jvm",
+          "fields": [
+            {
+              "name": "id",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "id",
+              "pk": true,
+              "notNull": true,
+              "autoIncrement": true
+            },
+            {
+              "name": "ip",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "部署主机ip"
+            },
+            {
+              "name": "pid",
+              "type": "Integer",
+              "remark": "",
+              "chnname": "jvm进程id"
+            },
+            {
+              "name": "name",
+              "type": "DefaultString",
+              "remark": "",
+              "chnname": "jvm进程名"
+            },
+            {
+              "name": "add_date",
+              "type": "DateTime",
+              "remark": "",
+              "chnname": "添加时间"
+            },
+            {
+              "name": "info",
+              "type": "LongText",
+              "remark": "状态",
+              "chnname": "信息"
+            },
+            {
+              "name": "status",
+              "type": "Char",
+              "remark": "",
+              "chnname": "状态"
+            }
+          ],
+          "indexs": [],
+          "headers": [
+            {
+              "fieldName": "chnname",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "name",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "type",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "dataType",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "remark",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "pk",
+              "relationNoShow": false
+            },
+            {
+              "fieldName": "notNull",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "autoIncrement",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "defaultValue",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "relationNoShow",
+              "relationNoShow": true
+            },
+            {
+              "fieldName": "uiHint",
+              "relationNoShow": true
+            }
+          ],
+          "chnname": "JVM实例表",
+          "remark": "保存JVM实例信息"
         }
       ],
       "graphCanvas": {
