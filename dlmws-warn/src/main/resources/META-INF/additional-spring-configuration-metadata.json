@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "mail.from",
+      "type": "java.lang.String",
+      "description": "Description for mail.from."
+    },
+    {
+      "name": "mail.to",
+      "type": "java.lang.String",
+      "description": "Description for mail.to."
+    }
+  ] }
