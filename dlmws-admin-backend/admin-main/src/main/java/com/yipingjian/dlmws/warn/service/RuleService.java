@@ -10,4 +10,5 @@ public interface RuleService {
     void deleteRule(String key, Rule rule);
     List<Rule> getRulesByKey(String key);
     List<Rule> getRulesByOwner(String owner);
+    void silenceRuleById(Integer id);
 }

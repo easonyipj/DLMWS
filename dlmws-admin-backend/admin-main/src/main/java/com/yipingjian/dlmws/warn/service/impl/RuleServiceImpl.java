@@ -2,6 +2,7 @@ package com.yipingjian.dlmws.warn.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.api.R;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.warn.entity.Rule;
@@ -83,6 +84,13 @@ public class RuleServiceImpl extends ServiceImpl<RuleMapper, Rule> implements Ru
     @Override
     public List<Rule> getRulesByOwner(String owner) {
         return list(new QueryWrapper<Rule>().eq("owner", owner).orderByAsc("project"));
+    }
+
+    @Override
+    public void silenceRuleById(Integer id) {
+        Rule rule = this.getById(id);
+        rule.setStatus(false);
+        updateRule(rule.getProject(), rule);
     }
 
     private String generatePushMessage(String opType, Rule rule) {

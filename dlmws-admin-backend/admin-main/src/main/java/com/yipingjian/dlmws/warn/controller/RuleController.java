@@ -53,4 +53,9 @@ public class RuleController {
         return Response.ok();
     }
 
+    @GetMapping("/silence")
+    public Response silence(@RequestParam(name = "id")Integer id){
+        ruleService.silenceRuleById(id);
+        return Response.ok();
+    }
 }
