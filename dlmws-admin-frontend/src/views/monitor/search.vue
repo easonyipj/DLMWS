@@ -152,7 +152,7 @@
     data() {
       return {
         projectList: [],
-        logTypeList: [],
+        logTypeList: ["tomcat"],
         logType:'',
         from: 1,
         size: 50,
@@ -207,7 +207,7 @@
       this.projectList = ['dlmws-log', 'dlmws-agent'];
       this.logTypeList = ['tomcat', 'mysql'];
       this.tomcatVo.project = this.projectList[0];
-      this.logType = this.logTypeList[0];
+      this.tomcatVo.logType = this.logTypeList[0];
       this.fetchData()
     },
     methods: {
