@@ -6,7 +6,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
-import com.yipingjian.dlmws.storm.config.LRUMapUtil;
+import com.yipingjian.dlmws.storm.common.LRUMapUtil;
 import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,38 +27,36 @@ import java.util.Map;
 public class WarningBolt extends BaseRichBolt{
 
     private OutputCollector outputCollector;
-    private JedisCommands jedisCommands;
 
     @Override
     public void prepare(Map<String, Object> map, TopologyContext topologyContext, OutputCollector outputCollector) {
         this.outputCollector = outputCollector;
-        this.jedisCommands = JedisPoolConfig.jedisPool.getResource();
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void execute(Tuple tuple) {
         String logType;
-
+        String project;
+        boolean warn = false;
         try {
             String value = tuple.getStringByField("value");
             logType = tuple.getStringByField("type");
-            // tomcat
-            if (CommonConstant.TOMCAT.equals(logType)) {
-                TomcatLogEntity tomcatLogEntity = JSONObject.parseObject(value, TomcatLogEntity.class);
-                // 查看map中是否包含project
-                String project = tomcatLogEntity.getProject();
-                if(!LRUMapUtil.RULE_MAP.containsKey(project)) {
-                    // TODO 加锁
-                    String ruleString = jedisCommands.get(project);
-                    List<Rule> rules = JSONArray.parseArray(ruleString, Rule.class);
-                    if(rules == null) {
-                        rules = Lists.newArrayList();
-                    }
-                    LRUMapUtil.RULE_MAP.put(project, rules);
+            project = tuple.getStringByField("project");
+
+            // 判断项目和日志类型是否有报警规则
+            if(LRUMapUtil.PROJECT_MAP.containsKey(project)) {
+                List<String> types = (List<String>)LRUMapUtil.PROJECT_MAP.get(project);
+                if(types.contains(logType)) {
+                    warn = true;
                 }
+            }
+
+            // tomcat
+            if (warn && CommonConstant.TOMCAT.equals(logType)) {
+                TomcatLogEntity tomcatLogEntity = JSONObject.parseObject(value, TomcatLogEntity.class);
+                List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.TOMCAT);
                 // 匹配关键字
-                @SuppressWarnings("unchecked")
-                List<Rule> rules = (List<Rule>)LRUMapUtil.RULE_MAP.get(project);
                 rules.forEach(rule -> {
                     // 命中关键字
                     if(tomcatLogEntity.getLogMessage().contains(rule.getKeyword())) {
@@ -75,6 +73,10 @@ public class WarningBolt extends BaseRichBolt{
                         }
                     }
                 });
+            }
+
+            if(warn && CommonConstant.HOST_MEM.equals(logType)) {
+                Memory memory = JSONObject.parseObject(value, Memory.class);
             }
 
         } catch (Exception e) {

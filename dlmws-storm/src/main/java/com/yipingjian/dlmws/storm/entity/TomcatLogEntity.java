@@ -15,6 +15,10 @@ public class TomcatLogEntity extends LogEntity implements Serializable {
      */
     private String project;
     /**
+     * 日志产生机器ip
+     */
+    private String ip;
+    /**
      * 日志类型 filebeat中配置
      */
     private String logType;

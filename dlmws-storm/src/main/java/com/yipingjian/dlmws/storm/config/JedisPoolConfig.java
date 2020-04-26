@@ -1,7 +1,7 @@
 package com.yipingjian.dlmws.storm.config;
 
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.util.BeanUtil;
+import com.yipingjian.dlmws.storm.common.LRUMapUtil;
 import com.yipingjian.dlmws.storm.entity.Rule;
 import com.yipingjian.dlmws.storm.entity.RuleDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -34,8 +34,8 @@ public class JedisPoolConfig {
                     RuleDTO ruleDTO = JSONObject.parseObject(message, RuleDTO.class);
                     String project = ruleDTO.getRule().getProject();
                     String opType = ruleDTO.getOpType();
-                    if(LRUMapUtil.RULE_MAP.containsKey(project)) {
-                        List<Rule> rules = (List<Rule>)LRUMapUtil.RULE_MAP.get(project);
+                    if(LRUMapUtil.TOMCAT_MAP.containsKey(project)) {
+                        List<Rule> rules = (List<Rule>)LRUMapUtil.TOMCAT_MAP.get(project);
                         Rule newRule = ruleDTO.getRule();
                         if(ADD.equals(opType)) {
                             rules.add(newRule);

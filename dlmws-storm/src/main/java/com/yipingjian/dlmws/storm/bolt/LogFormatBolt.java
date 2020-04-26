@@ -34,17 +34,20 @@ public class LogFormatBolt extends BaseRichBolt {
         Entity entity = null;
         String logType;
         String project;
+        String ip;
         try {
             jsonObject = JSONObject.parseObject((String) tuple.getValueByField("value"));
             fields = (JSONObject) jsonObject.get("fields");
             logType = fields.getString("type");
             project = fields.getString("project");
+            ip = fields.getString("ip");
 
             // tomcat 日志
             if (CommonConstant.TOMCAT.equals(logType)) {
                 TomcatLogEntity tomcatLogEntity = LogFormatService.formatTomcatLog(jsonObject);
                 tomcatLogEntity.setProject(project);
                 tomcatLogEntity.setLogType(logType);
+                tomcatLogEntity.setIp(ip);
                 entity = tomcatLogEntity;
             }
 
@@ -67,7 +70,7 @@ public class LogFormatBolt extends BaseRichBolt {
                 entity = JSONObject.parseObject(jsonObject.toJSONString(), JVMMemory.class);
             }
 
-            outputCollector.emit(Lists.newArrayList(JSONObject.toJSONString(entity), logType));
+            outputCollector.emit(Lists.newArrayList(JSONObject.toJSONString(entity), logType, project));
 
         } catch (Exception e) {
             log.error("格式化日志异常, 日志内容:\n {}", tuple.getStringByField("value"), e);
@@ -78,6 +81,6 @@ public class LogFormatBolt extends BaseRichBolt {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
-        outputFieldsDeclarer.declare(new Fields("value", "type"));
+        outputFieldsDeclarer.declare(new Fields("value", "type", "project"));
     }
 }
