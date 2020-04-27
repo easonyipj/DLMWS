@@ -25,13 +25,13 @@ public class DLMWSTopology {
         // kafka server的基本配置
         properties.setProperty("group.id", "test-news-topic");
         // 定义一个KafkaSpoutConfig
-        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("192.168.1.111:9092",
+        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("192.168.0.19:9092",
                 "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
         // 定义KafkaBolt
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.1.111:9092");
+        props.put("bootstrap.servers", "192.168.0.19:9092");
         props.put("acks", "1");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -54,8 +54,11 @@ public class DLMWSTopology {
         topologyBuilder.setBolt("warning-format", new WarningBolt(), 2).shuffleGrouping("log-format");
         // 时间序列阈值计算
         topologyBuilder.setBolt("interval-bolt", new IntervalCountBolt(), 2)
-               // .localOrShuffleGrouping("warning-format", CommonConstant.INTERVAL_TYPE)
                 .fieldsGrouping("warning-format", CommonConstant.INTERVAL_TYPE, new Fields("keyword"));
+        // 指数移动平均值计算
+        topologyBuilder.setBolt("ewma-bolt", new EWMABolt(), 2)
+                .fieldsGrouping("warning-format", CommonConstant.EWMA_TYPE, new Fields("ip"));
+        // 发送到警报消息队列
         topologyBuilder.setBolt("kafka-bolt", bolt, 2)
                 .localOrShuffleGrouping("warning-format", CommonConstant.IMMEDIATE_TYPE)
                 .shuffleGrouping("interval-bolt");

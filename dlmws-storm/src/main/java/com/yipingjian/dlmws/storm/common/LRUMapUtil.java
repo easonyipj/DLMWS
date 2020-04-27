@@ -1,6 +1,7 @@
 package com.yipingjian.dlmws.storm.common;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 import com.yipingjian.dlmws.storm.entity.Rule;
@@ -11,12 +12,18 @@ import java.util.List;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class LRUMapUtil {
+    public static LRUMap PROJECT_MAP;
     public static LRUMap TOMCAT_MAP = new LRUMap();
-    public static LRUMap PROJECT_MAP = new LRUMap();
     public static LRUMap HOST_MEM_MAP = new LRUMap();
     public static LRUMap HOST_CPU_MAP = new LRUMap();
     public static JedisCommands jedisCommands = JedisPoolConfig.jedisPool.getResource();
     private static ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
+
+
+    static {
+        String jsonMap = jedisCommands.get("project-rules");
+        PROJECT_MAP = JSONObject.parseObject(jsonMap, LRUMap.class);
+    }
 
     @SuppressWarnings("unchecked")
     public static List<Rule> getRules(String project, String ruleType) {

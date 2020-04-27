@@ -1,6 +1,7 @@
 package com.yipingjian.dlmws.storm.bolt;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 
@@ -64,7 +65,7 @@ public class IntervalCountBolt extends BaseRichBolt {
         }
         // 删除后如果队列长度依然超过则报警
         if(timeSeq.size() > rule.getThreshold()) {
-            String message = WarnMessageService.generateWarnMsg(tomcatLogEntity, rule);
+            String message = WarnMessageService.generateWarnMsg(tomcatLogEntity.getIp(), tomcatLogEntity.getOccurredTime().getTime(), JSONObject.toJSONString(tomcatLogEntity), rule);
             log.info("interval-bolt: send warning msg {}", message);
             outputCollector.emit(new Values(message));
         }

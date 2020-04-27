@@ -30,6 +30,9 @@ public class EWMA implements Serializable {
     public static final double ONE_MINUTE_ALPHA = 1 - Math.exp(-5d / 60d / 1d);
     public static final double FIVE_MINUTE_ALPHA = 1 - Math.exp(-5d / 60d / 5d);
     public static final double FIFTEEN_MINUTE_ALPHA = 1 - Math.exp(-5d / 60d / 15d);
+    public static final int ONE_MINUTE_INTERVAL = 60;
+    public static final int FIVE_MINUTE_INTERVAL = 5 * 60;
+    public static final int FIFTEEN_MINUTE_INTERVAL = 15 * 60;
     private long window;
     private long alphaWindow;
     private long last;
@@ -64,17 +67,31 @@ public class EWMA implements Serializable {
         return this;
     }
 
+    public EWMA withAlphaInterval(Integer interval) {
+        if(interval == ONE_MINUTE_INTERVAL) {
+            this.alpha = ONE_MINUTE_ALPHA;
+        }
+        if(interval == FIVE_MINUTE_INTERVAL) {
+            this.alpha = FIVE_MINUTE_ALPHA;
+        }
+        if(interval == FIFTEEN_MINUTE_INTERVAL) {
+            this.alpha = FIFTEEN_MINUTE_ALPHA;
+        }
+        return this;
+    }
+
+
     public EWMA withAlphaWindow(double count, Time time) {
         return this.withAlphaWindow((long) (time.getTime() * count));
     }
 
     // 没有参数的话，当前时间来计算平均值
-    public void mark() {
-        mark(System.currentTimeMillis());
-    }
+//    public void mark() {
+//        mark(System.currentTimeMillis());
+//    }
 
     // 用来更新移动平均值，没有参数的话，使用当前时间来计算平均值
-    public synchronized void mark(long time) {
+    public synchronized void mark(long time, Double value) {
         if (this.sliding) {
             if (time - this.last > this.window) {
                 this.last = 0;
@@ -86,7 +103,7 @@ public class EWMA implements Serializable {
         }
         long diff = time - this.last;
         double alpha = this.alpha != -1.0 ? this.alpha : Math.exp(-1.0 * ((double) diff / this.alphaWindow));
-        this.average = (1.0 - alpha) * diff + alpha * this.average;
+        this.average = (1.0 - alpha) * value + alpha * this.average;
         this.last = time;
     }
 
