@@ -7,6 +7,7 @@ public class Rule{
     private Integer id;
     private String project;
     private String keyword;
+    private String logType;
     private String type;
     private Integer threshold;
     private Integer intervalTime;

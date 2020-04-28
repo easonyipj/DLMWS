@@ -24,6 +24,10 @@ public class WarnRecord {
      */
     private String keyword;
     /**
+     * 日志类型
+     */
+    private String logType;
+    /**
      * 报警类型
      */
     private String type;
@@ -74,17 +78,18 @@ public class WarnRecord {
      */
     private String logText;
 
-    public WarnRecord(Rule rule, TomcatLogEntity tomcatLogEntity) {
+    public WarnRecord(Rule rule, String ip, long occurredTime, String logText) {
         this.project = rule.getProject();
-        this.ip = tomcatLogEntity.getIp();
+        this.ip = ip;
         this.keyword = rule.getKeyword();
         this.dingTalkId = rule.getDingTalkId();
         this.email = rule.getEmail();
         this.intervalTime = rule.getIntervalTime();
         this.threshold = rule.getThreshold();
+        this.logType = rule.getLogType();
         this.type = rule.getType();
-        this.occurredTime = tomcatLogEntity.getOccurredTime();
-        this.logText = JSONObject.toJSONString(tomcatLogEntity);
+        this.occurredTime = new Date(occurredTime);
+        this.logText = logText;
         this.dingTalkStatus = 0;
         this.emailStatus = 0;
         this.owner = rule.getOwner();

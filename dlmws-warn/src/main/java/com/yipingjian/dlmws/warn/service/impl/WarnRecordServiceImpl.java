@@ -2,11 +2,9 @@ package com.yipingjian.dlmws.warn.service.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request.*;
-import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.dingtalk.service.DingTalkService;
 import com.yipingjian.dlmws.mail.service.MailService;
 import com.yipingjian.dlmws.warn.entity.Rule;
-import com.yipingjian.dlmws.warn.entity.TomcatLogEntity;
 import com.yipingjian.dlmws.warn.entity.WarnMessage;
 import com.yipingjian.dlmws.warn.entity.WarnRecord;
 import com.yipingjian.dlmws.warn.mapper.WarnRecordMapper;
@@ -17,7 +15,6 @@ import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.Date;
-import java.util.List;
 
 
 @Slf4j
@@ -37,24 +34,23 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
     @Override
     public void processWarnMessage(WarnMessage warnMessage) {
         Rule rule = warnMessage.getRule();
-        TomcatLogEntity tomcatLogEntity = warnMessage.getLog();
-        WarnRecord warnRecord = new WarnRecord(rule, tomcatLogEntity);
+        WarnRecord warnRecord = new WarnRecord(rule, warnMessage.getIp(), warnMessage.getOccurredTime(), warnMessage.getLogText());
         try {
             if(rule.getStatus() && !StringUtils.isEmpty(rule.getDingTalkId())) {
-                warnRecord.setDingTalkStatus(sendDingTalk(rule, tomcatLogEntity.getOccurredTime()));
+                warnRecord.setDingTalkStatus(sendDingTalk(rule, warnMessage.getOccurredTime()));
             }
             if(rule.getStatus() && !StringUtils.isEmpty(rule.getEmail())) {
-                warnRecord.setEmailStatus(sendMail(rule, tomcatLogEntity));
+                // warnRecord.setEmailStatus(sendMail(rule, warnMessage.getOccurredTime(), warnMessage.getLogText()));
             }
             // 入库
             warnRecord.setWarningTime(new Date(System.currentTimeMillis()));
             saveOrUpdate(warnRecord);
         } catch (Exception e) {
-            log.error("process warning message error\n rule:\n{}, log:\n{}", rule, tomcatLogEntity, e);
+            log.error("process warning message error\n rule:\n{}, log:\n{}", rule, warnMessage.getLogText(), e);
         }
     }
 
-    private Integer sendDingTalk(Rule rule, Date occurredTime) {
+    private Integer sendDingTalk(Rule rule, long occurredTime) {
         if(dingTalkService.sendDingTalkActionCardMsg(rule.getDingTalkId(), generateMarkdown(rule, occurredTime))) {
             return SUCCESS;
         }else {
@@ -62,8 +58,8 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
         }
     }
 
-    private Integer sendMail(Rule rule, TomcatLogEntity tomcatLogEntity) {
-        String text = mailService.generateMailHtmlText(rule, tomcatLogEntity);
+    private Integer sendMail(Rule rule, long occurredTime, String logText) {
+        String text = mailService.generateMailHtmlText(rule, occurredTime, logText);
         String[] to = rule.getEmail().split(",");
         if(mailService.sendHtmlMail(SUBJECT, to, text)) {
             return SUCCESS;
@@ -72,7 +68,7 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
         }
     }
 
-    private Markdown generateMarkdown(Rule rule, Date occurredTime) {
+    private Markdown generateMarkdown(Rule rule, long occurredTime) {
         Markdown markdownBody = new Markdown();
         markdownBody.setTitle("实时报警推送");
         StringBuilder markdown = new StringBuilder();
@@ -84,7 +80,7 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
             markdown.append("**阈值** ").append(rule.getThreshold()).append("  \n  ");
             markdown.append("**周期** ").append(rule.getIntervalTime()).append("  \n  ");
         }
-        markdown.append("**发生时间** ").append(occurredTime.toString()).append("  \n  ");
+        markdown.append("**发生时间** ").append(new Date(occurredTime).toString()).append("  \n  ");
         markdown.append("[查看](http://192.168.0.19:9528/#/)  ").append(String.format(SILENCE_LINK, rule.getId()));
         markdownBody.setText(markdown.toString());
         return markdownBody;

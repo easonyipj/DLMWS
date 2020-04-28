@@ -2,12 +2,10 @@ package com.yipingjian.dlmws.mail.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.google.common.base.Utf8;
 import com.yipingjian.dlmws.mail.entity.Mail;
 import com.yipingjian.dlmws.mail.mapper.MailMapper;
 import com.yipingjian.dlmws.mail.service.MailService;
 import com.yipingjian.dlmws.warn.entity.Rule;
-import com.yipingjian.dlmws.warn.entity.TomcatLogEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -15,14 +13,10 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeUtility;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Date;
+
 
 @Slf4j
 @Service
@@ -35,9 +29,6 @@ public class MailServiceImpl extends ServiceImpl<MailMapper, Mail> implements Ma
 
     @Resource
     private JavaMailSender mailSender;
-
-//    public final String regex1 = ".*[<][^>]*[>].*"; 	//判断是 xxxx <xxx>格式文本
-//    public final String regex2 = "<([^>]*)>";		//尖括号匹配
 
 
     @Override
@@ -59,7 +50,7 @@ public class MailServiceImpl extends ServiceImpl<MailMapper, Mail> implements Ma
     }
 
     @Override
-    public String generateMailHtmlText(Rule rule, TomcatLogEntity tomcatLogEntity) {
+    public String generateMailHtmlText(Rule rule, long occurredTime, String logText) {
         String text = this.getOne(new QueryWrapper<Mail>().eq("name", "tomcat")).getTemplate();
         text = text.replace("{{owner}}", rule.getOwner());
         text = text.replace("{{project}}", rule.getProject());
@@ -67,8 +58,8 @@ public class MailServiceImpl extends ServiceImpl<MailMapper, Mail> implements Ma
         text = text.replace("{{type}}", rule.getType());
         text = text.replace("{{threshold}}", String.valueOf(rule.getThreshold()));
         text = text.replace("{{intervalTime}}", String.valueOf(rule.getIntervalTime()));
-        text = text.replace("{{occurredTime}}", tomcatLogEntity.getOccurredTime().toString());
-        text = text.replace("{{log}}", tomcatLogEntity.toString());
+        text = text.replace("{{occurredTime}}", new Date(occurredTime).toString());
+        text = text.replace("{{log}}", logText);
         return text;
     }
 

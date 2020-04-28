@@ -4,5 +4,5 @@ import com.yipingjian.dlmws.warn.entity.TomcatLogEntity;
 
 public interface MailService {
     boolean sendHtmlMail(String subject, String[] to, String html);
-    String generateMailHtmlText(Rule rule , TomcatLogEntity tomcatLogEntity);
+    String generateMailHtmlText(Rule rule, long occurredTime, String logText);
 }

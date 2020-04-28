@@ -17,6 +17,7 @@ public class KafkaConsumer {
     @KafkaListener(topics = "warning")
     public void onMessage(String message){
         WarnMessage warnMessage = JSONObject.parseObject(message, WarnMessage.class);
+        //System.out.println("receive warning message");
         warnService.processWarnMessage(warnMessage);
     }
 }

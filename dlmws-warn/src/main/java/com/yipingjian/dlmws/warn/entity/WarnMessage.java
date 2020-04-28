@@ -4,6 +4,8 @@ import lombok.Data;
 
 @Data
 public class WarnMessage {
-    private TomcatLogEntity log;
+    private String ip;
+    private long occurredTime;
+    private String logText;
     private Rule rule;
 }
