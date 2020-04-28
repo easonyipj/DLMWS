@@ -40,21 +40,20 @@ public class EWMABolt extends BaseRichBolt {
         EWMA ewma = ewmaCache.getIfPresent(key);
         if(ewma == null) {
            ewma = new EWMA().sliding(rule.getIntervalTime() * 1000).withAlphaInterval(rule.getIntervalTime());
+           ewma.mark(time, value);
            ewmaCache.put(key, ewma);
-        }
-
-        if(value >= rule.getThreshold()) {
+        }else {
             ewma.mark(time, value);
         }
 
         System.out.println(key + "-" + ewma.getAverage());
-        if(ewma.getAverageIn(EWMA.Time.SECONDS) <= rule.getIntervalTime()) {
+        if(ewma.getAverage() >= rule.getThreshold()) {
             // 发送消息到报警队列
             String logText = tuple.getStringByField("log");
             String ip = tuple.getStringByField("ip");
             String message = WarnMessageService.generateWarnMsg(ip, time, logText, rule);
-            // log.info("send warning message, {}", message);
-            // outputCollector.emit(new Values(message));
+            log.info("send warning message, {}", message);
+            outputCollector.emit(new Values(message));
         }
 
     }

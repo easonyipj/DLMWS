@@ -61,7 +61,8 @@ public class DLMWSTopology {
         // 发送到警报消息队列
         topologyBuilder.setBolt("kafka-bolt", bolt, 2)
                 .localOrShuffleGrouping("warning-format", CommonConstant.IMMEDIATE_TYPE)
-                .shuffleGrouping("interval-bolt");
+                .shuffleGrouping("interval-bolt")
+                .shuffleGrouping("ewma-bolt");
 
 
         // 持久化分发bolt

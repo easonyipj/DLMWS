@@ -5,6 +5,7 @@ import com.yipingjian.dlmws.storm.common.LRUMapUtil;
 import com.yipingjian.dlmws.storm.entity.Rule;
 import com.yipingjian.dlmws.storm.entity.RuleDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.map.LRUMap;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPubSub;
@@ -33,9 +34,11 @@ public class JedisPoolConfig {
                     log.info("当前线程：" + Thread.currentThread().getName() + "监听队列:" + channel + ";收到变更消息:" + message);
                     RuleDTO ruleDTO = JSONObject.parseObject(message, RuleDTO.class);
                     String project = ruleDTO.getRule().getProject();
+                    String logType = ruleDTO.getRule().getLogType();
                     String opType = ruleDTO.getOpType();
-                    if(LRUMapUtil.TOMCAT_MAP.containsKey(project)) {
-                        List<Rule> rules = (List<Rule>)LRUMapUtil.TOMCAT_MAP.get(project);
+                    LRUMap ruleMap = LRUMapUtil.getRuleMapByType(logType);
+                    if(ruleMap.containsKey(project)) {
+                        List<Rule> rules = (List<Rule>)ruleMap.get(project);
                         Rule newRule = ruleDTO.getRule();
                         if(ADD.equals(opType)) {
                             rules.add(newRule);

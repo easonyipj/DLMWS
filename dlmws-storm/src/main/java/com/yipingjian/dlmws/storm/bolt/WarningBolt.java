@@ -79,13 +79,13 @@ public class WarningBolt extends BaseRichBolt{
                 Memory memory = JSONObject.parseObject(value, Memory.class);
                 List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.HOST_MEM);
                 rules.forEach(rule -> {
-                    if(CommonConstant.HOST_MEM.equals(rule.getLogType()) && CommonConstant.MEMORY.equals(rule.getKeyword()) && memory.getMemoryUsedRate() >= rule.getThreshold()) {
-                        if(rule.getType().equals(CommonConstant.IMMEDIATE_TYPE)) {
+                    if(CommonConstant.MEMORY.equals(rule.getKeyword())) {
+                        if(rule.getType().equals(CommonConstant.IMMEDIATE_TYPE) && memory.getMemoryUsedRate() >= rule.getThreshold()) {
                             // 达到瞬时报警阈值
                             String message = WarnMessageService.generateWarnMsg(memory.getHostIp(), memory.getTime().getTime(), value, rule);
                             log.info("warning-bolt: immediate process, match rules:{}, message:{}", rule.toString(), message);
                             outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(message));
-                        } else {
+                        } else if(CommonConstant.INTERVAL_TYPE.equals(rule.getType())){
                             // 进行指数移动计算
                             log.info("warning-bolt: ewma process, match rules:{}, log:{}", rule.toString(), memory);
                             outputCollector.emit(CommonConstant.EWMA_TYPE, new Values(memory.getMemoryUsedRate(), memory.getHostIp(), value, memory.getTime().getTime(), rule));

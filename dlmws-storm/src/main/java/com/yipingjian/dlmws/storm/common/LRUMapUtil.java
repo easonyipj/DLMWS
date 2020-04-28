@@ -32,7 +32,7 @@ public class LRUMapUtil {
         // 查看map中是否包含project
         if(!ruleMap.containsKey(project)) {
             // TODO 加锁
-            String ruleString = jedisCommands.get(project);
+            String ruleString = jedisCommands.get(project + ":" + ruleType);
             List<Rule> rules = JSONArray.parseArray(ruleString, Rule.class);
             // 此种情况正常不会发生
             if(rules == null) {
