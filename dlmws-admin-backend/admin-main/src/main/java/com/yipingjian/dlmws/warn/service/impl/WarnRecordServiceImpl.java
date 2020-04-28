@@ -4,19 +4,26 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.utils.DateTimeUtil;
 import com.yipingjian.dlmws.utils.PageUtils;
-import com.yipingjian.dlmws.warn.entity.WarnRecord;
-import com.yipingjian.dlmws.warn.entity.WarnRecordVo;
+import com.yipingjian.dlmws.warn.entity.*;
 import com.yipingjian.dlmws.warn.mapper.WarnRecordMapper;
 import com.yipingjian.dlmws.warn.service.WarnRecordService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
+import java.util.List;
+
 @Slf4j
 @Service
 public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRecord> implements WarnRecordService {
+
+    @Resource
+    private WarnRecordMapper warnRecordMapper;
+
     @Override
     public PageUtils getWarnRecordByPage(WarnRecordVo warnRecordVo) {
 
@@ -27,9 +34,40 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
         IPage<WarnRecord> pageParams = new Page<>(currentPage, pageSize);
         // 设置查询参数
         QueryWrapper<WarnRecord> queryWrapper = generateWarnRecordQuery(warnRecordVo);
+        queryWrapper.orderByDesc("warning_time");
         pageResult = this.page(pageParams, queryWrapper);
 
         return new PageUtils(pageResult);
+    }
+
+    @Override
+    public List<WarnCount> getWarnCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<WarnCount> list = Lists.newArrayList();
+
+        projects.forEach(project -> {
+            WarnCount warnCount = new WarnCount();
+            warnCount.setProject(project);
+            List<WarnCountUnit> warnCountUnits = warnRecordMapper.getWarnCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+            warnCount.setWarnCountUnits(warnCountUnits);
+            list.add(warnCount);
+        });
+
+        return list;
+    }
+
+    @Override
+    public List<LogTypeCount> getLogTypeCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<LogTypeCount> list = Lists.newArrayList();
+
+        projects.forEach(project -> {
+            LogTypeCount logTypeCount = new LogTypeCount();
+            logTypeCount.setProject(project);
+            List<LogTypeCountUnit> logTypeCountUnits = warnRecordMapper.getLogTypeCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+            logTypeCount.setLogTypeCountUnits(logTypeCountUnits);
+            list.add(logTypeCount);
+        });
+
+        return list;
     }
 
     private QueryWrapper<WarnRecord> generateWarnRecordQuery(WarnRecordVo warnRecordVo) {

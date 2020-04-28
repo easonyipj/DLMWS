@@ -21,7 +21,7 @@ public class RuleController {
         // TODO 获取当前owner
         try {
             rule.setOwner("yipingjian");
-            ruleService.addRule(rule.getProject(), rule);
+            ruleService.addRule(rule);
         } catch (Exception e) {
             log.error("add rule error", e);
             return Response.error();
@@ -30,7 +30,7 @@ public class RuleController {
     }
 
     @GetMapping("/getByKey")
-    public Response getRulesByKet(@RequestParam(name = "key") String key) {
+    public Response getRulesByKey(@RequestParam(name = "key") String key) {
         return Response.ok().put("data", ruleService.getRulesByKey(key));
     }
 
@@ -43,13 +43,13 @@ public class RuleController {
 
     @PostMapping("/update")
     public Response update(@RequestBody Rule rule) {
-        ruleService.updateRule(rule.getProject(), rule);
+        ruleService.updateRule(rule);
         return Response.ok();
     }
 
     @PostMapping("/delete")
     public Response delete(@RequestBody Rule rule) {
-        ruleService.deleteRule(rule.getProject(), rule);
+        ruleService.deleteRule(rule);
         return Response.ok();
     }
 

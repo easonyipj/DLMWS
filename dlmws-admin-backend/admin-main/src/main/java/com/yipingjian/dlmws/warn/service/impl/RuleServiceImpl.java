@@ -32,7 +32,8 @@ public class RuleServiceImpl extends ServiceImpl<RuleMapper, Rule> implements Ru
 
     @Override
     @Transactional
-    public void addRule(String key, Rule rule) {
+    public void addRule(Rule rule) {
+        String key = rule.getProject() + ":" + rule.getLogType();
         // 检查Redis中是否已存在
         List<Rule> rules = redisUtil.getRules(key);
         if(rules == null) {
@@ -54,11 +55,12 @@ public class RuleServiceImpl extends ServiceImpl<RuleMapper, Rule> implements Ru
 
     @Override
     @Transactional
-    public void updateRule(String key, Rule rule) {
+    public void updateRule(Rule rule) {
+        String key = rule.getProject() + ":" + rule.getLogType();
         // 保存到MySQL
         saveOrUpdate(rule);
         // 获取Key对应的rules
-        List<Rule> rules = list(new QueryWrapper<Rule>().eq("project", key));
+        List<Rule> rules = list(new QueryWrapper<Rule>().eq("project", rule.getProject()).eq("log_type", rule.getLogType()));
         // 保存到Redis
         redisUtil.setRule(key, rules);
         // 通知订阅者
@@ -66,11 +68,12 @@ public class RuleServiceImpl extends ServiceImpl<RuleMapper, Rule> implements Ru
     }
 
     @Override
-    public void deleteRule(String key, Rule rule) {
+    public void deleteRule(Rule rule) {
+        String key = rule.getProject() + ":" + rule.getLogType();
         // 删除操作
         removeById(rule.getId());
         // 获取Key对应的rules
-        List<Rule> rules = list(new QueryWrapper<Rule>().eq("project", key));
+        List<Rule> rules = list(new QueryWrapper<Rule>().eq("project", rule.getProject()).eq("log_type", rule.getLogType()));
         if(CollectionUtils.isEmpty(rules)) {
             redisUtil.deleteKey(key);
         }else {
@@ -90,7 +93,7 @@ public class RuleServiceImpl extends ServiceImpl<RuleMapper, Rule> implements Ru
     public void silenceRuleById(Integer id) {
         Rule rule = this.getById(id);
         rule.setStatus(false);
-        updateRule(rule.getProject(), rule);
+        updateRule(rule);
     }
 
     private String generatePushMessage(String opType, Rule rule) {
