@@ -7,3 +7,11 @@ export function list(params) {
     params
   })
 }
+
+export function statistic(params) {
+  return request({
+    url: '/warn/statistic',
+    method: 'get',
+    params
+  })
+}

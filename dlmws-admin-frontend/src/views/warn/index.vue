@@ -114,6 +114,10 @@
           label="项目"
           sortable />
         <el-table-column
+          prop="ip"
+          label="ip"
+          sortable />
+        <el-table-column
           prop="keyword"
           label="关键字"
           sortable />
@@ -137,7 +141,14 @@
             <el-tag size="mini" :type="scope.row.dingTalkStatus| classFilter">{{ scope.row.dingTalkStatus| statusFilter }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column align="center" width="160" label="操作" >
+        <el-table-column
+          label="报警时间"
+          sortable >
+          <template slot-scope="scope">
+            {{ scope.row.warningTime | dateFormat }}
+          </template>
+        </el-table-column>
+        <el-table-column align="center" width="140" label="操作" >
           <template slot-scope="scope">
             <div style="display: inline">
               <el-popover

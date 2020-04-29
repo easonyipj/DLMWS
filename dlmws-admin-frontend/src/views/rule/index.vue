@@ -43,6 +43,10 @@
               label="项目"
               sortable />
             <el-table-column
+              prop="logType"
+              label="日志类型"
+              sortable />
+            <el-table-column
               prop="keyword"
               label="关键字"
               sortable />
@@ -80,6 +84,16 @@
         <el-form :inline="true" size="mini">
           <el-form-item label="项目" >
             <el-input v-model="rule.project" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="日志类型" >
+            <el-select v-model="rule.logType" placeholder="请选择">
+              <el-option
+                v-for="item in logTypeList"
+                :key="item"
+                :label="item"
+                :value="item">
+              </el-option>
+            </el-select>
           </el-form-item>
           <el-form-item label="关键字" >
             <el-input v-model="rule.keyword" autocomplete="off"></el-input>
@@ -170,9 +184,11 @@
           {"label": "瞬时阈值报警", "value":"immediate"},
           {"label": "时间序列阈值报警", "value":"interval"}
           ],
+        logTypeList: ["tomcat", "host-mem", "host-cpu", "jvm-thread", "jvm-mem", "jvm-class"],
         ruleList: [],
         rule:{
           project: '',
+          logType: '',
           keyword: '',
           type: '',
           threshold: 0,

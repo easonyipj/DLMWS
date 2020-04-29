@@ -96,12 +96,17 @@ export const constantRoutes = [
         meta: { title: '报警列表', icon: 'nested' }
       },
       {
+        path: 'statistic',
+        name: '报警统计',
+        component: () => import('@/views/warn/statistic'),
+        meta: { title: '报警统计', icon: 'form' }
+      },
+      {
         path: 'rule',
         name: '规则配置',
         component: () => import('@/views/rule/index'),
         meta: { title: '规则配置', icon: 'link' }
       },
-
     ]
   },
   // {
