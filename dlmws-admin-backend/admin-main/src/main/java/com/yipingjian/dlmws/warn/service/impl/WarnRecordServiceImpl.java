@@ -44,30 +44,147 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
     public List<WarnCount> getWarnCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
         List<WarnCount> list = Lists.newArrayList();
 
-        projects.forEach(project -> {
-            WarnCount warnCount = new WarnCount();
-            warnCount.setProject(project);
-            List<WarnCountUnit> warnCountUnits = warnRecordMapper.getWarnCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
-            warnCount.setWarnCountUnits(warnCountUnits);
-            list.add(warnCount);
-        });
+        try {
+            projects.forEach(project -> {
+                WarnCount warnCount = new WarnCount();
+                warnCount.setProject(project);
+                List<WarnCountUnit> warnCountUnits = warnRecordMapper.getWarnCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                warnCount.setWarnCountUnits(warnCountUnits);
+                list.add(warnCount);
+            });
+        } catch (Exception e) {
+            log.error("getWarnCount error", e);
+        }
 
         return list;
     }
 
     @Override
-    public List<LogTypeCount> getLogTypeCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
-        List<LogTypeCount> list = Lists.newArrayList();
+    public List<TypeCount> getLogTypeCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<TypeCount> list = Lists.newArrayList();
 
-        projects.forEach(project -> {
-            LogTypeCount logTypeCount = new LogTypeCount();
-            logTypeCount.setProject(project);
-            List<LogTypeCountUnit> logTypeCountUnits = warnRecordMapper.getLogTypeCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
-            logTypeCount.setLogTypeCountUnits(logTypeCountUnits);
-            list.add(logTypeCount);
-        });
+        try {
+            projects.forEach(project -> {
+                TypeCount logTypeCount = new TypeCount();
+                logTypeCount.setProject(project);
+                List<TypeCountUnit> logTypeCountUnits = warnRecordMapper.getLogTypeCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                logTypeCount.setList(logTypeCountUnits);
+                list.add(logTypeCount);
+            });
+        } catch (Exception e) {
+            log.error("getLogTypeCount error", e);
+        }
 
         return list;
+    }
+
+    @Override
+    public List<TypeCountUnit> getProjectCount(WarnStatisticVo warnStatisticVo, String owner) {
+        List<TypeCountUnit> list = Lists.newArrayList();
+        try {
+            list = warnRecordMapper.getProjectCount(owner, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+        } catch (Exception e) {
+            log.error("get project count", e);
+        }
+        return list;
+    }
+
+    @Override
+    public List<TypeCount> getKeyWordCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<TypeCount> list = Lists.newArrayList();
+
+        try {
+            projects.forEach(project -> {
+                TypeCount logTypeCount = new TypeCount();
+                logTypeCount.setProject(project);
+                List<TypeCountUnit> logTypeCountUnits = warnRecordMapper.getKeyWordCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                logTypeCount.setList(logTypeCountUnits);
+                list.add(logTypeCount);
+            });
+        } catch (Exception e) {
+            log.error("getLogTypeCount error", e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<TypeCount> getRuleTypeCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<TypeCount> list = Lists.newArrayList();
+
+        try {
+            projects.forEach(project -> {
+                TypeCount logTypeCount = new TypeCount();
+                logTypeCount.setProject(project);
+                List<TypeCountUnit> logTypeCountUnits = warnRecordMapper.getRuleTypeCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                logTypeCount.setList(logTypeCountUnits);
+                list.add(logTypeCount);
+            });
+        } catch (Exception e) {
+            log.error("getLogTypeCount error", e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<StatusCount> getDingStatusCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<StatusCount> list = Lists.newArrayList();
+
+        try {
+            projects.forEach(project -> {
+                StatusCount statusCount = new StatusCount();
+                statusCount.setProject(project);
+                List<StatusCountUnit> logTypeCountUnits = warnRecordMapper.getDingWarnStatusCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                logTypeCountUnits.forEach(countUnit -> {
+                    countUnit.setKey(getStatusByCode(countUnit.getCode()));
+                });
+                statusCount.setList(logTypeCountUnits);
+                list.add(statusCount);
+            });
+        } catch (Exception e) {
+            log.error("getLogTypeCount error", e);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<StatusCount> getEmailStatusCount(WarnStatisticVo warnStatisticVo, List<String> projects) {
+        List<StatusCount> list = Lists.newArrayList();
+
+        try {
+            projects.forEach(project -> {
+                StatusCount statusCount = new StatusCount();
+                statusCount.setProject(project);
+                List<StatusCountUnit> logTypeCountUnits = warnRecordMapper.getEmailWarnStatusCount(project, warnStatisticVo.getFrom(), warnStatisticVo.getTo());
+                logTypeCountUnits.forEach(countUnit -> {
+                    countUnit.setKey(getStatusByCode(countUnit.getCode()));
+                });
+                statusCount.setList(logTypeCountUnits);
+                list.add(statusCount);
+            });
+        } catch (Exception e) {
+            log.error("getLogTypeCount error", e);
+        }
+
+        return list;
+    }
+
+    private String getStatusByCode(Integer code) {
+        if(code == null || code == 2) {
+            return "发送失败";
+        }
+
+        if(code == 1) {
+            return "发送成功";
+        }
+
+        if(code == 0) {
+            return "用户取消";
+        }
+
+        return "状态异常";
     }
 
     private QueryWrapper<WarnRecord> generateWarnRecordQuery(WarnRecordVo warnRecordVo) {

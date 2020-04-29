@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class LogTypeCount {
+public class TypeCount {
     private String project;
-    private List<LogTypeCountUnit> logTypeCountUnits;
+    private List<TypeCountUnit> list;
 }
