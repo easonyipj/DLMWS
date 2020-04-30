@@ -132,6 +132,8 @@
             this.setWarnCountChartData(res.data.warnCounts)
             this.setLogTypeCountChartData(res.data.logTypeCounts, this.logTypeChart)
             this.setLogTypeCountChartData(res.data.keyWordCounts, this.keyWordCountsChart)
+            this.setStatusCountChartData(res.data.dingWarnStatusCounts, this.dingChart)
+            this.setStatusCountChartData(res.data.emailWarnStatusCounts, this.emailChart)
           }
         )
       },
@@ -377,15 +379,21 @@
       setStatusCountChartData(data, chart) {
         let meta = [];
         let chartData = [];
-        console.log(data)
+
         for(let i = 0; i < data.length; i++) {
           for(let j = 0; j < data[i].list.length; j++) {
-            let unit = data[i].list[j];
-            meta.push(unit.logType);
-            chartData.push({
-              value : unit.count,
-              name: unit.logType
-            })
+            let key = data[i].list[j].key;
+            if(meta.indexOf(key) === -1) {
+              meta.push(key)
+              chartData.push({
+                name: key,
+                value: data[i].list[j].count
+              })
+            }else {
+              let value = chartData.find(function(x) {return x.name = key;}).value
+              value +=  data[i].list[j].count
+              chartData.find(function(x) {return x.name = key;}).value = value
+            }
           }
         }
         chart.setOption({

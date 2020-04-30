@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9dba540e-8def-4b5c-81cd-24e8b012073c" name="Default Changelist" comment="[init]dlmws-admin-frontend">
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-common/src/main/java/com/yipingjian/dlmws/utils/PageUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-core/src/main/java/com/yipingjian/dlmws/config/MybatisPlusConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/controller/WarnRecordController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecord.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecordVo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/mapper/WarnRecordMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/service/WarnRecordService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/service/impl/WarnRecordServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/api/warn.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/TomcatLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/tomcat/entity/TomcatLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/service/RuleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/warn/service/RuleService.java" afterDir="false" />
+    <list default="true" id="9dba540e-8def-4b5c-81cd-24e8b012073c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/theme/macarons.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/BarChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/LineChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/PanelGroup.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/PieChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/RaddarChart.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/Todo.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/index.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TransactionTable.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/mixins/resize.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/api/rule.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/api/rule.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/monitor/search.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/monitor/search.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/warn/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/warn/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/warn/statistic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/warn/statistic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/Rule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecord.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,8 +31,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Vue Single File Component" />
         <option value="JavaScript File" />
+        <option value="Vue Single File Component" />
       </list>
     </option>
   </component>
@@ -44,12 +49,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="D:/NBAPlayerStats-master" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/views/dashboard" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="ts.external.directory.path" value="D:\WebStorm\WebStorm 2019.3.4\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\DLMWS\dlmws-admin-frontend\src\views\dashboard" />
+      <recent name="D:\DLMWS\dlmws-admin-frontend\src\theme" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration name="run-dev" type="js.build_tools.npm">
@@ -87,6 +98,13 @@
       <workItem from="1587527625574" duration="12474000" />
       <workItem from="1587642380628" duration="679000" />
       <workItem from="1587702984161" duration="13053000" />
+      <workItem from="1587739555462" duration="152000" />
+      <workItem from="1587831375513" duration="607000" />
+      <workItem from="1587868688436" duration="1865000" />
+      <workItem from="1588047495455" duration="6195000" />
+      <workItem from="1588123010865" duration="15004000" />
+      <workItem from="1588215035067" duration="9694000" />
+      <workItem from="1588252433310" duration="9212000" />
     </task>
     <task id="LOCAL-00001" summary="[init]dlmws-admin-frontend">
       <created>1586795745032</created>
@@ -116,7 +134,21 @@
       <option name="project" value="LOCAL" />
       <updated>1587566100186</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="[feat] 前端开发&#10;-报警记录查询">
+      <created>1587739627781</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1587739627781</updated>
+    </task>
+    <task id="LOCAL-00006" summary="[feat] 前端开发&#10;-报警记录统计">
+      <created>1588177406808</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1588177406808</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -127,37 +159,48 @@
     <MESSAGE value="[feat]&#10;监控中心开发" />
     <MESSAGE value="[init]dlmws-admin-frontend" />
     <MESSAGE value="[feat]前端开发&#10;报警规则" />
-    <option name="LAST_COMMIT_MESSAGE" value="[feat]前端开发&#10;报警规则" />
+    <MESSAGE value="[feat] 前端开发&#10;-报警记录查询" />
+    <MESSAGE value="[feat] 前端开发&#10;-报警记录统计" />
+    <option name="LAST_COMMIT_MESSAGE" value="[feat] 前端开发&#10;-报警记录统计" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586594465678">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="96" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.760@0.0.1280.760" timestamp="1586594465678" />
-    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1587566084268">
+    <state x="371" y="130" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1588258276130">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1587566084268" />
-    <state x="421" y="138" key="FileChooserDialogImpl" timestamp="1587192313232">
+    <state x="371" y="130" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.760@0.0.1280.760" timestamp="1588258276130" />
+    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1588177405034">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="421" y="138" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1587192313232" />
-    <state width="1260" height="198" key="GridCell.Tab.0.bottom" timestamp="1587739477757">
+    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588177405034" />
+    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1587739617833" />
+    <state x="421" y="138" key="FileChooserDialogImpl" timestamp="1588252810323">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="198" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1587739477757" />
-    <state width="1260" height="198" key="GridCell.Tab.0.center" timestamp="1587739477756">
+    <state x="421" y="138" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1588252810323" />
+    <state width="1260" height="118" key="GridCell.Tab.0.bottom" timestamp="1588240106030">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="198" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1587739477756" />
-    <state width="1260" height="198" key="GridCell.Tab.0.left" timestamp="1587739477756">
+    <state width="1260" height="118" key="GridCell.Tab.0.bottom/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
+    <state width="1260" height="130" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
+    <state width="1260" height="118" key="GridCell.Tab.0.center" timestamp="1588240106030">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="198" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1587739477756" />
-    <state width="1260" height="198" key="GridCell.Tab.0.right" timestamp="1587739477757">
+    <state width="1260" height="118" key="GridCell.Tab.0.center/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
+    <state width="1260" height="130" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
+    <state width="1260" height="118" key="GridCell.Tab.0.left" timestamp="1588240106030">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state width="1260" height="198" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1587739477757" />
+    <state width="1260" height="118" key="GridCell.Tab.0.left/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
+    <state width="1260" height="130" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
+    <state width="1260" height="118" key="GridCell.Tab.0.right" timestamp="1588240106030">
+      <screen x="0" y="0" width="1280" height="760" />
+    </state>
+    <state width="1260" height="118" key="GridCell.Tab.0.right/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
+    <state width="1260" height="130" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
     <state width="1260" height="2" key="GridCell.Tab.1.bottom" timestamp="1586881319743">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
@@ -210,17 +253,23 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="508" y="93" key="RollbackChangesDialog/0.0.1280.760@0.0.1280.760" timestamp="1586745239883" />
-    <state x="233" y="116" key="Vcs.Push.Dialog.v2" timestamp="1587566102971">
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2" timestamp="1588177408627">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
-    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1587566102971" />
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588177408627" />
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1587739693070" />
     <state x="331" y="134" width="616" height="490" key="find.popup" timestamp="1586666782827">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="331" y="134" width="616" height="490" key="find.popup/0.0.1280.760@0.0.1280.760" timestamp="1586666782827" />
-    <state x="304" y="83" width="672" height="678" key="search.everywhere.popup" timestamp="1586835632022">
+    <state x="299" y="172" key="run.anything.popup" timestamp="1588237021293">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
+    <state x="299" y="172" key="run.anything.popup/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588237021293" />
+    <state x="305" y="84" width="672" height="678" key="search.everywhere.popup" timestamp="1588231478288">
+      <screen x="0" y="0" width="1280" height="760" />
+    </state>
+    <state x="305" y="84" width="672" height="678" key="search.everywhere.popup/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588231478288" />
     <state x="304" y="83" width="672" height="678" key="search.everywhere.popup/0.0.1280.760@0.0.1280.760" timestamp="1586835632022" />
   </component>
 </project>
