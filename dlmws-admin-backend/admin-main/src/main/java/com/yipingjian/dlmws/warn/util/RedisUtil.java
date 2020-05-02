@@ -35,4 +35,12 @@ public class RedisUtil {
         redisTemplate.convertAndSend(channel, value);
     }
 
+    public Integer getCount(String key) {
+        String count = redisTemplate.opsForValue().get(key);
+        if(count == null) {
+            return 0;
+        }
+        return Integer.parseInt(count);
+    }
+
 }

@@ -109,6 +109,7 @@ public class JvmServiceImpl extends ServiceImpl<JvmMapper, JvmEntity> implements
             // 如果存在 则不为新产生的实例
             if(jvmKey.contains(jvm.getIp() + jvm.getPid())) {
                 jvmKey.remove(jvm.getIp() + jvm.getPid());
+                jvm.setStatus(1);
             }else {
                 // 如果不在jvmKey中, 状态修改为失联
                 jvm.setStatus(0);

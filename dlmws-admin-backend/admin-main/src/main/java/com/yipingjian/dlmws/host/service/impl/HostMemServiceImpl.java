@@ -2,7 +2,6 @@ package com.yipingjian.dlmws.host.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.yipingjian.dlmws.host.entity.HostCpu;
 import com.yipingjian.dlmws.host.entity.HostMem;
 import com.yipingjian.dlmws.host.mapper.HostMemMapper;
 import com.yipingjian.dlmws.host.service.HostMemService;
