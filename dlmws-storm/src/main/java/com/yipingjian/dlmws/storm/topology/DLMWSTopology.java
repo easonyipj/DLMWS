@@ -25,13 +25,13 @@ public class DLMWSTopology {
         // kafka server的基本配置
         properties.setProperty("group.id", "test-news-topic");
         // 定义一个KafkaSpoutConfig
-        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("192.168.0.19:9092",
+        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("localhost:9092",
                 "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
         // 定义KafkaBolt
         Properties props = new Properties();
-        props.put("bootstrap.servers", "192.168.0.19:9092");
+        props.put("bootstrap.servers", "localhost:9092");
         props.put("acks", "1");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
@@ -64,24 +64,31 @@ public class DLMWSTopology {
                 .shuffleGrouping("interval-bolt")
                 .shuffleGrouping("ewma-bolt");
 
+        // 统计bolt
+        topologyBuilder.setBolt("count-bolt", new CountBolt(), 1)
+                .localOrShuffleGrouping("log-format", CommonConstant.COUNT)
+                .localOrShuffleGrouping("warning-format", CommonConstant.COUNT)
+                .localOrShuffleGrouping("interval-bolt", CommonConstant.COUNT)
+                .localOrShuffleGrouping("ewma-bolt", CommonConstant.COUNT);
+
 
         // 持久化分发bolt
-//        topologyBuilder.setBolt("distribute", new DistributeBolt(), 2).shuffleGrouping("log-format");
-//        // 持久化tomcat log到es集群
-//        topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);
-//        // 持久化host log到 mysql
-//        topologyBuilder.setBolt("persist-host-mem", PersistToMySQLBoltBuilder.createHostMemInsertBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.HOST_MEM);
-//        topologyBuilder.setBolt("persist-host-cpu", PersistToMySQLBoltBuilder.createHostCpuInsertBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.HOST_CPU);
-//        // 持久化jvm log到mysql
-//        topologyBuilder.setBolt("persist-jvm-mem", PersistToMySQLBoltBuilder.createJvmMemInsertBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.JVM_MEM);
-//        topologyBuilder.setBolt("persist-jvm-thread", PersistToMySQLBoltBuilder.createJvmThreadInsertBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.JVM_THREAD);
-//        topologyBuilder.setBolt("persist-jvm-class", PersistToMySQLBoltBuilder.createJvmClassInsertBolt(), 1)
-//                .localOrShuffleGrouping("distribute", CommonConstant.JVM_CLASS);
+        topologyBuilder.setBolt("distribute", new DistributeBolt(), 2).shuffleGrouping("log-format");
+        // 持久化tomcat log到es集群
+        topologyBuilder.setBolt("persist-tomcat-log", new PersistTomcatLogBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.TOMCAT);
+        // 持久化host log到 mysql
+        topologyBuilder.setBolt("persist-host-mem", PersistToMySQLBoltBuilder.createHostMemInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.HOST_MEM);
+        topologyBuilder.setBolt("persist-host-cpu", PersistToMySQLBoltBuilder.createHostCpuInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.HOST_CPU);
+        // 持久化jvm log到mysql
+        topologyBuilder.setBolt("persist-jvm-mem", PersistToMySQLBoltBuilder.createJvmMemInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_MEM);
+        topologyBuilder.setBolt("persist-jvm-thread", PersistToMySQLBoltBuilder.createJvmThreadInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_THREAD);
+        topologyBuilder.setBolt("persist-jvm-class", PersistToMySQLBoltBuilder.createJvmClassInsertBolt(), 1)
+                .localOrShuffleGrouping("distribute", CommonConstant.JVM_CLASS);
 
 
         // 提交到storm集群

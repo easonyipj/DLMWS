@@ -10,6 +10,9 @@ public class CommonConstant {
     public static final String INTERVAL_TYPE = "interval";
     public static final String EWMA_TYPE = "ewma";
     public static final String IMMEDIATE_TYPE = "immediate";
+    public static final String COUNT = "count";
     public static final String MEMORY = "mem";
     public static final String SWAP = "swap";
+    public static final String SYS_CPU = "sys_cpu";
+    public static final String USER_CPU = "user_cpu";
 }

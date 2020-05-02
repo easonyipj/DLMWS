@@ -3,6 +3,7 @@ package com.yipingjian.dlmws.storm.bolt;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
+import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 
 import com.yipingjian.dlmws.storm.entity.Rule;
@@ -68,6 +69,8 @@ public class IntervalCountBolt extends BaseRichBolt {
             String message = WarnMessageService.generateWarnMsg(tomcatLogEntity.getIp(), tomcatLogEntity.getOccurredTime().getTime(), JSONObject.toJSONString(tomcatLogEntity), rule);
             log.info("interval-bolt: send warning msg {}", message);
             outputCollector.emit(new Values(message));
+            String countKey = project + ":" + "warn" + ":" + rule.getLogType();
+            outputCollector.emit(CommonConstant.COUNT, new Values(countKey));
         }
         // 更新并设置过期时间
         jedisCommands.setex(key, rule.getIntervalTime(), JSONArray.toJSONString(timeSeq));
@@ -80,5 +83,6 @@ public class IntervalCountBolt extends BaseRichBolt {
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
         outputFieldsDeclarer.declare(new Fields("message"));
+        outputFieldsDeclarer.declareStream(CommonConstant.COUNT, new Fields("key"));
     }
 }

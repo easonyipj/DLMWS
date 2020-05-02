@@ -13,6 +13,7 @@ import org.apache.storm.topology.OutputFieldsDeclarer;
 import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
+import org.apache.storm.tuple.Values;
 
 import java.util.Map;
 
@@ -49,6 +50,8 @@ public class LogFormatBolt extends BaseRichBolt {
                 tomcatLogEntity.setLogType(logType);
                 tomcatLogEntity.setIp(ip);
                 entity = tomcatLogEntity;
+                String key = project + ":" + "count:" + tomcatLogEntity.getLevel();
+                outputCollector.emit(CommonConstant.COUNT, new Values(key));
             }
 
             // host日志
@@ -82,5 +85,6 @@ public class LogFormatBolt extends BaseRichBolt {
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
         outputFieldsDeclarer.declare(new Fields("value", "type", "project"));
+        outputFieldsDeclarer.declareStream(CommonConstant.COUNT, new Fields("key"));
     }
 }

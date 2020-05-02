@@ -1,12 +1,10 @@
 package com.yipingjian.dlmws.storm.bolt;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 
-import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.storm.common.CommonConstant;
-import com.yipingjian.dlmws.storm.config.JedisPoolConfig;
 import com.yipingjian.dlmws.storm.common.LRUMapUtil;
+import com.yipingjian.dlmws.storm.common.RuleUtil;
 import com.yipingjian.dlmws.storm.entity.*;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +16,6 @@ import org.apache.storm.topology.base.BaseRichBolt;
 import org.apache.storm.tuple.Fields;
 import org.apache.storm.tuple.Tuple;
 import org.apache.storm.tuple.Values;
-import redis.clients.jedis.commands.JedisCommands;
 
 import java.util.List;
 import java.util.Map;
@@ -58,41 +55,64 @@ public class WarningBolt extends BaseRichBolt{
                 List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.TOMCAT);
                 // 匹配关键字
                 rules.forEach(rule -> {
-                    // 命中关键字
-                    if(tomcatLogEntity.getLogMessage().contains(rule.getKeyword())) {
-                        if(CommonConstant.INTERVAL_TYPE.equals(rule.getType())) {
-                            // 发送到 intervalBolt 进行统计处理
-                            log.info("warning-bolt: interval process, match rules:{}", rule.toString());
-                            outputCollector.emit(CommonConstant.INTERVAL_TYPE, new Values(tomcatLogEntity, rule.getKeyword(), rule));
-                        }else{
-                            // 组装消息发送到kafka写入Bolt
-                            String message = WarnMessageService.generateWarnMsg(tomcatLogEntity.getIp(), tomcatLogEntity.getOccurredTime().getTime(), value, rule);
-                            //log.info("warning-bolt: 性能测试");
-                            log.info("warning-bolt: immediate process, match rules:{}, message:{}", rule.toString(), message);
-                            outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(message));
-                        }
+                    // 检查规则
+                    RuleResult ruleResult = RuleUtil.checkTomcatRule(rule, tomcatLogEntity, value);
+                    if(CommonConstant.INTERVAL_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.INTERVAL_TYPE, new Values(tomcatLogEntity, rule.getKeyword(), rule));
+                    }
+                    if(CommonConstant.IMMEDIATE_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(ruleResult.getMessage()));
+                        String key = project + ":" + "warn:" + logType;
+                        outputCollector.emit(CommonConstant.COUNT, new Values(key));
                     }
                 });
             }
 
+            // host mem
             if(warn && CommonConstant.HOST_MEM.equals(logType)) {
-                Memory memory = JSONObject.parseObject(value, Memory.class);
                 List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.HOST_MEM);
                 rules.forEach(rule -> {
-                    if(CommonConstant.MEMORY.equals(rule.getKeyword())) {
-                        if(rule.getType().equals(CommonConstant.IMMEDIATE_TYPE) && memory.getMemoryUsedRate() >= rule.getThreshold()) {
-                            // 达到瞬时报警阈值
-                            String message = WarnMessageService.generateWarnMsg(memory.getHostIp(), memory.getTime().getTime(), value, rule);
-                            log.info("warning-bolt: immediate process, match rules:{}, message:{}", rule.toString(), message);
-                            outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(message));
-                        } else if(CommonConstant.INTERVAL_TYPE.equals(rule.getType())){
-                            // 进行指数移动计算
-                            log.info("warning-bolt: ewma process, match rules:{}, log:{}", rule.toString(), memory);
-                            outputCollector.emit(CommonConstant.EWMA_TYPE, new Values(memory.getMemoryUsedRate(), memory.getHostIp(), value, memory.getTime().getTime(), rule));
-                        }
+                    RuleResult ruleResult = RuleUtil.checkHostMemRule(rule, value);
+                    if(CommonConstant.INTERVAL_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.EWMA_TYPE, new Values(ruleResult.getRate(), ruleResult.getIp(), value, ruleResult.getTime(), rule));
                     }
+                    if(CommonConstant.IMMEDIATE_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(ruleResult.getMessage()));
+                        String key = project + ":" + "warn:" + logType;
+                        outputCollector.emit(CommonConstant.COUNT, new Values(key));
+                    }
+                });
+            }
 
+            // host cpu
+            if(warn && CommonConstant.HOST_CPU.equals(logType)) {
+                List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.HOST_CPU);
+                rules.forEach(rule -> {
+                    RuleResult ruleResult = RuleUtil.checkHostCpuRule(rule, value);
+                    if(CommonConstant.INTERVAL_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.EWMA_TYPE, new Values(ruleResult.getRate(), ruleResult.getIp(), value, ruleResult.getTime(), rule));
+                    }
+                    if(CommonConstant.IMMEDIATE_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(ruleResult.getMessage()));
+                        String key = project + ":" + "warn:" + logType;
+                        outputCollector.emit(CommonConstant.COUNT, new Values(key));
+                    }
+                });
+            }
 
+            // jvm mem
+            if(warn && CommonConstant.JVM_MEM.equals(logType)) {
+                List<Rule> rules = LRUMapUtil.getRules(project, CommonConstant.JVM_MEM);
+                rules.forEach(rule -> {
+                    RuleResult ruleResult = RuleUtil.checkJvmMemRule(rule, value);
+                    if(CommonConstant.INTERVAL_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.EWMA_TYPE, new Values(ruleResult.getRate(), ruleResult.getIp(), value, ruleResult.getTime(), rule));
+                    }
+                    if(CommonConstant.IMMEDIATE_TYPE.equals(ruleResult.getWarnType())) {
+                        outputCollector.emit(CommonConstant.IMMEDIATE_TYPE, new Values(ruleResult.getMessage()));
+                        String key = project + ":" + "warn:" + logType;
+                        outputCollector.emit(CommonConstant.COUNT, new Values(key));
+                    }
                 });
             }
 
@@ -108,6 +128,7 @@ public class WarningBolt extends BaseRichBolt{
         outputFieldsDeclarer.declareStream(CommonConstant.INTERVAL_TYPE, new Fields("log", "keyword", "rule"));
         outputFieldsDeclarer.declareStream(CommonConstant.EWMA_TYPE, new Fields("value", "ip", "log", "time", "rule"));
         outputFieldsDeclarer.declareStream(CommonConstant.IMMEDIATE_TYPE, new Fields("message"));
+        outputFieldsDeclarer.declareStream(CommonConstant.COUNT, new Fields("key"));
     }
 }
 

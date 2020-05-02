@@ -2,6 +2,7 @@ package com.yipingjian.dlmws.storm.bolt;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.yipingjian.dlmws.storm.common.CommonConstant;
 import com.yipingjian.dlmws.storm.common.EWMA;
 import com.yipingjian.dlmws.storm.entity.Rule;
 import com.yipingjian.dlmws.storm.service.WarnMessageService;
@@ -53,6 +54,8 @@ public class EWMABolt extends BaseRichBolt {
             String ip = tuple.getStringByField("ip");
             String message = WarnMessageService.generateWarnMsg(ip, time, logText, rule);
             log.info("send warning message, {}", message);
+            String countKey = rule.getProject() + ":" + "warn" + ":" + rule.getLogType();
+            outputCollector.emit(CommonConstant.COUNT, new Values(countKey));
             outputCollector.emit(new Values(message));
         }
 
@@ -61,5 +64,6 @@ public class EWMABolt extends BaseRichBolt {
     @Override
     public void declareOutputFields(OutputFieldsDeclarer outputFieldsDeclarer) {
         outputFieldsDeclarer.declare(new Fields("message"));
+        outputFieldsDeclarer.declareStream(CommonConstant.COUNT, new Fields("key"));
     }
 }

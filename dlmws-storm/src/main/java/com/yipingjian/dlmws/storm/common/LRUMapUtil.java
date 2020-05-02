@@ -16,6 +16,8 @@ public class LRUMapUtil {
     public static LRUMap TOMCAT_MAP = new LRUMap();
     public static LRUMap HOST_MEM_MAP = new LRUMap();
     public static LRUMap HOST_CPU_MAP = new LRUMap();
+    public static LRUMap JVM_MEM_MAP = new LRUMap();
+    public static LRUMap JVM_THREAD_MAP = new LRUMap();
     public static JedisCommands jedisCommands = JedisPoolConfig.jedisPool.getResource();
     private static ReentrantReadWriteLock reentrantReadWriteLock = new ReentrantReadWriteLock();
 
@@ -49,6 +51,10 @@ public class LRUMapUtil {
                 return HOST_MEM_MAP;
             case CommonConstant.HOST_CPU:
                 return HOST_CPU_MAP;
+            case CommonConstant.JVM_MEM:
+                return JVM_MEM_MAP;
+            case CommonConstant.JVM_THREAD:
+                return JVM_THREAD_MAP;
             default:
                 return TOMCAT_MAP;
         }
