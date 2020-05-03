@@ -54,7 +54,17 @@ export const constantRoutes = [
       meta: { title: '数据大盘', icon: 'dashboard' }
     }]
   },
-
+  {
+    path: '/deploy',
+    component: Layout,
+    redirect: '/deploy',
+    children: [{
+      path: 'deploy',
+      name: '脚本部署',
+      component: () => import('@/views/deploy/index'),
+      meta: { title: '脚本部署', icon: 'password' }
+    }]
+  },
   {
     path: '/monitor',
     component: Layout,

@@ -110,7 +110,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item v-if="rule.type==='interval'" label="阈值">
+          <el-form-item v-if="rule.type==='interval' || rule.logType !== 'tomcat'" label="阈值">
             <el-input v-model="rule.threshold" ></el-input>
           </el-form-item>
           <el-form-item v-if="rule.type==='interval'" label="周期">
@@ -218,7 +218,9 @@
           api = '/update'
         }
         if(this.rule.type === 'immediate') {
-          this.rule.threshold = 0;
+          if(this.rule.logType === 'tomcat') {
+            this.rule.threshold = 0;
+          }
           this.rule.intervalTime = 0;
         }
         axios

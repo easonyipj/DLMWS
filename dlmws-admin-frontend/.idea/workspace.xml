@@ -2,24 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9dba540e-8def-4b5c-81cd-24e8b012073c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/theme/macarons.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/BarChart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/LineChart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/PanelGroup.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/PieChart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/RaddarChart.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/Todo.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/index.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TodoList/index.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/TransactionTable.vue" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/components/mixins/resize.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/views/dashboard/admin/index.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/entity/TypeCount.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/views/deploy/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/entity/LogStatisticSummary.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/entity/LogStatisticSummary.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/service/LogStatisticService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/service/LogStatisticService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/service/impl/LogStatisticServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/service/impl/LogStatisticServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/websocket/LogStatisticWebSocketServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/dashboard/websocket/LogStatisticWebSocketServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/entity/HostMem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/host/entity/HostMem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmMem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmMem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-admin-backend/admin-main/src/main/java/com/yipingjian/dlmws/jvm/entity/JvmThread.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/dashboard/admin/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/admin/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/dashboard/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/dashboard/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/warn/statistic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/warn/statistic.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/rule/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/rule/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dlmws-storm/src/main/java/com/yipingjian/dlmws/storm/topology/DLMWSTopology.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-storm/src/main/java/com/yipingjian/dlmws/storm/topology/DLMWSTopology.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/Rule.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/../dlmws-warn/src/main/java/com/yipingjian/dlmws/warn/entity/WarnRecord.java" afterDir="false" />
     </list>
@@ -104,7 +102,11 @@
       <workItem from="1588047495455" duration="6195000" />
       <workItem from="1588123010865" duration="15004000" />
       <workItem from="1588215035067" duration="9694000" />
-      <workItem from="1588252433310" duration="9212000" />
+      <workItem from="1588252433310" duration="9447000" />
+      <workItem from="1588300646767" duration="3728000" />
+      <workItem from="1588406526770" duration="1434000" />
+      <workItem from="1588471312530" duration="2627000" />
+      <workItem from="1588491968781" duration="4605000" />
     </task>
     <task id="LOCAL-00001" summary="[init]dlmws-admin-frontend">
       <created>1586795745032</created>
@@ -148,7 +150,14 @@
       <option name="project" value="LOCAL" />
       <updated>1588177406808</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="[feat] 前端开发&#10;-数据大盘">
+      <created>1588263963623</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1588263963623</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -161,7 +170,8 @@
     <MESSAGE value="[feat]前端开发&#10;报警规则" />
     <MESSAGE value="[feat] 前端开发&#10;-报警记录查询" />
     <MESSAGE value="[feat] 前端开发&#10;-报警记录统计" />
-    <option name="LAST_COMMIT_MESSAGE" value="[feat] 前端开发&#10;-报警记录统计" />
+    <MESSAGE value="[feat] 前端开发&#10;-数据大盘" />
+    <option name="LAST_COMMIT_MESSAGE" value="[feat] 前端开发&#10;-数据大盘" />
   </component>
   <component name="WindowStateProjectService">
     <state x="96" y="38" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1586594465678">
@@ -172,35 +182,35 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="371" y="130" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.760@0.0.1280.760" timestamp="1588258276130" />
-    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1588177405034">
+    <state x="260" y="0" key="CommitChangelistDialog2" timestamp="1588263962343">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588177405034" />
-    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1587739617833" />
+    <state x="260" y="0" key="CommitChangelistDialog2/0.0.1280.760@0.0.1280.760" timestamp="1588263962343" />
     <state x="421" y="138" key="FileChooserDialogImpl" timestamp="1588252810323">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="421" y="138" key="FileChooserDialogImpl/0.0.1280.760@0.0.1280.760" timestamp="1588252810323" />
-    <state width="1260" height="118" key="GridCell.Tab.0.bottom" timestamp="1588240106030">
+    <state width="1260" height="153" key="GridCell.Tab.0.bottom" timestamp="1588477700403">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state width="1260" height="118" key="GridCell.Tab.0.bottom/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
-    <state width="1260" height="130" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
-    <state width="1260" height="118" key="GridCell.Tab.0.center" timestamp="1588240106030">
+    <state width="1260" height="153" key="GridCell.Tab.0.bottom/0.0.1280.760@0.0.1280.760" timestamp="1588477700403" />
+    <state width="1260" height="153" key="GridCell.Tab.0.center" timestamp="1588477700403">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state width="1260" height="118" key="GridCell.Tab.0.center/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
-    <state width="1260" height="130" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
-    <state width="1260" height="118" key="GridCell.Tab.0.left" timestamp="1588240106030">
+    <state width="1260" height="153" key="GridCell.Tab.0.center/0.0.1280.760@0.0.1280.760" timestamp="1588477700403" />
+    <state width="1260" height="153" key="GridCell.Tab.0.left" timestamp="1588477700403">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state width="1260" height="118" key="GridCell.Tab.0.left/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
-    <state width="1260" height="130" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
-    <state width="1260" height="118" key="GridCell.Tab.0.right" timestamp="1588240106030">
+    <state width="1260" height="153" key="GridCell.Tab.0.left/0.0.1280.760@0.0.1280.760" timestamp="1588477700403" />
+    <state width="1260" height="153" key="GridCell.Tab.0.right" timestamp="1588477700403">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state width="1260" height="118" key="GridCell.Tab.0.right/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588240106030" />
-    <state width="1260" height="130" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1587891705244" />
+    <state width="1260" height="153" key="GridCell.Tab.0.right/0.0.1280.760@0.0.1280.760" timestamp="1588477700403" />
     <state width="1260" height="2" key="GridCell.Tab.1.bottom" timestamp="1586881319743">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
@@ -253,11 +263,11 @@
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="508" y="93" key="RollbackChangesDialog/0.0.1280.760@0.0.1280.760" timestamp="1586745239883" />
-    <state x="233" y="116" key="Vcs.Push.Dialog.v2" timestamp="1588177408627">
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2" timestamp="1588263966220">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
     <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760/2560.0.1536.824@0.0.1280.760" timestamp="1588177408627" />
-    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1587739693070" />
+    <state x="233" y="116" key="Vcs.Push.Dialog.v2/0.0.1280.760@0.0.1280.760" timestamp="1588263966220" />
     <state x="331" y="134" width="616" height="490" key="find.popup" timestamp="1586666782827">
       <screen x="0" y="0" width="1280" height="760" />
     </state>
