@@ -12,19 +12,5 @@ import javax.annotation.Resource;
 
 @SpringBootTest
 class AdminWebApplicationTests {
-    @Resource
-    private TomcatLogService elasticSearchService;
 
-    @Resource
-    private RuleService ruleService;
-
-    @Test
-    public void testElasticSearchService(){
-        elasticSearchService.getTomcatLogs(new EsRequestVo());
-    }
-
-    @Test
-    public void testRuleService() {
-        ruleService.addRule("test", new Rule());
-    }
 }

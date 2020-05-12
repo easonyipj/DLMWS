@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.yipingjian.dlmws.dashboard.entity.LogStatistic;
 import com.yipingjian.dlmws.dashboard.entity.LogStatisticSummary;
+import com.yipingjian.dlmws.dashboard.entity.TypeCount;
 import com.yipingjian.dlmws.dashboard.mapper.LogStatisticMapper;
 import com.yipingjian.dlmws.dashboard.service.LogStatisticService;
 import com.yipingjian.dlmws.warn.util.RedisUtil;
@@ -33,6 +34,8 @@ public class LogStatisticServiceImpl extends ServiceImpl<LogStatisticMapper, Log
         logStatisticSummary.setWarnCount(warnCountList.get(warnCountList.size() - 1).getCount());
         logStatisticSummary.setLogCountList(logCountList);
         logStatisticSummary.setWarnCountList(warnCountList);
+        logStatisticSummary.setLogLevelCount(getLogLevelCount(owner, from, to));
+        logStatisticSummary.setWarnTypeCount(getWarnTypeCount(owner, from, to));
         return logStatisticSummary;
     }
 
@@ -43,14 +46,14 @@ public class LogStatisticServiceImpl extends ServiceImpl<LogStatisticMapper, Log
 
     @Override
     public List<LogStatistic> getWarnCount(String owner, String from, String to) {
-        return list(new QueryWrapper<LogStatistic>().eq("owner", owner).eq("type", "log-count").ge("time", from).le("time", to));
+        return list(new QueryWrapper<LogStatistic>().eq("owner", owner).eq("type", "warn-count").ge("time", from).le("time", to));
     }
 
     @Override
     public void updateLogCount(String owner) {
         List<String> projects = Lists.newArrayList("dlmws-agent", "dlmws-log");
         Integer count = 0;
-        LogStatistic latest = this.getOne(new QueryWrapper<LogStatistic>().eq("onwer", owner).eq("type", "log-count").orderByDesc("time"));
+        LogStatistic latest = null;//this.getOne(new QueryWrapper<LogStatistic>().eq("owner", owner).eq("type", "log-count").orderByDesc("time"));
         if(latest != null) {
             count = latest.getCount();
         }
@@ -73,7 +76,7 @@ public class LogStatisticServiceImpl extends ServiceImpl<LogStatisticMapper, Log
     public void updateWarnCount(String owner) {
         List<String> projects = Lists.newArrayList("dlmws-agent", "dlmws-log");
         Integer count = 0;
-        LogStatistic latest = this.getOne(new QueryWrapper<LogStatistic>().eq("onwer", owner).eq("type", "warn-count").orderByDesc("time"));
+        LogStatistic latest = null;//this.getOne(new QueryWrapper<LogStatistic>().eq("owner", owner).eq("type", "warn-count").orderByDesc("time"));
         if(latest != null) {
             count = latest.getCount();
         }
@@ -92,5 +95,41 @@ public class LogStatisticServiceImpl extends ServiceImpl<LogStatisticMapper, Log
         logStatistic.setTime(new Date(System.currentTimeMillis()));
         logStatistic.setType("warn-count");
         this.save(logStatistic);
+    }
+
+    @Override
+    public List<TypeCount> getLogLevelCount(String owner, String from, String to) {
+        List<String> projects = Lists.newArrayList("dlmws-agent", "dlmws-log");
+        TypeCount info = new TypeCount("INFO");
+        TypeCount error = new TypeCount("ERROR");
+        TypeCount warn = new TypeCount("DEBUG");
+        TypeCount debug = new TypeCount("WARN");
+        for (String project : projects) {
+            info.setCount(info.getCount() + redisUtil.getCount(project + ":count:INFO"));
+            error.setCount(error.getCount() + redisUtil.getCount(project + ":count:ERROR"));
+            warn.setCount(warn.getCount() + redisUtil.getCount(project + ":count:DEBUG"));
+            debug.setCount(debug.getCount() + redisUtil.getCount(project + ":count:WARN"));
+        }
+        return Lists.newArrayList(info, error, warn, debug);
+    }
+
+    @Override
+    public List<TypeCount> getWarnTypeCount(String owner, String from, String to) {
+        List<String> projects = Lists.newArrayList("dlmws-agent", "dlmws-log");
+        TypeCount tomcat = new TypeCount("tomcat");
+        TypeCount hostMem = new TypeCount("host-mem");
+        TypeCount hostCpu = new TypeCount("host-cpu");
+        TypeCount jvmMem = new TypeCount("jvm-mem");
+        TypeCount jvmClass = new TypeCount("jvm-class");
+        TypeCount jvmThread = new TypeCount("jvm-thread");
+        for (String project : projects) {
+            tomcat.setCount(tomcat.getCount() + redisUtil.getCount(project + ":warn:tomcat"));
+            hostMem.setCount(hostMem.getCount() + redisUtil.getCount(project + ":warn:host-mem"));
+            hostCpu.setCount(hostCpu.getCount() + redisUtil.getCount(project + ":warn:host-cpu"));
+            jvmMem.setCount(jvmMem.getCount() + redisUtil.getCount(project + ":warn:jvm-mem"));
+            jvmClass.setCount(jvmClass.getCount() + redisUtil.getCount(project + ":warn:jvm-class"));
+            jvmThread.setCount(jvmThread.getCount() + redisUtil.getCount(project + ":warn:jvm-thread"));
+        }
+        return Lists.newArrayList(tomcat, hostCpu, hostMem, jvmMem, jvmThread, jvmClass);
     }
 }

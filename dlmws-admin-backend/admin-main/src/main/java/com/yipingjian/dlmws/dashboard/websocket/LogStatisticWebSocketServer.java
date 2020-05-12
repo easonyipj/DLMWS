@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
-@ServerEndpoint("/ws/jvm/{ip}/{pid}")
+@ServerEndpoint("/ws/log/{owner}")
 public class LogStatisticWebSocketServer {
     private static LogStatisticService logStatisticService;
 
@@ -85,6 +85,7 @@ public class LogStatisticWebSocketServer {
 
     @OnError
     public void onError(Throwable error) {
+        log.error(error.getMessage());
         log.error("websocket exception owner{}\n{}", owner, Arrays.toString(error.getStackTrace()));
     }
 

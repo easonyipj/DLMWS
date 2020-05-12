@@ -10,4 +10,6 @@ public class LogStatisticSummary {
     private Integer warnCount;
     private List<LogStatistic> logCountList;
     private List<LogStatistic> warnCountList;
+    private List<TypeCount> logLevelCount;
+    private List<TypeCount> warnTypeCount;
 }
