@@ -1,6 +1,5 @@
 package com.yipingjian.dlmws.warn.entity;
 
-import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
@@ -34,7 +33,7 @@ public class WarnRecord {
     /**
      * 阈值
      */
-    private Integer threshold;
+    private Double threshold;
     /**
      * 时间序列周期
      */

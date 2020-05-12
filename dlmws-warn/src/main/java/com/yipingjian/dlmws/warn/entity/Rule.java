@@ -9,7 +9,7 @@ public class Rule{
     private String keyword;
     private String logType;
     private String type;
-    private Integer threshold;
+    private Double threshold;
     private Integer intervalTime;
     private String dingTalkId;
     private String email;
