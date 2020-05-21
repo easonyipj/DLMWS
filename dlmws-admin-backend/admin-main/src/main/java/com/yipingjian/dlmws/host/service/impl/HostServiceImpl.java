@@ -23,7 +23,7 @@ public class HostServiceImpl extends ServiceImpl<HostMapper, Host> implements Ho
     @Resource
     private HostMemService hostMemService;
 
-    private static final Long THIRTY_MIN = 7 * 24L * 60 * 60 * 1000;
+    private static final Long THIRTY_MIN = 30L * 60 * 1000;
 
     @Override
     public HostDataEntity getHostData(String ip, long[] cpuInterval) {

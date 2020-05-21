@@ -2,10 +2,11 @@ package com.yipingjian.dlmws.tomcat.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class TomcatLog {
+public class TomcatLog implements Serializable {
     /**
      * 日志所在项目 filebeat中配置
      */

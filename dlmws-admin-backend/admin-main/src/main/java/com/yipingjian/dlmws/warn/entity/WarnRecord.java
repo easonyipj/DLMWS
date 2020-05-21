@@ -6,10 +6,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.yipingjian.dlmws.tomcat.entity.TomcatLog;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 @Data
-public class WarnRecord {
+public class WarnRecord implements Serializable {
     @TableId(type = IdType.AUTO)
     private Integer id;
     /**

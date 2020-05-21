@@ -2,8 +2,10 @@ package com.yipingjian.dlmws.host.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class Host {
+public class Host implements Serializable {
     private Long id;
     private String ip;
     private String name;
