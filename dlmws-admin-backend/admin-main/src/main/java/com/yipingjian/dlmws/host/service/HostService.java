@@ -8,4 +8,5 @@ import java.util.List;
 public interface HostService {
     HostDataEntity getHostData(String ip, long[] cpuTime);
     List<Host> getHostList(String owner);
+    void addHost(Host host);
 }

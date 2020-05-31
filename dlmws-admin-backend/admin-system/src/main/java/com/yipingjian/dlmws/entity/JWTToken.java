@@ -6,6 +6,10 @@ public class JWTToken implements AuthenticationToken {
 
     private String token;
 
+    public JWTToken(String token) {
+        this.token = token;
+    }
+
     @Override
     public Object getPrincipal() {
         return token;

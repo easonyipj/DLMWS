@@ -10,6 +10,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>admin-core</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.yipingjian</groupId>
+            <artifactId>admin-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 
 </project>

@@ -49,4 +49,9 @@ public class HostServiceImpl extends ServiceImpl<HostMapper, Host> implements Ho
     public List<Host> getHostList(String owner) {
         return list(new QueryWrapper<Host>().eq("owner", owner));
     }
+
+    @Override
+    public void addHost(Host host) {
+        this.saveOrUpdate(host);
+    }
 }

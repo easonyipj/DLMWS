@@ -11,12 +11,7 @@
 
     <artifactId>admin-common</artifactId>
     <dependencies>
-        <dependency>
-            <groupId>com.yipingjian</groupId>
-            <artifactId>admin-core</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
 </project>
