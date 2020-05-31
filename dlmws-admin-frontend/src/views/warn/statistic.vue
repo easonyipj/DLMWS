@@ -380,7 +380,7 @@
         let meta = [];
         let chartData = [];
 
-        for(let i = 0; i < data.length; i++) {
+        for(let i = 0; i <= 0; i++) {
           for(let j = 0; j < data[i].list.length; j++) {
             let key = data[i].list[j].key;
             if(meta.indexOf(key) === -1) {
@@ -390,11 +390,13 @@
                 value: data[i].list[j].count
               })
             }else {
-              let value = chartData.find(function(x) {return x.name = key;}).value
-              value +=  data[i].list[j].count
-              chartData.find(function(x) {return x.name = key;}).value = value
+              let item = chartData.find(function(x) {return x.name = key;})
+              console.log(item)
+              item.value +=  data[i].list[j].count
+              console.log(item)
             }
           }
+          console.log(chartData)
         }
         chart.setOption({
           legend: {

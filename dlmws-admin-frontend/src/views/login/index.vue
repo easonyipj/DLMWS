@@ -54,6 +54,8 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import axios from 'axios'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 
 export default {
   name: 'Login',
@@ -76,10 +78,6 @@ export default {
       loginForm: {
         username: 'admin',
         password: '111111'
-      },
-      loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
@@ -106,21 +104,21 @@ export default {
       })
     },
     handleLogin() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            console.log(this.redirect)
+      this.loading = true
+      axios
+        .post('http://localhost:8088/sys/login', this.loginForm)
+        .then( res => {
+          if(res.status === 500 || res.code === 500) {
+            this.$message.error("添加失败");
+          }else {
+            setToken(res.data.token);
             this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      this.loading = false
     }
   }
 }

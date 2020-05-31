@@ -10,9 +10,9 @@
             <el-form-item>
               <el-button size="mini" icon="el-icon-s-data"  type="primary" @click="addHost">添加主机</el-button>
             </el-form-item>
-            <el-form-item>
-              <el-button size="mini"  icon="el-icon-search" type="success" @click="statistics">查看统计</el-button>
-            </el-form-item>
+<!--            <el-form-item>-->
+<!--              <el-button size="mini"  icon="el-icon-search" type="success" @click="statistics">查看统计</el-button>-->
+<!--            </el-form-item>-->
           </el-form>
         </el-col>
       </el-row>
@@ -78,7 +78,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="submit">确 定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -90,6 +90,7 @@
 import { list } from '../../api/host'
 import moment from 'moment'
 import chartMonitor from './chartMonitor'
+import axios from 'axios'
 
 export default {
   components: { chartMonitor },
@@ -152,6 +153,23 @@ export default {
     changeVisible(bool) {
       this.chartVisible = bool;
     },
+    submit() {
+      axios
+        .post('http://localhost:8088/host/add', this.host)
+        .then( res => {
+          if(res.data.code === 200) {
+            this.$message.success("添加成功");
+            this.dialogFormVisible = false;
+            this.getHostList();
+          }else {
+            this.dialogFormVisible = false;
+            this.$message.error("添加失败");
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
   }
 }
 </script>

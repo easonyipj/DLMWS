@@ -15,7 +15,7 @@
           <el-input v-model="warnVo.ip" placeholder="请输入主机IP" style="width: 176px"></el-input>
         </el-form-item>
         <el-form-item label="报警关键字">
-          <el-input v-model="warnVo.keyword" placeholder="agentId" style="width: 176px"></el-input>
+          <el-input v-model="warnVo.keyword" placeholder="keywords" style="width: 176px"></el-input>
         </el-form-item>
       </el-form>
       <el-form :inline="true" size="mini" class="demo-form-inline">

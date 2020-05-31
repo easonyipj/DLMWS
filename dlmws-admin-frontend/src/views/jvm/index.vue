@@ -8,7 +8,7 @@
         <el-col :span="24">
           <el-form :inline="true"  size="mini" class="demo-form-inline">
             <el-form-item>
-              <el-button size="mini"  icon="el-icon-s-data" type="primary" @click="statistics">查看统计</el-button>
+<!--              <el-button size="mini"  icon="el-icon-s-data" type="primary" @click="statistics">查看统计</el-button>-->
             </el-form-item>
           </el-form>
         </el-col>
@@ -53,7 +53,7 @@
               label="状态"
             >
               <template slot-scope="scope">
-                {{ scope.row.status | statusFilter }}
+                <el-tag size="mini" :type="scope.row.status | classFilter">{{ scope.row.status| statusFilter }}</el-tag>
               </template>
             </el-table-column>
             <el-table-column align="center" width="80" label="操作" >
@@ -74,7 +74,17 @@
   import jvmMonitor from './jvmMonitor'
   export default {
     components:{ jvmMonitor },
+
     filters: {
+      classFilter(status) {
+        const statusMap = {
+          0: 'info',
+          1: 'success',
+          2: 'danger',
+          null: 'danger'
+        }
+        return statusMap[status]
+      },
       statusFilter(status) {
         const statusMap = {
           1: '正常',
