@@ -1,3 +1,6 @@
+# DLMWS
+分布式日志监控报警系统
+
 ### 系统概要
 系统基于ELK和Kafka搭建，使用Storm实现实时流计算功能，并提出了一种“二级缓存”机制，提高了报警规则的匹配效率，同时，采用MySQL、Elasticsearch和Redis作为存储系统，满足系统不同类型数据的存储要求，并使用SpringBoot和Vue搭建管理平台提供用户交互界面。
 ***
@@ -68,6 +71,8 @@ Java进程监控
 报警监控
 ![报警规则](https://github.com/easonyipj/DLMWS/blob/master/pics/报警规则.png)
 报警规则
+
+
 
 
 
