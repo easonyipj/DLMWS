@@ -101,8 +101,7 @@ public class EWMA implements Serializable {
             this.average = 0;
             this.last = time;
         }
-        long diff = time - this.last;
-        double alpha = this.alpha != -1.0 ? this.alpha : Math.exp(-1.0 * ((double) diff / this.alphaWindow));
+        double alpha = this.alpha;
         this.average = (1.0 - alpha) * value + alpha * this.average;
         this.last = time;
     }

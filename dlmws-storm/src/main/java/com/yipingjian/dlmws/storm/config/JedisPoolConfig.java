@@ -14,7 +14,7 @@ import java.util.List;
 
 @Slf4j
 public class JedisPoolConfig {
-    public static JedisPool jedisPool = new JedisPool(new redis.clients.jedis.JedisPoolConfig(), "127.0.0.1", 6379);
+    public static JedisPool jedisPool = new JedisPool(new redis.clients.jedis.JedisPoolConfig(), "192.168.1.110", 6379);
     private static final String UPDATE = "update";
     private static final String ADD = "add";
     private static final String DELETE = "delete";

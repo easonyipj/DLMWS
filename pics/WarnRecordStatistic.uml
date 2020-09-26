@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.yipingjian.dlmws.warn.entity.WarnRecordStatistic</OriginalElement>
+  <nodes>
+    <node x="0.0" y="444.0">com.yipingjian.dlmws.warn.entity.Rule</node>
+    <node x="0.0" y="370.0">com.yipingjian.dlmws.tomcat.entity.LogCount</node>
+    <node x="294.0" y="370.0">com.yipingjian.dlmws.warn.entity.WarnMsg</node>
+    <node x="168.0" y="296.0">com.yipingjian.dlmws.warn.entity.TypeCount</node>
+    <node x="0.0" y="0.0">com.yipingjian.dlmws.tomcat.entity.LogCountGroupByLevelPerProject</node>
+    <node x="196.0" y="148.0">com.yipingjian.dlmws.warn.entity.WarnCountUnit</node>
+    <node x="147.0" y="370.0">com.yipingjian.dlmws.tomcat.entity.TopCount</node>
+    <node x="0.0" y="222.0">com.yipingjian.dlmws.tomcat.entity.LogCountMills</node>
+    <node x="322.0" y="296.0">com.yipingjian.dlmws.warn.entity.WarnCount</node>
+    <node x="0.0" y="148.0">com.yipingjian.dlmws.warn.entity.StatusCountUnit</node>
+    <node x="287.0" y="74.0">com.yipingjian.dlmws.warn.entity.WarnRecordStatistic</node>
+    <node x="0.0" y="296.0">com.yipingjian.dlmws.warn.entity.StatusCount</node>
+    <node x="182.0" y="222.0">com.yipingjian.dlmws.warn.entity.TypeCountUnit</node>
+    <node x="0.0" y="74.0">com.yipingjian.dlmws.tomcat.entity.LogCountGroupByProjectPerMin</node>
+  </nodes>
+  <notes />
+  <edges />
+  <settings layout="Hierarchic Group" zoom="0.9221741815935763" x="799.5" y="234.5" />
+  <SelectedNodes />
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

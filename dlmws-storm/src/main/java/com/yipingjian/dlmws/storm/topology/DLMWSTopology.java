@@ -25,13 +25,13 @@ public class DLMWSTopology {
         // kafka server的基本配置
         properties.setProperty("group.id", "test-news-topic");
         // 定义一个KafkaSpoutConfig
-        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("localhost:9092",
+        KafkaSpoutConfig<String, String> kafkaSpoutConfig = KafkaSpoutConfig.builder("192.168.1.110:9092",
                 "tomcat", "host-cpu", "host-mem", "jvm-mem", "jvm-thread", "jvm-class")
                 .setFirstPollOffsetStrategy(FirstPollOffsetStrategy.UNCOMMITTED_EARLIEST)
                 .setProp(properties).build();
         // 定义KafkaBolt
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", "192.168.1.110:9092");
         props.put("acks", "1");
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");

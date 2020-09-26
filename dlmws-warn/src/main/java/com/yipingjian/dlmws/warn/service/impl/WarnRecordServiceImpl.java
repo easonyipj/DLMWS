@@ -29,7 +29,7 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
     private static final int SUCCESS = 1;
     private static final int ERROR = 2;
     private static final String SUBJECT = "邮件报警通知";
-    private static final String SILENCE_LINK = "[静默](http://192.168.0.19:8088/rule/silence?id=%s)";
+    private static final String SILENCE_LINK = "[静默](http://192.168.1.110:8088/rule/silence?id=%s)";
 
     @Override
     public void processWarnMessage(WarnMessage warnMessage) {
@@ -40,7 +40,7 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
                 warnRecord.setDingTalkStatus(sendDingTalk(rule, warnMessage.getOccurredTime()));
             }
             if(rule.getStatus() && !StringUtils.isEmpty(rule.getEmail())) {
-                // warnRecord.setEmailStatus(sendMail(rule, warnMessage.getOccurredTime(), warnMessage.getLogText()));
+                warnRecord.setEmailStatus(sendMail(rule, warnMessage.getOccurredTime(), warnMessage.getLogText()));
             }
             // 入库
             warnRecord.setWarningTime(new Date(System.currentTimeMillis()));
@@ -81,7 +81,7 @@ public class WarnRecordServiceImpl extends ServiceImpl<WarnRecordMapper, WarnRec
             markdown.append("**周期** ").append(rule.getIntervalTime()).append("  \n  ");
         }
         markdown.append("**发生时间** ").append(new Date(occurredTime).toString()).append("  \n  ");
-        markdown.append("[查看](http://192.168.0.19:9528/#/)  ").append(String.format(SILENCE_LINK, rule.getId()));
+        markdown.append("[查看](http://192.168.1.110:9528/#/)  ").append(String.format(SILENCE_LINK, rule.getId()));
         markdownBody.setText(markdown.toString());
         return markdownBody;
     }

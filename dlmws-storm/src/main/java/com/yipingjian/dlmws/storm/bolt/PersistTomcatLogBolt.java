@@ -31,7 +31,7 @@ public class PersistTomcatLogBolt extends BaseRichBolt {
     public void prepare(Map<String, Object> map, TopologyContext topologyContext, OutputCollector outputCollector) {
         this.outputCollector = outputCollector;
         this.restHighLevelClient = new RestHighLevelClient(
-                RestClient.builder(new HttpHost("localhost", 9200, "http")));
+                RestClient.builder(new HttpHost("192.168.1.110", 9200, "http")));
     }
 
     @Override

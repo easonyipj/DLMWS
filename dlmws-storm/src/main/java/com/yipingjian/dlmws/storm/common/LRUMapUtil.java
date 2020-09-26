@@ -33,7 +33,7 @@ public class LRUMapUtil {
         LRUMap ruleMap = getRuleMapByType(ruleType);
         // 查看map中是否包含project
         if(!ruleMap.containsKey(project)) {
-            // TODO 加锁
+            // TODO 加写锁
             String ruleString = jedisCommands.get(project + ":" + ruleType);
             List<Rule> rules = JSONArray.parseArray(ruleString, Rule.class);
             // 此种情况正常不会发生
@@ -42,6 +42,7 @@ public class LRUMapUtil {
             }
             ruleMap.put(project, rules);
         }
+        // TODO 加读锁
         return (List<Rule>)ruleMap.get(project);
     }
 

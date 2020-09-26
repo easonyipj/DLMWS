@@ -41,7 +41,7 @@ public class MailServiceImpl extends ServiceImpl<MailMapper, Mail> implements Ma
             mimeMessageHelper.setFrom(new InternetAddress(mailUserName, personal, null));
             mimeMessageHelper.setText(html, true);
             mimeMessageHelper.setTo(to);
-            // mailSender.send(mimeMessage);
+            mailSender.send(mimeMessage);
         } catch (Exception e) {
             log.error("send mail error", e);
             return false;
