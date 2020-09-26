@@ -55,12 +55,19 @@ Redis中存放的是报警规则信息和实时统计信息，这些数据要求
 ###### 管理平台
 管理平台是用户和系统交互的平台，用户使用管理平台完成数据大盘监控、添加项目、添加主机、监控性能数据、监控服务日志、检索服务日志、查看统计分析结果、编辑报警规则、查看报警记录、查看报警统计等。
 ![数据大盘](https://github.com/easonyipj/DLMWS/blob/master/pics/数据大盘.png)
+数据大盘
 ![主机监控](https://github.com/easonyipj/DLMWS/blob/master/pics/主机监控.png)
+主机监控
 ![服务日志监控](https://github.com/easonyipj/DLMWS/blob/master/pics/服务日志监控.png)
+服务日志监控
 ![日志检索](https://github.com/easonyipj/DLMWS/blob/master/pics/日志检索.png)
+日志检索
 ![Java进程监控](https://github.com/easonyipj/DLMWS/blob/master/pics/Java进程监控.png)
+Java进程监控
 ![报警监控](https://github.com/easonyipj/DLMWS/blob/master/pics/报警监控.png)
+报警监控
 ![报警规则](https://github.com/easonyipj/DLMWS/blob/master/pics/报警规则.png)
+报警规则
 
 
 
